@@ -1,0 +1,23 @@
+.Welcome {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20%;
+  width: 50%;
+  text-align: center;
+  color: #ffffff;
+
+  .title {
+    color: #ffffff;
+    font-size: 300%;
+  }
+}
+
+ body {
+  background-image: url('./background.jpg') !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}

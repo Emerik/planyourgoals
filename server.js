@@ -20,10 +20,10 @@ server.use(sassMiddleware({
 server.set('view engine', 'ejs');
 
 
-// Handle GET request on / and /contest/:id
-server.get('/', (req, res) => {
+// Handle GET request on /
+server.get(['/', '/daily-task'], (req, res) => {
   res.render('index', {
-    content : 'test Emerik'
+    content : 'Emerik works for you !'
   });
 });
 

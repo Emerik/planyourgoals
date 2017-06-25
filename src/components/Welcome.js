@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SignButton from './SignButton';
-import { Header } from 'semantic-ui-react';
+
 
 
 class Welcome extends React.Component {
@@ -28,7 +29,7 @@ class Welcome extends React.Component {
           Arretez de souhaiter, commencez à faire !
         </p>
 
-        <SignButton text={'Sign In'}/>
+        <SignButton text={'Sign In'} history={this.props.history}/>
         <SignButton text={'Sign Up'}/>
       </div>
     );
@@ -36,5 +37,9 @@ class Welcome extends React.Component {
 
 }
 
+Welcome.propTypes = {
+  history: PropTypes.object
+
+};
 
 export default Welcome;

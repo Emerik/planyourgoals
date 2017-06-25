@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import { BrowserRouter} from 'react-router-dom';
+import AppRoutes from './routes';
+import history from './history';
 
-import App from './components/App';
 
+console.log('Je vais render dude');
 
 ReactDom.render(
-  
-  <App  initialData={[]} />,
+  <BrowserRouter history={history}>{AppRoutes()}</BrowserRouter>,
   document.getElementById('root')
 );

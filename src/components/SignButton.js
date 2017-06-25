@@ -17,16 +17,22 @@ class SignButton extends React.Component {
 
   }
 
+  handleRedirect(){
+    this.props.history.push('/daily-task');
+  }
+
   render () {
     return (
-      <Button inverted>{this.props.text}</Button>
+      <Button inverted onClick={this.handleRedirect.bind(this)}>{this.props.text}</Button>
     );
   }
 
 }
 
 SignButton.propTypes = {
-  text: PropTypes.string
+  text: PropTypes.string,
+  history: PropTypes.object
+
 };
 
 export default SignButton;

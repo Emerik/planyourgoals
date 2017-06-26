@@ -13,6 +13,6 @@ export default {
 };
 
 console.log('***********');
-console.log("Configuration file loaded");
-console.log("Environment : ", nodeEnv);
+console.log('Configuration file loaded');
+console.log('Environment : ', nodeEnv);
 console.log('***********');

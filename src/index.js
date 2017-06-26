@@ -3,11 +3,28 @@ import ReactDom from 'react-dom';
 import { BrowserRouter} from 'react-router-dom';
 import AppRoutes from './routes';
 import history from './history';
+import sampleData from './initialState';
+import storeFactory from './store';
+import { Provider } from 'react-redux';
 
+const initialState = sampleData;
 
-console.log('Je vais render dude');
+const store = storeFactory(initialState);
+
+store.dispatch({
+  type: 'SET_USER',
+  payload: {
+    'email': 'emerik@federemerik.fr',
+    'pseudo': 'Jack',
+    'token': '2016-12-7'
+  }
+});
+
+console.log(store.getState());
 
 ReactDom.render(
-  <BrowserRouter history={history}>{AppRoutes()}</BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter history={history}>{AppRoutes()}</BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );

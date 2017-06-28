@@ -8,24 +8,24 @@
 	"tasks":[
 		{
 			"name": "Code router",
-			"Description": "Le switch dans App n'est pas pour moi une solution optimal",
+			"description": "Le switch dans App n'est pas pour moi une solution optimal",
 			"type": "Code",
 			"status": "false",
-			"jour": "1"
+			"day": "1"
 		},
 		{
 			"name": "Ameliorer l'interface",
-			"Description": "Ajouter des animations pour une expériences utilisateurs plus immersive",
+			"description": "Ajouter des animations pour une expériences utilisateurs plus immersive",
 			"type": "Code",
 			"status": "true",
-			"jour": "1"
+			"day": "1"
 		},
 		{
 			"name": "Faire les courses",
-			"Description": "J'ai besoin de mozzarella",
+			"description": "J'ai besoin de mozzarella",
 			"type": "Course",
 			"status": "true",
-			"jour": "2"
+			"day": "2"
 		}
 		]
 

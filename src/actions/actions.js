@@ -1,30 +1,36 @@
 import constants from '../store/constants';
 
-export function addTask(name, desc, type, jour, checked=false) {
+export function addTask({name, description, type, day, status=false}) {
   return {
     type: constants.ADD_TASK,
-    payload: {name, desc, type, jour, checked}
+    payload: {name, description, type, day, status}
   };
 }
 
-export function removeTask(name, desc, type, jour, checked=false) {
+export function removeTask({name, description, type, day, status=false}) {
   return {
     type: constants.REMOVE_TASK,
-    payload: {name, desc, type, jour, checked}
+    payload: {name, description, type, day, status}
   };
 }
 
-export function checkTask(name, desc, type, jour, checked=true) {
+export function clearTask() {
+  return {
+    type: constants.CLEAR_TASK
+  };
+}
+
+export function checkTask({name, description, type, day, status=true}) {
   return {
     type: constants.CHECK_TASK,
-    payload: {name, desc, type, jour, checked}
+    payload: {name, description, type, day, status}
   };
 }
 
-export function uncheckTask(name, desc, type, jour, checked=false) {
+export function uncheckTask({name, description, type, day, status=false}) {
   return {
     type: constants.UNCHECK_TASK,
-    payload: {name, desc, type, jour, checked}
+    payload: {name, description, type, day, status}
   };
 }
 

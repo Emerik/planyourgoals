@@ -10,7 +10,7 @@ export const tasks = (state = [], action) => {
     if(state === null) return [action.payload];
 
     const hasTask = state.some(aTask => {
-      return (aTask.jour === action.payload.jour && aTask.name === action.payload.name) ;
+      return (aTask.day === action.payload.day && aTask.name === action.payload.name) ;
     });
 
     return (hasTask) ?
@@ -22,19 +22,21 @@ export const tasks = (state = [], action) => {
   }
   case constants.REMOVE_TASK:
     return state.filter(aTask => {
-      if(aTask.jour !== action.payload.jour || aTask.name !== action.payload.name) return true;
+      if(aTask.day !== action.payload.day || aTask.name !== action.payload.name) return true;
     });
   case constants.CHECK_TASK:
     return state.map(aTask => {
-      if(aTask.jour === action.payload.jour && aTask.name === action.payload.name){
-        return action.payload;
+      if(aTask.day === action.payload.day && aTask.name === action.payload.name){
+        aTask.status = true;
       }
+      return aTask;
     });
   case constants.UNCHECK_TASK:
     return state.map(aTask => {
-      if(aTask.jour === action.payload.jour && aTask.name === action.payload.name){
-        return action.payload;
+      if(aTask.day === action.payload.day && aTask.name === action.payload.name){
+        aTask.status = false;
       }
+      return aTask;
     });
   default:
     return state;

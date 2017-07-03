@@ -20,7 +20,7 @@ store.dispatch({
   }
 });
 
-console.log(store.getState());
+
 
 ReactDom.render(
   <Provider store={store}>

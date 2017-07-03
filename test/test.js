@@ -112,12 +112,22 @@ describe('[Task TEST]', () => {
     const nextState = store.getState();
 
     expect(nextState.tasks.length).to.equal(previousState.tasks.length+1);
+
+    expect(nextState.tasks[0]).to.deep.equal(tempTask);
   });
 
   /* Remove a task in the store*/
   it('it should have remove task', () => {
 
     const tempTask = {
+      'name': 'la task test',
+      'description': 'je suis une task pour le test, check moi si t\'es cap',
+      'type': 'Test',
+      'day': '1',
+      'status': 'false'
+    };
+
+    const tempTask2 = {
       'name': 'la task test',
       'description': 'je suis une task pour le test, check moi si t\'es cap',
       'type': 'Test',
@@ -136,12 +146,17 @@ describe('[Task TEST]', () => {
 
     //Add our temporay task
     store.dispatch(Actions.addTask(tempTask));
+    store.dispatch(Actions.addTask(tempTask2));
 
-    const previousState = store.getState();
+    let previousState = store.getState();
     store.dispatch(actual);
-    const nextState = store.getState();
-
+    let nextState = store.getState();
     expect(nextState.tasks.length).to.equal(previousState.tasks.length-1);
+
+    previousState = store.getState();
+    store.dispatch(actual);
+    nextState = store.getState();
+    expect(nextState.tasks.length).to.equal(previousState.tasks.length);
   });
 
   /* Remove all the tasks in the store*/
@@ -189,8 +204,12 @@ describe('[Task TEST]', () => {
 
     store.dispatch(actual);
     const nextState = store.getState();
+    
+    expect(nextState.tasks[0]).to.deep.not.equal(tempTask);
 
+    tempTask.status = true;
     expect(nextState.tasks[0]).to.deep.equal(tempTask);
+
   });
 
   /* Uncheck a task in the store*/
@@ -201,7 +220,7 @@ describe('[Task TEST]', () => {
       'description': 'je suis une task pour le test, check moi si t\'es cap',
       'type': 'Test',
       'day': '1',
-      'status': 'false'
+      'status': 'true'
     };
 
     const expectedAction = {
@@ -219,6 +238,8 @@ describe('[Task TEST]', () => {
     store.dispatch(actual);
     const nextState = store.getState();
 
+    expect(nextState.tasks[0]).to.deep.not.equal(tempTask);
+    tempTask.status = false;
     expect(nextState.tasks[0]).to.deep.equal(tempTask);
   });
 

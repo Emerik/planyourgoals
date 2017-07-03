@@ -15,9 +15,11 @@ const consoleMessages = store => next => action => {
     let {user, tasks} = store.getState();
 
     console.log(`
-        Tasks: ${(tasks) ? tasks.length :0}
         user: ${user.pseudo}
+        Tasks: ${(tasks) ? tasks.length :0}
     `);
+
+    console.log(tasks);
 
     console.groupEnd();
 

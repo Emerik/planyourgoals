@@ -2,7 +2,7 @@ import React from 'React';
 import { Route, Switch} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Welcome from './Welcome';
-import DailyTasks from './Task';
+import WeekTask from './WeekTask';
 import MenuBar from './MenuBar';
 
 class App extends React.Component {
@@ -33,7 +33,7 @@ class App extends React.Component {
         <MenuBar history={this.props.history}/>
         { this.onRoot() }
         <Switch>
-          <Route path="/daily-task" component={DailyTasks}/>
+          <Route path="/daily-task" component={WeekTask}/>
         </Switch>
       </div>
     );

@@ -32,3 +32,12 @@ body {
   .Welcome .title {
     color: #ffffff;
     font-size: 300%; }
+
+.TaskModal {
+  width: 100%;
+  text-align: center; }
+
+.ModalInputGroup {
+  padding: 10%;
+  text-align: center;
+  width: 75%; }

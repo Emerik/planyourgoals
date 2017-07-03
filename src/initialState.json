@@ -10,21 +10,21 @@
 			"name": "Code router",
 			"description": "Le switch dans App n'est pas pour moi une solution optimal",
 			"type": "Code",
-			"status": "false",
+			"status": false,
 			"day": "1"
 		},
 		{
 			"name": "Ameliorer l'interface",
 			"description": "Ajouter des animations pour une expériences utilisateurs plus immersive",
 			"type": "Code",
-			"status": "true",
+			"status": true,
 			"day": "1"
 		},
 		{
 			"name": "Faire les courses",
 			"description": "J'ai besoin de mozzarella",
 			"type": "Course",
-			"status": "true",
+			"status": true,
 			"day": "2"
 		}
 		]

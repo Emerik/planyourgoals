@@ -1,9 +1,10 @@
 import React,{ Component } from 'react';
-import { Grid, Divider } from 'semantic-ui-react';
+import { Grid, Divider, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TaskList from './TaskList';
 import TaskModal from './TaskModal';
+import moment from 'moment';
 
 /**
 * Representation of tasks lists for a week (week-end excluded)
@@ -14,22 +15,58 @@ class WeekTask extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {weekDate: this.getMonday()};
+
   }
 
-  getTasksByDay(dayIndex) {
-    return this.props.tasks.filter((task) => {
-      return task.day ==dayIndex;
+  getMonday() {
+    return moment().day('Monday');
+  }
+
+  getWeekTasks() {
+    const endWeek = moment(this.state.weekDate).add(7,'d');
+    return this.props.tasks.filter( (task) => {
+      const taskDate = moment(task.date, 'YYYY-MM-DD');
+      if(
+        ( taskDate.isAfter(this.state.weekDate, 'day') && taskDate.isBefore(endWeek, 'day') )
+        ||
+        (taskDate.isSame(this.state.weekDate, 'day'))
+      ){
+        return true;
+      }
     });
   }
 
-  handleAddTask(){
+  getTasksByDay(dayIndex) {
+    return this.getWeekTasks().filter((task) => {
+      return (new Date(task.date)).getDay() == dayIndex;
+    });
+  }
 
+  previousWeek = () => {
+    const newDate = moment(this.state.weekDate).subtract(7, 'd');
+    this.setState({weekDate: newDate});
+  }
+
+  nextWeek = () => {
+    const newDate = moment(this.state.weekDate).add(7, 'd');
+    this.setState({weekDate: newDate});
+  }
+
+  getDateFormated() {
+    const laDate = moment(this.state.weekDate);
+    return laDate.date()+' '+(laDate.format('MMMM'))+' '+laDate.year();
   }
 
   render() {
     return (
       <Grid className="Dailytasks" padded>
-        <Divider className="title" inverted horizontal>Daily Tasks</Divider>
+        <div style={{textAlign:'center'}}>
+          <Divider className="title" inverted horizontal>Daily Tasks</Divider>
+          <Icon name='arrow left' inverted link size='large' onClick={this.previousWeek}/>
+          <div className='StateDate'> {this.getDateFormated()} </div>
+          <Icon name='arrow right' inverted link size='large' onClick={this.nextWeek}/>
+        </div>
         <div className="five column row">
           <div className="column ui segment">
             <TaskList name={'Lundi'} tasks={this.getTasksByDay(1)}/>
@@ -47,7 +84,7 @@ class WeekTask extends Component {
             <TaskList name={'Vendredi'} tasks={this.getTasksByDay(5)}/>
           </div>
         </div>
-        <TaskModal />
+        <TaskModal weekDate={this.state.weekDate}/>
       </Grid>
     );
   }
@@ -56,6 +93,7 @@ class WeekTask extends Component {
 WeekTask.propTypes = {
   tasks: PropTypes.array,
 };
+
 
 const mapStateToProps = state => {
   return {

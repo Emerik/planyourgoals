@@ -10,7 +10,7 @@ export const tasks = (state = [], action) => {
     if(state === null) return [action.payload];
 
     const hasTask = state.some(aTask => {
-      return (aTask.day === action.payload.day && aTask.name === action.payload.name) ;
+      return (aTask.date === action.payload.date && aTask.name === action.payload.name) ;
     });
 
     return (hasTask) ?
@@ -22,18 +22,20 @@ export const tasks = (state = [], action) => {
   }
   case constants.REMOVE_TASK:
     return state.filter(aTask => {
-      if(aTask.day !== action.payload.day || aTask.name !== action.payload.name) return true;
+      if(aTask.date !== action.payload.date || aTask.name !== action.payload.name) return true;
     });
+  case constants.CLEAR_TASK:
+    return []; 
   case constants.CHECK_TASK:
     return state.map(aTask => {
-      if(aTask.day === action.payload.day && aTask.name === action.payload.name){
+      if(aTask.date === action.payload.date && aTask.name === action.payload.name){
         aTask.status = true;
       }
       return aTask;
     });
   case constants.UNCHECK_TASK:
     return state.map(aTask => {
-      if(aTask.day === action.payload.day && aTask.name === action.payload.name){
+      if(aTask.date === action.payload.date && aTask.name === action.payload.name){
         aTask.status = false;
       }
       return aTask;
@@ -56,6 +58,44 @@ export const user = (state = {}, action) => {
   }
 };
 
+export const goals = (state = [], action) => {
+
+  switch(action.type) {
+
+  case constants.ADD_GOAL: {
+    if(state === null) return [action.payload];
+
+    const hasGoal = state.some(aGoal => {
+      return (aGoal.type === action.payload.type && aGoal.deadline === action.payload.deadline) ;
+    });
+
+    return (hasGoal) ?
+      state :
+      [
+        ...state,
+        action.payload
+      ];
+  }
+  case constants.REMOVE_GOAL:
+    return state.filter(aGoal => {
+      if(aGoal.type === action.payload.type && aGoal.deadline === action.payload.deadline) return false;
+
+      return true;
+    });
+  case constants.CLEAR_GOAL:
+    return [];
+  case constants.SET_GOAL:
+    return state.map(aGoal => {
+      if(aGoal.type === action.payload.type && aGoal.deadline === action.payload.deadline){
+        return action.newgoal;
+      }
+      return aGoal;
+    });
+  default:
+    return state;
+  }
+};
+
 
 
 
@@ -64,4 +104,5 @@ export const user = (state = {}, action) => {
 export default combineReducers({
   tasks,
   user,
+  goals,
 });

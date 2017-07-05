@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Modal, Input, Dropdown, Icon } from 'semantic-ui-react';
 import { addTask } from '../actions/actions';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 
 const dayOptions = [ { key: '1', value: '1', text: 'Lundi' },
@@ -19,13 +20,18 @@ class TaskModal extends React.Component {
     super(props);
     this.state = {
       open: false,
+      weekDate: this.props.weekDate,
       name: 'Naming',
       description: '',
       type: 'Normal',
-      day: ''
+      date: '',
+      duration: 0
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ weekDate: nextProps.weekDate });
+  }
 
   openModal = () => {
     this.setState({open: true});
@@ -49,12 +55,19 @@ class TaskModal extends React.Component {
   }
 
   handleDayChange = (e, data) => {
-    this.setState({day: data.value});
+
+    const taskDate = moment(this.state.weekDate).day(data.value);
+    this.setState({date: taskDate});
   }
 
   handleAdd = () => {
 
-    if( !this.state.name || !this.state.day) return;
+    if( !this.state.name || !this.state.date){
+      console.log('Field must be filled');
+      return;
+    }
+
+    const dateTaskFormated = this.state.date.format('YYYY-MM-DD');//this.getDateTaskFormated(this.state.date);
 
     // CLose the modal
     this.setState({open: false});
@@ -65,8 +78,18 @@ class TaskModal extends React.Component {
       description:  this.state.description,
       type:  this.state.type,
       status: false,
-      day:  this.state.day
+      date:  dateTaskFormated,
+      duration: this.state.duration
     });
+  }
+
+  getDateFormated(laDate) {
+    if( !laDate ) return null;
+    return laDate.date()+'/'+(laDate.month()+1)+'/'+laDate.year();
+  }
+
+  getDateTaskFormated(laDate) {
+    return laDate.year()+'-'+(laDate.month()+1)+'-'+laDate.date();
   }
 
   render (){
@@ -76,7 +99,7 @@ class TaskModal extends React.Component {
         <Button inverted circular={true} onClick={this.openModal}>Add Task</Button>
 
         <Modal size='small' dimmer='blurring' open={this.state.open} >
-          <Modal.Header>Add a Task</Modal.Header>
+          <Modal.Header>Add a Task on {this.getDateFormated(this.state.weekDate)} week </Modal.Header>
           <div className='ModalInputGroup'>
             <Input className='inputModal' fluid placeholder='Name...' value={this.state.name} onChange={this.handleNameChange}/>
 
@@ -102,6 +125,7 @@ class TaskModal extends React.Component {
 }
 
 TaskModal.propTypes = {
+  weekDate: PropTypes.object.isRequired,
   onAddTask: PropTypes.func
 };
 

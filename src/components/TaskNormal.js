@@ -21,7 +21,8 @@ class TaskNormal extends Component {
         description:  this.props.task.description,
         type:  this.props.task.type,
         status: false,
-        day:  this.props.task.day
+        date:  this.props.task.date,
+        duration: this.props.task.duration
       });
     }
     else{
@@ -31,7 +32,8 @@ class TaskNormal extends Component {
         description:  this.props.task.description,
         type:  this.props.task.type,
         status: true,
-        day:  this.props.task.day
+        date:  this.props.task.date,
+        duration: this.props.task.duration
       });
     }
   }
@@ -44,7 +46,8 @@ class TaskNormal extends Component {
       description:  this.props.task.description,
       type:  this.props.task.type,
       status: this.props.task.status,
-      day:  this.props.task.day
+      date:  this.props.task.date,
+      duration: this.props.task.duration
     });
   }
 

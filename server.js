@@ -21,7 +21,7 @@ server.set('view engine', 'ejs');
 
 
 // Handle GET request on /
-server.get(['/', '/daily-task'], (req, res) => {
+server.get(['/', '/daily-task', '/dashboard'], (req, res) => {
   res.render('index', {
     content : 'Emerik works for you !'
   });

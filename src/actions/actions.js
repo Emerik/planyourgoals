@@ -77,3 +77,17 @@ export function setGoal(oldGoal, newGoal) {
     newgoal: newGoal
   };
 }
+
+/* TYPE ACTION CREATOR */
+export function changeTypes(types) {
+  return {
+    type: constants.CHANGE_TYPES,
+    payload: types
+  };
+}
+
+export function clearTypes() {
+  return {
+    type: constants.CLEAR_TYPES,
+  };
+}

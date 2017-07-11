@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Welcome from './Welcome';
 import WeekTask from './WeekTask';
 import MenuBar from './MenuBar';
+import Dashboard from './Dashboard';
 
 class App extends React.Component {
   constructor(props){
@@ -34,6 +35,7 @@ class App extends React.Component {
         { this.onRoot() }
         <Switch>
           <Route path="/daily-task" component={WeekTask}/>
+          <Route path="/dashboard" component={Dashboard}/>
         </Switch>
       </div>
     );

@@ -62,7 +62,7 @@ class WeekTask extends Component {
     return (
       <Grid className="Dailytasks" padded>
         <div style={{textAlign:'center'}}>
-          <Divider className="title" inverted horizontal>Daily Tasks</Divider>
+          <Divider className="title" inverted horizontal>Week Tasks</Divider>
           <Icon name='arrow left' inverted link size='large' onClick={this.previousWeek}/>
           <div className='StateDate'> {this.getDateFormated()} </div>
           <Icon name='arrow right' inverted link size='large' onClick={this.nextWeek}/>

@@ -1,7 +1,7 @@
 import constants from './constants.js';
 import { combineReducers } from 'redux';
 
-
+/* TASKS */
 export const tasks = (state = [], action) => {
 
   switch(action.type) {
@@ -25,7 +25,7 @@ export const tasks = (state = [], action) => {
       if(aTask.date !== action.payload.date || aTask.name !== action.payload.name) return true;
     });
   case constants.CLEAR_TASK:
-    return []; 
+    return [];
   case constants.CHECK_TASK:
     return state.map(aTask => {
       if(aTask.date === action.payload.date && aTask.name === action.payload.name){
@@ -45,6 +45,7 @@ export const tasks = (state = [], action) => {
   }
 };
 
+/* USER */
 export const user = (state = {}, action) => {
 
   if (action.type === constants.SET_USER) {
@@ -58,6 +59,7 @@ export const user = (state = {}, action) => {
   }
 };
 
+/* GOALS */
 export const goals = (state = [], action) => {
 
   switch(action.type) {
@@ -96,7 +98,18 @@ export const goals = (state = [], action) => {
   }
 };
 
+/* TYPES */
+export const types = (state=false, action) => {
 
+  switch (action.type) {
+  case constants.CLEAR_TYPES:
+    return [];
+  case constants.CHANGE_TYPES:
+    return action.payload;
+  default:
+    return state;
+  }
+};
 
 
 
@@ -105,4 +118,5 @@ export default combineReducers({
   tasks,
   user,
   goals,
+  types
 });

@@ -63,11 +63,67 @@ body {
 }
 
 .Dashboard {
-  width: 70%;
+
 }
 
 .StateDate {
   color: white;
   font-size: large;
   display: inline-block;
+}
+
+/* CircularProgressbar */
+
+.ProgBarContainer {
+  width: 80%;
+  height: 75%;
+  margin: auto;
+}
+
+.CircularProgressbar {
+
+}
+
+.CircularProgressbar .CircularProgressbar-path {
+  stroke: rgb(62, 199, 187);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease 0s;
+}
+
+.CircularProgressbar .CircularProgressbar-trail {
+  stroke: rgb(247, 247, 247);
+}
+
+.CircularProgressbar .CircularProgressbar-text {
+  fill: #000000;
+  font-size: 20px;
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.CirProgBarLarge {
+  width: 70%;
+  margin: auto;
+}
+
+.CirProgBarMedium {
+  width: 50%;
+  margin: auto;
+
+  .CircularProgressbar-path {
+    stroke: #ec5615;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease 0s;
+  }
+}
+
+.progressTitle {
+  font-size: 1.42em;
+  display: inline-block;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.TitleWithIcon {
+  margin-top: calc(2rem - 0.14285em);
 }

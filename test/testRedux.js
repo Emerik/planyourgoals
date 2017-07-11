@@ -382,3 +382,57 @@ describe('[Goal TEST]', () => {
   });
 
 });
+
+// Test on Type
+describe('[Type TEST]', () => {
+  beforeEach(() => {
+    store = storeFactory(initialState);
+  });
+
+
+  /* Change the types in the store*/
+  it('it should have change the types', () => {
+
+    const tempTypes = [
+      'Normal',
+      'Code'
+    ];
+
+    const expectedAction = {
+      type: constants.CHANGE_TYPES,
+      payload: tempTypes
+    };
+
+    const testAction = Actions.changeTypes(tempTypes);
+
+    expect(testAction).to.deep.equal(expectedAction);
+
+    store.dispatch(testAction);
+
+    const nextState = store.getState();
+
+    expect(nextState.types).to.deep.equal(tempTypes);
+  });
+
+  /* Clear the types in the store*/
+  it('it should have clear the types', () => {
+
+    const expectedAction = {
+      type: constants.CLEAR_TYPES,
+    };
+
+    const testAction = Actions.clearTypes();
+
+    expect(testAction).to.deep.equal(expectedAction);
+
+
+    // Remove the types from the store
+    store.dispatch(testAction);
+    let nextState = store.getState();
+
+    expect(nextState.types).to.deep.equal([]);
+
+  });
+
+
+});

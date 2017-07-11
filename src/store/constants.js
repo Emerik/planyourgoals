@@ -9,7 +9,9 @@ const constants = {
   ADD_GOAL: 'ADD_GOAL',
   REMOVE_GOAL: 'REMOVE_GOAL',
   SET_GOAL: 'SET_GOAL',
-  CLEAR_GOAL: 'CLEAR_GOAL'
+  CLEAR_GOAL: 'CLEAR_GOAL',
+  CHANGE_TYPES: 'CHANGE_TYPES',
+  CLEAR_TYPES: 'CLEAR_TYPES'
 };
 
 export default constants;

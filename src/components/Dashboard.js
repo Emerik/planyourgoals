@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import { Segment, Grid, Icon, Header } from 'semantic-ui-react';
+import { Segment, Grid, Icon, Header, Divider, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CircularProgressbar from 'react-circular-progressbar';
@@ -15,7 +15,7 @@ class Dashboard extends Component {
     this.state = {
       weekDate: moment().day('Monday'),
       typeSelected: {
-        name: this.props.types[0],
+        name: this.props.goals[0].type,
         index: 0
       },
     };
@@ -96,12 +96,12 @@ class Dashboard extends Component {
   previousType = () => {
 
     const indexPrevious = this.state.typeSelected.index == 0 ?
-      (this.props.types.length-1)
+      (this.props.goals.length-1)
       : this.state.typeSelected.index-1;
 
     this.setState({
       typeSelected: {
-        name: this.props.types[indexPrevious],
+        name: this.props.goals[indexPrevious].type,
         index: indexPrevious
       }
     });
@@ -112,13 +112,13 @@ class Dashboard extends Component {
   */
   nextType = () => {
 
-    const indexNext = this.state.typeSelected.index == (this.props.types.length-1)  ?
+    const indexNext = this.state.typeSelected.index == (this.props.goals.length-1)  ?
       0
       : this.state.typeSelected.index+1;
 
     this.setState({
       typeSelected: {
-        name: this.props.types[indexNext],
+        name: this.props.goals[indexNext].type,
         index: indexNext
       }
     });
@@ -126,54 +126,67 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <Segment className="Dashboard" style={{textAlign:'center'}}>
-        <Header size='huge'>-- Dashboard --</Header>
-        <Grid>
-          <div className="three column row">
-            <div className="column ui">
-              <div className='CirProgBarMedium'>
-                <CircularProgressbar className='CirProgBarMedium' percentage={this.getTaskDonePerc()} />
-              </div>
-              <Header size='medium'>Global</Header>
-            </div>
-            <div className="column ui">
-              <div className='CirProgBarLarge'>
-                <CircularProgressbar percentage={this.getTaskDonePercByWeek()}/>
-              </div>
-              <Header size='medium'>Week</Header>
-            </div>
-            <div className="column ui">
-              <div className='CirProgBarMedium'>
-                <CircularProgressbar className='CirProgBarMedium' percentage={this.getTaskDoneByType()} />
-              </div>
-              <div className='TitleWithIcon'>
-                <Icon name='arrow left' link fitted onClick={this.previousType}/>
-                <div className='progressTitle'>
-                  {this.state.typeSelected.name}
+      <div className='Dashboard'>
+        <Header textAlign='center' size='huge' inverted>
+            Dashboard
+        </Header>
+        <Segment style={{textAlign:'center'}}>
+          <Grid>
+            <div className="three column row">
+              <div className="column ui">
+                <div style={{width:'70%', display:'inline-block'}}>
+                  <Header> Goals </Header>
+                  {
+                    this.props.goals.map( (goal, index) => {
+                      return (
+                        <Segment key={index} >
+                          {goal.type} : {goal.deadline}
+                        </Segment>
+                      );
+                    })
+                  }
                 </div>
-                <Icon name='arrow right' link fitted onClick={this.nextType}/>
+              </div>
+              <div className="column ui">
+                <Header size='medium'>Week</Header>
+                <div className='CirProgBarLarge'>
+                  <CircularProgressbar percentage={this.getTaskDonePercByWeek()}/>
+                </div>
+              </div>
+              <div className="column ui">
+                <Header size='medium'>Goal</Header>
+                <div className='CirProgBarMedium'>
+                  <CircularProgressbar className='CirProgBarMedium' percentage={this.getTaskDoneByType()} />
+                </div>
+                <div className='TitleWithIcon'>
+                  <Icon name='arrow left' link fitted onClick={this.previousType}/>
+                  <div className='progressTitle'>
+                    {this.state.typeSelected.name}
+                  </div>
+                  <Icon name='arrow right' link fitted onClick={this.nextType}/>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="three column row">
-            <div className="column ui">
-              <p>
-                You succeeded {this.getTaskDonePerc()}% of your whole tasks! Good Work!
-              </p>
+            {/*Second ROW*/}
+            <div className="three column row">
+              <div className="column ui">
+              </div>
+              <div className="column ui">
+                <p>
+                  What a journey! Look at all the tasks you accomplished this week!
+                </p>
+              </div>
+              <div className="column ui">
+                <p>
+                  <strong>{this.state.typeSelected.name}</strong> tasks is on the road to success
+                </p>
+              </div>
             </div>
-            <div className="column ui">
-              <p>
-                What a journey! Look at all the tasks you accomplished this week!
-              </p>
-            </div>
-            <div className="column ui">
-              <p>
-                <strong>{this.state.typeSelected.name}</strong> tasks is on the road to success
-              </p>
-            </div>
-          </div>
-        </Grid>
-      </Segment>
+          </Grid>
+          <Divider/>
+          <Button color='black' circular={true}>Add Goal</Button>
+        </Segment>
+      </div>
     );
   }
 
@@ -181,13 +194,13 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   tasks: PropTypes.array,
-  types: PropTypes.array
+  goals: PropTypes.array
 };
 
 const mapStateToProps = state => {
   return {
     tasks: state.tasks,
-    types: state.types
+    goals: state.goals
   };
 };
 

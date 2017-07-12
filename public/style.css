@@ -1,4 +1,5 @@
 body {
+  background-color: black !important;
   background-image: url("./background.jpg") !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
@@ -18,9 +19,8 @@ body {
     color: #000000;
     font-size: 200%; }
 
-.DailyTasks {
-  width: 100%;
-  height: 100%; }
+.WeekTask {
+  padding: 1%; }
 
 .Welcome {
   margin-left: auto;
@@ -41,6 +41,11 @@ body {
   padding: 10%;
   text-align: center;
   width: 75%; }
+
+.Dashboard {
+  width: 75%;
+  margin: auto;
+  padding: 1%; }
 
 .StateDate {
   color: white;
@@ -84,6 +89,3 @@ body {
   display: inline-block;
   margin-left: 2%;
   margin-right: 2%; }
-
-.TitleWithIcon {
-  margin-top: calc(2rem - 0.14285em); }

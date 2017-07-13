@@ -101060,7 +101060,7 @@ var tasks = exports.tasks = function tasks() {
           return aTask.date === action.payload.date && aTask.name === action.payload.name;
         });
 
-        return hasTask ? state : [].concat(_toConsumableArray(state), [action.payload]);
+        return hasTask ? state : [].concat(_toConsumableArray(state), [Object.assign({}, action.payload)]);
       }
     case _constants2.default.REMOVE_TASK:
       return state.filter(function (aTask) {
@@ -101094,7 +101094,7 @@ var user = exports.user = function user() {
 
 
   if (action.type === _constants2.default.SET_USER) {
-    return action.payload;
+    return Object.assign({}, action.payload);
   } else if (action.type === _constants2.default.REMOVE_USER) {
     return {};
   } else {
@@ -101118,7 +101118,7 @@ var goals = exports.goals = function goals() {
           return aGoal.type === action.payload.type && aGoal.deadline === action.payload.deadline;
         });
 
-        return hasGoal ? state : [].concat(_toConsumableArray(state), [action.payload]);
+        return hasGoal ? state : [].concat(_toConsumableArray(state), [Object.assign({}, action.payload)]);
       }
     case _constants2.default.REMOVE_GOAL:
       return state.filter(function (aGoal) {

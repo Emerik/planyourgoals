@@ -17,7 +17,7 @@ export const tasks = (state = [], action) => {
       state :
       [
         ...state,
-        action.payload
+        Object.assign({},action.payload)
       ];
   }
   case constants.REMOVE_TASK:
@@ -49,7 +49,7 @@ export const tasks = (state = [], action) => {
 export const user = (state = {}, action) => {
 
   if (action.type === constants.SET_USER) {
-    return action.payload;
+    return Object.assign( {},action.payload );
   }
   else if (action.type === constants.REMOVE_USER) {
     return {};
@@ -75,7 +75,7 @@ export const goals = (state = [], action) => {
       state :
       [
         ...state,
-        action.payload
+        Object.assign({},action.payload)
       ];
   }
   case constants.REMOVE_GOAL:

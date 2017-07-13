@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import { Route, Switch} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Welcome from './Welcome';

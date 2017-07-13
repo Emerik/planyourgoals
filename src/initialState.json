@@ -36,13 +36,13 @@
             "type": "Course",
             "number": "12",
             "time": "24",
-            "deadline": "2017/07/31"
+            "deadline": "2017-07-31"
         },
         {
             "type": "Code",
             "number": "5",
             "time": "10",
-            "deadline": "2017/07/31"
+            "deadline": "2017-07-31"
         }
     ]
 

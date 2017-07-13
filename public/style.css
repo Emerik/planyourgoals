@@ -39,8 +39,11 @@ body {
 
 .ModalInputGroup {
   padding: 10%;
-  text-align: center;
+  margin: auto;
   width: 75%; }
+
+.inputModal {
+  margin-bottom: 3%; }
 
 .Dashboard {
   width: 75%;

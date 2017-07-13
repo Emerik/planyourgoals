@@ -1,9 +1,10 @@
 import React,{ Component } from 'react';
-import { Segment, Grid, Icon, Header, Divider, Button } from 'semantic-ui-react';
+import { Segment, Grid, Icon, Header, Divider } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CircularProgressbar from 'react-circular-progressbar';
 import moment from 'moment';
+import GoalModal from './GoalModal';
 
 /**
 * Dashboard with metrics ands stats
@@ -77,6 +78,8 @@ class Dashboard extends Component {
 
     const taskNumber = this.getTaskNumberByType(this.props.tasks, this.state.typeSelected.name);
 
+    if(taskNumber === 0) return 0;
+
     return Math.round(taskDone*100/taskNumber);
   }
 
@@ -136,6 +139,7 @@ class Dashboard extends Component {
               <div className="column ui">
                 <div style={{width:'70%', display:'inline-block'}}>
                   <Header> Goals </Header>
+                  <Divider/>
                   {
                     this.props.goals.map( (goal, index) => {
                       return (
@@ -149,12 +153,14 @@ class Dashboard extends Component {
               </div>
               <div className="column ui">
                 <Header size='medium'>Week</Header>
+                <Divider/>
                 <div className='CirProgBarLarge'>
                   <CircularProgressbar percentage={this.getTaskDonePercByWeek()}/>
                 </div>
               </div>
               <div className="column ui">
                 <Header size='medium'>Goal</Header>
+                <Divider/>
                 <div className='CirProgBarMedium'>
                   <CircularProgressbar className='CirProgBarMedium' percentage={this.getTaskDoneByType()} />
                 </div>
@@ -184,7 +190,7 @@ class Dashboard extends Component {
             </div>
           </Grid>
           <Divider/>
-          <Button color='black' circular={true}>Add Goal</Button>
+          <GoalModal/>
         </Segment>
       </div>
     );

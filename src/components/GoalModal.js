@@ -1,0 +1,131 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Button, Modal, Input, Icon, Segment, Label } from 'semantic-ui-react';
+import { addGoal } from '../actions/actions';
+import { connect } from 'react-redux';
+import moment from 'moment';
+import { SingleDatePicker } from 'react-dates';
+import 'react-dates/lib/css/_datepicker.css';
+
+
+
+class GoalModal extends React.Component {
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      type: 'Sport',
+      deadline: moment(),
+      number: 0
+    };
+  }
+
+  openModal = () => {
+    this.setState({open: true});
+  }
+
+  closeModal = () => {
+    this.setState({open: false});
+  }
+
+
+  handleTypeChange = (e) => {
+    this.setState({type: e.target.value});
+  }
+
+  handleNumberChange = (e, data) => {
+
+    if (data.value === parseInt(data.value, 10)){
+      this.setState({number: data.value});
+    }
+    else {
+      // Color input in red
+    }
+  }
+
+  handleDeadlineChange = ( date ) => {
+
+    this.setState({deadline: date});
+  }
+
+  handleAdd = () => {
+
+    if( !this.state.type || !this.state.deadline){
+      console.log('Field must be filled');
+      return;
+    }
+
+    const dateTaskFormated = this.state.deadline.format('YYYY-MM-DD');//this.getDateTaskFormated(this.state.date);
+
+    // CLose the modal
+    this.setState({open: false});
+
+    // Dispatch Action
+    return this.props.onAddGoal({
+
+      type:  this.state.type,
+      deadline:  dateTaskFormated,
+      number: this.state.number,
+      duration: 0
+    });
+  }
+
+  render (){
+    return (
+      <div className='TaskModal'>
+
+        <Button color='black' circular={true} onClick={this.openModal}>Add Goal</Button>
+
+        <Modal size='small' dimmer='blurring' open={this.state.open} >
+          <Modal.Header>Add a Goal </Modal.Header>
+          <div className='ModalInputGroup'>
+
+            <Segment className='inputModal'>
+              <Label as='a' color='teal' ribbon>Date</Label>
+              <SingleDatePicker
+                date={this.state.deadline}
+                onDateChange={this.handleDeadlineChange}
+                focused={this.state.focused}
+                onFocusChange={({ focused }) => this.setState({ focused })}
+                numberOfMonths={1}
+              />
+            </Segment>
+
+            <Input className='inputModal' fluid label={{ basic: true, content: 'Type' }}
+              labelPosition='left' placeholder='Type...' onChange={this.handleTypeChange}/>
+
+            <Input className='inputModal' fluid label={{ basic: true, content: 'Number' }}
+              labelPosition='left' placeholder='Number...' onChange={this.handleNumberChange}/>
+
+
+          </div>
+          <Modal.Actions>
+            <Button basic color='red' onClick={this.closeModal}>
+              <Icon name='remove' /> Cancel
+            </Button>
+            <Button color='green'onClick={this.handleAdd}>
+              <Icon name='checkmark' /> Add
+            </Button>
+          </Modal.Actions>
+        </Modal>
+      </div>
+    );
+  }
+
+}
+
+GoalModal.propTypes = {
+  onAddGoal: PropTypes.func
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAddGoal(goal){
+      dispatch(addGoal(goal));
+    }
+  };
+};
+
+export default connect (null, mapDispatchToProps) (GoalModal);

@@ -127,6 +127,22 @@ class Dashboard extends Component {
     });
   }
 
+  /**
+  * This function return the color for goal depending on deadline
+  **/
+  getGoalColor = (deadline) => {
+    if(moment().unix() > moment(deadline, 'YYYY-MM-DD').unix()){
+      return 'red';
+    }
+    else if ( moment(deadline, 'YYYY-MM-DD').diff(moment(), 'days') < 8  ){
+      return 'violet';
+    }
+    else {
+      return 'green';
+    }
+  }
+
+
   render() {
     return (
       <div className='Dashboard'>
@@ -143,8 +159,8 @@ class Dashboard extends Component {
                   {
                     this.props.goals.map( (goal, index) => {
                       return (
-                        <Segment key={index} >
-                          {goal.type} : {goal.deadline}
+                        <Segment key={index} color={this.getGoalColor(goal.deadline)}>
+                          {goal.type} : {goal.number} : {goal.deadline}
                         </Segment>
                       );
                     })

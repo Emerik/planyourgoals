@@ -98,7 +98,7 @@ export const goals = (state = [], action) => {
   }
 };
 
-/* TYPES */
+/* TYPES DEPRECATED */
 export const types = (state=false, action) => {
 
   switch (action.type) {

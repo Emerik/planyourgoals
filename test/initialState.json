@@ -34,13 +34,13 @@
     "goals": [
         {
             "type": "Course",
-            "number": "12",
+            "target": "6",
             "time": "24",
             "deadline": "2017/07/31"
         },
         {
             "type": "Code",
-            "number": "5",
+            "target": "4",
             "time": "10",
             "deadline": "2017/07/31"
         }

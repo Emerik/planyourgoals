@@ -70,17 +70,22 @@ class Dashboard extends Component {
   /*
   * This function return the percentage of tasks done by the type selected
   */
-  getTaskDoneByType() {
-    const taskDone = this.props.tasks.reduce((nbDone, task) => {
-      if(task.type == this.state.typeSelected.name && task.status == true) return nbDone + 1;
-      return nbDone;
-    }, 0);
+  getTaskDoneByTypePerc(alltasks, type) {
 
-    const taskNumber = this.getTaskNumberByType(this.props.tasks, this.state.typeSelected.name);
+    const taskDone = this.getTaskNumberByType(alltasks, type);
+
+    const taskNumber = this.getTaskNumberByType(alltasks, type);
 
     if(taskNumber === 0) return 0;
 
     return Math.round(taskDone*100/taskNumber);
+  }
+
+  getTaskDoneByType(alltasks, type) {
+    return alltasks.reduce((nbDone, task) => {
+      if(task.type == type && task.status == true) return nbDone + 1;
+      return nbDone;
+    }, 0);
   }
 
   /*
@@ -142,6 +147,24 @@ class Dashboard extends Component {
     }
   }
 
+  /**
+  * This function return the icon to set for a goal according to his progress
+  **/
+  getGoalProgressIcon = (goal) => {
+
+    const target = goal.target;
+    const taskDone = this.getTaskDoneByType(this.props.tasks, goal.type);
+
+    if(target == taskDone){
+      return 'checkmark';
+    }
+    else if (taskDone == 0){
+      return 'wait';
+    }
+    else {
+      return 'tasks';
+    }
+  }
 
   render() {
     return (
@@ -160,7 +183,12 @@ class Dashboard extends Component {
                     this.props.goals.map( (goal, index) => {
                       return (
                         <Segment key={index} color={this.getGoalColor(goal.deadline)}>
-                          {goal.type} : {goal.number} : {goal.deadline}
+                          <Header size='small'>
+                            <Icon name={this.getGoalProgressIcon(goal)} />
+                            <Header.Content>
+                              {goal.type}
+                            </Header.Content>
+                          </Header>
                         </Segment>
                       );
                     })
@@ -178,7 +206,7 @@ class Dashboard extends Component {
                 <Header size='medium'>Goal</Header>
                 <Divider/>
                 <div className='CirProgBarMedium'>
-                  <CircularProgressbar className='CirProgBarMedium' percentage={this.getTaskDoneByType()} />
+                  <CircularProgressbar className='CirProgBarMedium' percentage={this.getTaskDoneByTypePerc(this.props.tasks, this.state.typeSelected.name)} />
                 </div>
                 <div className='TitleWithIcon'>
                   <Icon name='arrow left' link fitted onClick={this.previousType}/>

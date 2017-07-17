@@ -35,7 +35,7 @@ class GoalModal extends React.Component {
     this.setState({type: e.target.value});
   }
 
-  handleNumberChange = (e, data) => {
+  handleTargetChange = (e, data) => {
 
     if (data.value === parseInt(data.value, 10)){
       this.setState({number: data.value});
@@ -67,7 +67,7 @@ class GoalModal extends React.Component {
 
       type:  this.state.type,
       deadline:  dateTaskFormated,
-      number: this.state.number,
+      target: this.state.number,
       duration: 0
     });
   }
@@ -96,8 +96,8 @@ class GoalModal extends React.Component {
             <Input className='inputModal' fluid label={{ basic: true, content: 'Type' }}
               labelPosition='left' placeholder='Type...' onChange={this.handleTypeChange}/>
 
-            <Input className='inputModal' fluid label={{ basic: true, content: 'Number' }}
-              labelPosition='left' placeholder='Number...' onChange={this.handleNumberChange}/>
+            <Input className='inputModal' fluid label={{ basic: true, content: 'Target' }}
+              labelPosition='left' placeholder='Target...' onChange={this.handleTargetChange}/>
 
 
           </div>

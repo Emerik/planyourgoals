@@ -264,7 +264,7 @@ describe('[Goal TEST]', () => {
 
     const tempGoal = {
       'type': 'Test',
-      'number': '12',
+      'target': '12',
       'time': '24',
       'deadline': '2017/07/31'
     };
@@ -292,7 +292,7 @@ describe('[Goal TEST]', () => {
 
     const tempGoal = {
       'type': 'Test',
-      'number': '12',
+      'target': '12',
       'time': '24',
       'deadline': '2017/07/31'
     };
@@ -347,14 +347,14 @@ describe('[Goal TEST]', () => {
 
     const tempGoal = {
       'type': 'Test',
-      'number': '12',
+      'target': '12',
       'time': '24',
       'deadline': '2017/07/31'
     };
 
     const tempGoalNew = {
       'type': 'Test',
-      'number': '14',// Field change
+      'target': '14',// Field change
       'time': '24',
       'deadline': '2017/07/31'
     };

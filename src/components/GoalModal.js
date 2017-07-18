@@ -18,7 +18,8 @@ class GoalModal extends React.Component {
       open: false,
       type: 'Sport',
       deadline: moment(),
-      number: 0
+      target: 0,
+      targetError: false
     };
   }
 
@@ -36,12 +37,17 @@ class GoalModal extends React.Component {
   }
 
   handleTargetChange = (e, data) => {
+    
+    if (data.value == parseInt(data.value, 10)){
+      this.setState({
+        target: data.value,
+        targetError: false
+      });
 
-    if (data.value === parseInt(data.value, 10)){
-      this.setState({number: data.value});
     }
     else {
       // Color input in red
+      this.setState({targetError: true});
     }
   }
 
@@ -52,7 +58,7 @@ class GoalModal extends React.Component {
 
   handleAdd = () => {
 
-    if( !this.state.type || !this.state.deadline){
+    if( !this.state.type || !this.state.deadline || this.state.target == 0){
       console.log('Field must be filled');
       return;
     }
@@ -67,7 +73,7 @@ class GoalModal extends React.Component {
 
       type:  this.state.type,
       deadline:  dateTaskFormated,
-      target: this.state.number,
+      target: this.state.target,
       duration: 0
     });
   }
@@ -97,7 +103,7 @@ class GoalModal extends React.Component {
               labelPosition='left' placeholder='Type...' onChange={this.handleTypeChange}/>
 
             <Input className='inputModal' fluid label={{ basic: true, content: 'Target' }}
-              labelPosition='left' placeholder='Target...' onChange={this.handleTargetChange}/>
+              labelPosition='left' placeholder='Target...' error={this.state.targetError} onChange={this.handleTargetChange}/>
 
 
           </div>

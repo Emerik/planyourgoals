@@ -50,17 +50,17 @@ export function removeUser() {
 }
 
 /* GOAL ACTION CREATOR */
-export function addGoal({type, number, time, deadline}) {
+export function addGoal({type, target, time, deadline}) {
   return {
     type: constants.ADD_GOAL,
-    payload: {type, number, time, deadline}
+    payload: {type, target, time, deadline}
   };
 }
 
-export function removeGoal({type, number, time, deadline}) {
+export function removeGoal({type, target, time, deadline}) {
   return {
     type: constants.REMOVE_GOAL,
-    payload: {type, number, time, deadline}
+    payload: {type, target, time, deadline}
   };
 }
 

@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import { Segment, Grid, Icon, Header, Divider } from 'semantic-ui-react';
+import { Segment, Grid, Icon, Header, Divider, Popup } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CircularProgressbar from 'react-circular-progressbar';
@@ -72,10 +72,10 @@ class Dashboard extends Component {
   */
   getTaskDoneByTypePerc(alltasks, type) {
 
-    const taskDone = this.getTaskNumberByType(alltasks, type);
+    const taskDone = this.getTaskDoneByType(alltasks, type);
 
     const taskNumber = this.getTaskNumberByType(alltasks, type);
-
+    
     if(taskNumber === 0) return 0;
 
     return Math.round(taskDone*100/taskNumber);
@@ -151,18 +151,16 @@ class Dashboard extends Component {
   * This function return the icon to set for a goal according to his progress
   **/
   getGoalProgressIcon = (goal) => {
-
-    const target = goal.target;
     const taskDone = this.getTaskDoneByType(this.props.tasks, goal.type);
 
-    if(target == taskDone){
+    if(goal.target == taskDone){
       return 'checkmark';
     }
     else if (taskDone == 0){
       return 'wait';
     }
     else {
-      return 'tasks';
+      return 'wrench';
     }
   }
 
@@ -182,14 +180,33 @@ class Dashboard extends Component {
                   {
                     this.props.goals.map( (goal, index) => {
                       return (
-                        <Segment key={index} color={this.getGoalColor(goal.deadline)}>
-                          <Header size='small'>
-                            <Icon name={this.getGoalProgressIcon(goal)} />
-                            <Header.Content>
-                              {goal.type}
-                            </Header.Content>
-                          </Header>
-                        </Segment>
+                        <Popup key={index}
+                          trigger={
+                            <Segment  color={this.getGoalColor(goal.deadline)}>
+                              <Header size='small'>
+                                <Icon name={this.getGoalProgressIcon(goal)} />
+                                <Header.Content>
+                                  {goal.type}
+                                </Header.Content>
+                              </Header>
+                            </Segment>
+                          }
+                          hoverable
+                          position='right center'
+                          inverted
+                          flowing
+                        >
+                          <Grid centered columns={2}>
+                            <Grid.Column textAlign='center'>
+                              <Header as='h3'>Deadline</Header>
+                              <p><b>{goal.deadline}</b></p>
+                            </Grid.Column>
+                            <Grid.Column textAlign='center'>
+                              <Header as='h3'>Target</Header>
+                              <p><b>{goal.target}</b></p>
+                            </Grid.Column>
+                          </Grid>
+                        </Popup>
                       );
                     })
                   }

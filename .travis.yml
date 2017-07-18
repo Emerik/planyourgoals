@@ -1,0 +1,10 @@
+{
+  "language": "node_js",
+  "os": "linux",
+  "node_js": "7",
+  "script": [
+    "npm run test"
+  ],
+  "group": "stable",
+  "dist": "trusty"
+}

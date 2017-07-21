@@ -18,7 +18,7 @@ class SignButton extends React.Component {
   }
 
   handleRedirect(){
-    this.props.history.push('/daily-task');
+    this.props.history.push('/week-activity');
   }
 
   render () {

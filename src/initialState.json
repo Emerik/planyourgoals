@@ -5,11 +5,11 @@
             "pseudo": "Emerik",
             "token": "2016-12-7"
         },
-    "tasks":[
+    "activities":[
         {
             "name": "Code router",
             "description": "Le switch dans App n'est pas pour moi une solution optimal",
-            "type": "Code",
+            "goal": "Code",
             "status": false,
             "date": "2017-07-05",
             "duration": "2"
@@ -17,7 +17,7 @@
         {
             "name": "Ameliorer l'interface",
             "description": "Ajouter des animations pour une expériences utilisateurs plus immersive",
-            "type": "Code",
+            "goal": "Code",
             "status": true,
             "date": "2017-07-04",
             "duration": "2"
@@ -25,7 +25,7 @@
         {
             "name": "Faire les courses",
             "description": "J'ai besoin de mozzarella",
-            "type": "Course",
+            "goal": "Course",
             "status": true,
             "date": "2017-07-05",
             "duration": "2"

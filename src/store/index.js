@@ -12,14 +12,14 @@ const consoleMessages = store => next => action => {
 
 
 
-    let {user, tasks} = store.getState();
+    let {user, activities} = store.getState();
 
     console.log(`
         user: ${user.pseudo}
-        Tasks: ${(tasks) ? tasks.length :0}
+        Activities: ${(activities) ? activities.length :0}
     `);
 
-    console.log(tasks);
+    console.log(activities);
 
     console.groupEnd();
 

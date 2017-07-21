@@ -1,12 +1,12 @@
 import React,{ Component } from 'react';
 import { List, Header } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import TaskNormal from './TaskNormal';
+import ActivityNormal from '../container/ActivityNormalContainer';
 
 /**
-* Respresentation of a list of Tasks
+* Respresentation of a list of Activity
 **/
-class TaskList extends Component {
+class ActivityList extends Component {
 
   constructor(props) {
     super(props);
@@ -14,15 +14,15 @@ class TaskList extends Component {
 
   render() {
     return (
-      <div className="TaskList">
+      <div className="ActivityList">
         <Header size='large'>{this.props.name}</Header>
         <List divided relaxed>
           {
-            // Map task Comp
-            this.props.tasks.map( (task, index) => {
+            // Map activity Comp
+            this.props.activities.map( (activity, index) => {
               return (
                 <List.Item key={index}>
-                  <TaskNormal task={task}/>
+                  <ActivityNormal activity={activity}/>
                 </List.Item>
               );
             })
@@ -33,9 +33,9 @@ class TaskList extends Component {
   }
 }
 
-TaskList.propTypes = {
+ActivityList.propTypes = {
   name: PropTypes.string,
-  tasks: PropTypes.array
+  activities: PropTypes.array
 };
 
-export default TaskList;
+export default ActivityList;

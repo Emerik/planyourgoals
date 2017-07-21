@@ -2,9 +2,9 @@ import React from 'react';
 import { Route, Switch} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Welcome from './Welcome';
-import WeekTask from './WeekTask';
+import WeekActivity from '../container/WeekActivityContainer';
 import MenuBar from './MenuBar';
-import Dashboard from './Dashboard';
+import Dashboard from '../container/DashboardContainer';
 
 class App extends React.Component {
   constructor(props){
@@ -34,7 +34,7 @@ class App extends React.Component {
         <MenuBar history={this.props.history}/>
         { this.onRoot() }
         <Switch>
-          <Route path="/daily-task" component={WeekTask}/>
+          <Route path="/week-activity" component={WeekActivity}/>
           <Route path="/dashboard" component={Dashboard}/>
         </Switch>
       </div>

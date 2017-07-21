@@ -1,17 +1,15 @@
 import React,{ Component } from 'react';
 import { Grid, Header, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import TaskList from './TaskList';
-import TaskModal from './TaskModal';
+import ActivityList from './ActivityList';
+import ActivityModal from '../container/ActivityModalContainer';
 import moment from 'moment';
 
 /**
-* Representation of tasks lists for a week (week-end excluded)
+* Representation of activities lists for a week (week-end excluded)
 **/
-class WeekTask extends Component {
+class WeekActivity extends Component {
 
-// Get tasks from props ?
 
   constructor(props) {
     super(props);
@@ -23,23 +21,23 @@ class WeekTask extends Component {
     return moment().day('Monday');
   }
 
-  getWeekTasks() {
+  getWeekActivities() {
     const endWeek = moment(this.state.weekDate).add(7,'d');
-    return this.props.tasks.filter( (task) => {
-      const taskDate = moment(task.date, 'YYYY-MM-DD');
+    return this.props.activities.filter( (activity) => {
+      const activityDate = moment(activity.date, 'YYYY-MM-DD');
       if(
-        ( taskDate.isAfter(this.state.weekDate, 'day') && taskDate.isBefore(endWeek, 'day') )
+        ( activityDate.isAfter(this.state.weekDate, 'day') && activityDate.isBefore(endWeek, 'day') )
         ||
-        (taskDate.isSame(this.state.weekDate, 'day'))
+        (activityDate.isSame(this.state.weekDate, 'day'))
       ){
         return true;
       }
     });
   }
 
-  getTasksByDay(dayIndex) {
-    return this.getWeekTasks().filter((task) => {
-      return (new Date(task.date)).getDay() == dayIndex;
+  getActivitiesByDay(dayIndex) {
+    return this.getWeekActivities().filter((activity) => {
+      return (new Date(activity.date)).getDay() == dayIndex;
     });
   }
 
@@ -60,9 +58,9 @@ class WeekTask extends Component {
 
   render() {
     return (
-      <div className='WeekTask'>
+      <div className='WeekActivity'>
         <Header textAlign='center' size='huge' inverted>
-            Week tasks
+            Week activities
         </Header>
         <Grid padded>
           <div style={{margin:'auto'}}>
@@ -72,37 +70,32 @@ class WeekTask extends Component {
           </div>
           <div className="five column row">
             <div className="column ui segment">
-              <TaskList name={'Lundi'} tasks={this.getTasksByDay(1)}/>
+              <ActivityList name={'Lundi'} activities={this.getActivitiesByDay(1)}/>
             </div>
             <div className="column ui segment">
-              <TaskList name={'Mardi'} tasks={this.getTasksByDay(2)}/>
+              <ActivityList name={'Mardi'} activities={this.getActivitiesByDay(2)}/>
             </div>
             <div className="column ui segment">
-              <TaskList name={'Mercredi'} tasks={this.getTasksByDay(3)}/>
+              <ActivityList name={'Mercredi'} activities={this.getActivitiesByDay(3)}/>
             </div>
             <div className="column ui segment">
-              <TaskList name={'Jeudi'} tasks={this.getTasksByDay(4)}/>
+              <ActivityList name={'Jeudi'} activities={this.getActivitiesByDay(4)}/>
             </div>
             <div className="column ui segment">
-              <TaskList name={'Vendredi'} tasks={this.getTasksByDay(5)}/>
+              <ActivityList name={'Vendredi'} activities={this.getActivitiesByDay(5)}/>
             </div>
           </div>
-          <TaskModal weekDate={this.state.weekDate}/>
+          <ActivityModal weekDate={this.state.weekDate}/>
         </Grid>
       </div>
     );
   }
 }
 
-WeekTask.propTypes = {
-  tasks: PropTypes.array,
+WeekActivity.propTypes = {
+  activities: PropTypes.array,
 };
 
 
-const mapStateToProps = state => {
-  return {
-    tasks: state.tasks
-  };
-};
 
-export default connect (mapStateToProps) (WeekTask);
+export default WeekActivity;

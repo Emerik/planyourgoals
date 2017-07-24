@@ -22,17 +22,22 @@ class WeekActivity extends Component {
   }
 
   getWeekActivities() {
-    const endWeek = moment(this.state.weekDate).add(7,'d');
-    return this.props.activities.filter( (activity) => {
-      const activityDate = moment(activity.date, 'YYYY-MM-DD');
-      if(
-        ( activityDate.isAfter(this.state.weekDate, 'day') && activityDate.isBefore(endWeek, 'day') )
-        ||
-        (activityDate.isSame(this.state.weekDate, 'day'))
-      ){
-        return true;
-      }
-    });
+    if(this.state.weekDate && this.props.activities){
+      const endWeek = moment(this.state.weekDate).add(7,'d');
+      return this.props.activities.filter( (activity) => {
+        const activityDate = moment(activity.date, 'YYYY-MM-DD');
+        if(
+          ( activityDate.isAfter(this.state.weekDate, 'day') && activityDate.isBefore(endWeek, 'day') )
+          ||
+          (activityDate.isSame(this.state.weekDate, 'day'))
+        ){
+          return true;
+        }
+      });
+    }
+    else {
+      return [];
+    }
   }
 
   getActivitiesByDay(dayIndex) {
@@ -42,18 +47,24 @@ class WeekActivity extends Component {
   }
 
   previousWeek = () => {
-    const newDate = moment(this.state.weekDate).subtract(7, 'd');
-    this.setState({weekDate: newDate});
+    if(this.state.weekDate){
+      const newDate = moment(this.state.weekDate).subtract(7, 'd');
+      this.setState({weekDate: newDate});
+    }
   }
 
   nextWeek = () => {
-    const newDate = moment(this.state.weekDate).add(7, 'd');
-    this.setState({weekDate: newDate});
+    if(this.state.weekDate){
+      const newDate = moment(this.state.weekDate).add(7, 'd');
+      this.setState({weekDate: newDate});
+    }
   }
 
   getDateFormated() {
-    const laDate = moment(this.state.weekDate);
-    return laDate.date()+' '+(laDate.format('MMMM'))+' '+laDate.year();
+    if(this.state.weekDate){
+      const laDate = moment(this.state.weekDate);
+      return laDate.date()+' '+(laDate.format('MMMM'))+' '+laDate.year();
+    }
   }
 
   render() {

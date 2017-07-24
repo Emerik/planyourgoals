@@ -40,14 +40,18 @@ class ActivityModal extends React.Component {
   }
 
   getGoalOptions = () => {
-    return this.props.goals.map( (goal, index) => {
-      return (
-        { key: index,
-          value: goal.type,
-          text: goal.type
-        }
-      );
-    });
+    if(this.props.goals){
+      return this.props.goals.map( (goal, index) => {
+        return (
+          { key: index,
+            value: goal.type,
+            text: goal.type
+          }
+        );
+      });
+    }
+
+    return [];
   }
 
   handleNameChange = (e) => {

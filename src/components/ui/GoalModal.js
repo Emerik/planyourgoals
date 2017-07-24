@@ -78,7 +78,7 @@ class GoalModal extends React.Component {
 
   render (){
     return (
-      <div className='ActivityModal'>
+      <div className='GoalModal'>
 
         <Button color='black' circular={true} onClick={this.openModal}>Add Goal</Button>
 

@@ -9,7 +9,7 @@
     "dev": "webpack -wd --progress",
     "build-dev": "webpack --optimize-minimize --progress",
     "build-prod": "webpack -p --progress",
-    "test": "mocha --compilers js:babel-register"
+    "test": "mocha --compilers js:babel-register,css:test/css-null-compiler.js"
   },
   "repository": {
     "type": "git",
@@ -49,10 +49,13 @@
     "babel-loader": "^7.1.0",
     "chai": "^4.0.2",
     "css-loader": "^0.28.4",
+    "enzyme": "^2.9.1",
     "eslint": "^4.0.0",
     "eslint-plugin-react": "^7.1.0",
+    "jsdom": "^11.1.0",
     "mocha": "^3.4.2",
     "nodemon": "^1.11.0",
+    "react-addons-test-utils": "^15.6.0",
     "style-loader": "^0.18.2",
     "webpack": "^3.0.0"
   }

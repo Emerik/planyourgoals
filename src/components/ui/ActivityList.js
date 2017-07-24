@@ -12,6 +12,19 @@ class ActivityList extends Component {
     super(props);
   }
 
+
+  generateListItem = (activities) => {
+    if(activities){
+      return activities.map( (activity, index) => {
+        return (
+          <List.Item key={index}>
+            <ActivityNormal activity={activity}/>
+          </List.Item>
+        );
+      });
+    }
+  }
+
   render() {
     return (
       <div className="ActivityList">
@@ -19,13 +32,7 @@ class ActivityList extends Component {
         <List divided relaxed>
           {
             // Map activity Comp
-            this.props.activities.map( (activity, index) => {
-              return (
-                <List.Item key={index}>
-                  <ActivityNormal activity={activity}/>
-                </List.Item>
-              );
-            })
+            this.generateListItem(this.props.activities)
           }
         </List>
       </div>

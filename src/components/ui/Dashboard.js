@@ -12,7 +12,6 @@ class Dashboard extends Component {
 
   constructor(props) {
     super(props);
-    console.log('les goals : ',this.props.goals);
     this.state = {
       weekDate: moment().day('Monday'),
       typeSelected: {
@@ -85,6 +84,7 @@ class Dashboard extends Component {
   * This function return the number of activities completed by type
   */
   getActivityDoneByType(activities, goal) {
+    if( !activities || !goal) return 0;
     return activities.reduce((nbDone, activity) => {
       if(activity.goal == goal && activity.status == true) return nbDone + 1;
       return nbDone;
@@ -173,6 +173,44 @@ class Dashboard extends Component {
     }
   }
 
+  /**
+  * This function retrun HTML for goals
+  **/
+  generateGoal = (goals) => {
+    if(!goals) return;
+
+    return goals.map( (goal, index) => {
+      return (
+        <Popup key={index}
+          trigger={
+            <Segment  color={this.getGoalColor(goal.deadline)}>
+              <Header size='small'>
+                <Icon name={this.getGoalProgressIcon(goal)} />
+                <Header.Content>
+                  {goal.type}
+                </Header.Content>
+              </Header>
+            </Segment>
+          }
+          hoverable
+          position='right center'
+          inverted
+          flowing
+        >
+          <Grid centered columns={2}>
+            <Grid.Column textAlign='center'>
+              <Header as='h3'>Deadline</Header>
+              <p><b>{goal.deadline}</b></p>
+            </Grid.Column>
+            <Grid.Column textAlign='center'>
+              <Header as='h3'>Target</Header>
+              <p><b>{goal.target}</b></p>
+            </Grid.Column>
+          </Grid>
+        </Popup>
+      );
+    });
+  }
   render() {
     return (
       <div className='Dashboard'>
@@ -187,37 +225,7 @@ class Dashboard extends Component {
                   <Header> Goals </Header>
                   <Divider/>
                   {
-                    this.props.goals.map( (goal, index) => {
-                      return (
-                        <Popup key={index}
-                          trigger={
-                            <Segment  color={this.getGoalColor(goal.deadline)}>
-                              <Header size='small'>
-                                <Icon name={this.getGoalProgressIcon(goal)} />
-                                <Header.Content>
-                                  {goal.type}
-                                </Header.Content>
-                              </Header>
-                            </Segment>
-                          }
-                          hoverable
-                          position='right center'
-                          inverted
-                          flowing
-                        >
-                          <Grid centered columns={2}>
-                            <Grid.Column textAlign='center'>
-                              <Header as='h3'>Deadline</Header>
-                              <p><b>{goal.deadline}</b></p>
-                            </Grid.Column>
-                            <Grid.Column textAlign='center'>
-                              <Header as='h3'>Target</Header>
-                              <p><b>{goal.target}</b></p>
-                            </Grid.Column>
-                          </Grid>
-                        </Popup>
-                      );
-                    })
+                    this.generateGoal(this.props.goals)
                   }
                 </div>
               </div>

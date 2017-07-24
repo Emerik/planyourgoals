@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Modal, Input, Dropdown, Icon } from 'semantic-ui-react';
-import { addTask } from '../actions/actions';
-import { connect } from 'react-redux';
 import moment from 'moment';
 
 
@@ -13,7 +11,7 @@ const dayOptions = [ { key: '1', value: '1', text: 'Lundi' },
   { key: '5', value: '5', text: 'Vendredi' }];
 
 
-class TaskModal extends React.Component {
+class ActivityModal extends React.Component {
 
 
   constructor(props) {
@@ -21,9 +19,9 @@ class TaskModal extends React.Component {
     this.state = {
       open: false,
       weekDate: this.props.weekDate,
-      name: 'La task',
+      name: '',
       description: '',
-      type: '',
+      goal: '',
       date: '',
       duration: 0
     };
@@ -42,14 +40,18 @@ class TaskModal extends React.Component {
   }
 
   getGoalOptions = () => {
-    return this.props.goals.map( (goal, index) => {
-      return (
-        { key: index,
-          value: goal.type,
-          text: goal.type
-        }
-      );
-    });
+    if(this.props.goals){
+      return this.props.goals.map( (goal, index) => {
+        return (
+          { key: index,
+            value: goal.type,
+            text: goal.type
+          }
+        );
+      });
+    }
+
+    return [];
   }
 
   handleNameChange = (e) => {
@@ -60,14 +62,14 @@ class TaskModal extends React.Component {
     this.setState({description: e.target.value});
   }
 
-  handleTypeChange = (e, data) => {
-    this.setState({type: data.value});
+  handleGoalChange = (e, data) => {
+    this.setState({goal: data.value});
   }
 
   handleDayChange = (e, data) => {
 
-    const taskDate = moment(this.state.weekDate).day(data.value);
-    this.setState({date: taskDate});
+    const activityDate = moment(this.state.weekDate).day(data.value);
+    this.setState({date: activityDate});
   }
 
   handleAdd = () => {
@@ -77,18 +79,18 @@ class TaskModal extends React.Component {
       return;
     }
 
-    const dateTaskFormated = this.state.date.format('YYYY-MM-DD');//this.getDateTaskFormated(this.state.date);
+    const dateActivityFormated = this.state.date.format('YYYY-MM-DD');
 
     // CLose the modal
     this.setState({open: false});
 
     // Dispatch Action
-    return this.props.onAddTask({
+    return this.props.onAddActivity({
       name: this.state.name,
       description:  this.state.description,
-      type:  this.state.type,
+      goal:  this.state.goal,
       status: false,
-      date:  dateTaskFormated,
+      date:  dateActivityFormated,
       duration: this.state.duration
     });
   }
@@ -98,18 +100,18 @@ class TaskModal extends React.Component {
     return laDate.date()+'/'+(laDate.month()+1)+'/'+laDate.year();
   }
 
-  getDateTaskFormated(laDate) {
+  getDateActivityFormated(laDate) {
     return laDate.year()+'-'+(laDate.month()+1)+'-'+laDate.date();
   }
 
   render (){
     return (
-      <div className='TaskModal'>
+      <div className='ActivityModal'>
 
-        <Button inverted circular={true} onClick={this.openModal}>Add Task</Button>
+        <Button inverted circular={true} onClick={this.openModal}>Add Activity</Button>
 
         <Modal size='small' dimmer='blurring' open={this.state.open} >
-          <Modal.Header>Add a Task on {this.getDateFormated(this.state.weekDate)} week </Modal.Header>
+          <Modal.Header>Add an Activity on {this.getDateFormated(this.state.weekDate)} week </Modal.Header>
           <div className='ModalInputGroup'>
 
             <Input className='inputModal' fluid placeholder='Name...' label={{ basic: true, content: 'Name' }}
@@ -118,7 +120,7 @@ class TaskModal extends React.Component {
             <Input className='inputModal' fluid placeholder='Description...' label={{ basic: true, content: 'Description' }}
               labelPosition='left' value={this.state.description} onChange={this.handleDescriptionChange}/>
 
-            <Dropdown className='inputModal' placeholder='Select Goal' fluid search selection options={this.getGoalOptions()} onChange={this.handleTypeChange}/>
+            <Dropdown className='inputModal' placeholder='Select Goal' fluid search selection options={this.getGoalOptions()} onChange={this.handleGoalChange}/>
 
             <Dropdown className='inputModal' placeholder='Select Day' fluid search selection options={dayOptions} onChange={this.handleDayChange}/>
           </div>
@@ -137,24 +139,10 @@ class TaskModal extends React.Component {
 
 }
 
-TaskModal.propTypes = {
+ActivityModal.propTypes = {
   weekDate: PropTypes.object.isRequired,
-  onAddTask: PropTypes.func,
+  onAddActivity: PropTypes.func,
   goals: PropTypes.array
 };
 
-const mapStateToProps = (state) => {
-  return {
-    goals: state.goals
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onAddTask(task){
-      dispatch(addTask(task));
-    }
-  };
-};
-
-export default connect (mapStateToProps, mapDispatchToProps) (TaskModal);
+export default ActivityModal;

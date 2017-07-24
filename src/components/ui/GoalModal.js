@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Modal, Input, Icon, Segment, Label } from 'semantic-ui-react';
-import { addGoal } from '../actions/actions';
-import { connect } from 'react-redux';
 import moment from 'moment';
 import { SingleDatePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
@@ -37,7 +35,7 @@ class GoalModal extends React.Component {
   }
 
   handleTargetChange = (e, data) => {
-    
+
     if (data.value == parseInt(data.value, 10)){
       this.setState({
         target: data.value,
@@ -63,7 +61,7 @@ class GoalModal extends React.Component {
       return;
     }
 
-    const dateTaskFormated = this.state.deadline.format('YYYY-MM-DD');//this.getDateTaskFormated(this.state.date);
+    const dateActivityFormated = this.state.deadline.format('YYYY-MM-DD');
 
     // CLose the modal
     this.setState({open: false});
@@ -72,7 +70,7 @@ class GoalModal extends React.Component {
     return this.props.onAddGoal({
 
       type:  this.state.type,
-      deadline:  dateTaskFormated,
+      deadline:  dateActivityFormated,
       target: this.state.target,
       duration: 0
     });
@@ -80,7 +78,7 @@ class GoalModal extends React.Component {
 
   render (){
     return (
-      <div className='TaskModal'>
+      <div className='GoalModal'>
 
         <Button color='black' circular={true} onClick={this.openModal}>Add Goal</Button>
 
@@ -126,12 +124,5 @@ GoalModal.propTypes = {
   onAddGoal: PropTypes.func
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onAddGoal(goal){
-      dispatch(addGoal(goal));
-    }
-  };
-};
 
-export default connect (null, mapDispatchToProps) (GoalModal);
+export default GoalModal;

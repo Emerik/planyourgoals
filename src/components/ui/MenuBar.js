@@ -16,7 +16,7 @@ class MenuBar extends Component {
       this.props.history.push('/dashboard');
       break;
     case 2:
-      this.props.history.push('/daily-task');
+      this.props.history.push('/week-activity');
       break;
     default:
       this.props.history.push('/');
@@ -39,7 +39,7 @@ class MenuBar extends Component {
           </Menu.Item>
           <Menu.Item name='Home' index={0} active={activeItem === 'Home'} onClick={this.handleItemClick} />
           <Menu.Item name='Dashboard' index={1} active={activeItem === 'Dashboard'} onClick={this.handleItemClick} />
-          <Menu.Item name='DailyTasks' index={2} active={activeItem === 'DailyTasks'} onClick={this.handleItemClick} />
+          <Menu.Item name='WeekActivity' index={2} active={activeItem === 'WeekActivity'} onClick={this.handleItemClick} />
           <Menu.Menu position='right'>
             <Menu.Item name='Account' index={3} active={activeItem === 'Account'} onClick={this.handleItemClick} />
           </Menu.Menu>

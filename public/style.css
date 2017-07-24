@@ -12,14 +12,14 @@ body {
   background-color: rgba(0, 0, 0, 0.3);
   color: white !important; }
 
-.TaskList {
+.ActivityList {
   width: 100%;
   display: inline-block; }
-  .TaskList .title {
+  .ActivityList .title {
     color: #000000;
     font-size: 200%; }
 
-.WeekTask {
+.WeekActivity {
   padding: 1%; }
 
 .Welcome {
@@ -33,7 +33,11 @@ body {
     color: #ffffff;
     font-size: 300%; }
 
-.TaskModal {
+.ActivityModal {
+  width: 100%;
+  text-align: center; }
+
+.GoalModal {
   width: 100%;
   text-align: center; }
 

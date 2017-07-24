@@ -15,11 +15,11 @@ body {
 
 }
 
-.TaskNormal {
+.ActivityNormal {
 
 }
 
-.TaskList {
+.ActivityList {
   width: 100%;
   display: inline-block;
   .title {
@@ -28,7 +28,7 @@ body {
   }
 }
 
-.WeekTask{
+.WeekActivity{
   padding: 1%;
 }
 
@@ -46,7 +46,12 @@ body {
   }
 }
 
-.TaskModal {
+.ActivityModal {
+  width: 100%;
+  text-align: center;
+}
+
+.GoalModal {
   width: 100%;
   text-align: center;
 }

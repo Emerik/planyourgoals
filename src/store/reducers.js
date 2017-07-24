@@ -1,44 +1,44 @@
 import constants from './constants.js';
 import { combineReducers } from 'redux';
 
-/* TASKS */
-export const tasks = (state = [], action) => {
+/* ACTIVITY */
+export const activities = (state = [], action) => {
 
   switch(action.type) {
 
-  case constants.ADD_TASK: {
+  case constants.ADD_ACTIVITY: {
     if(state === null) return [action.payload];
 
-    const hasTask = state.some(aTask => {
-      return (aTask.date === action.payload.date && aTask.name === action.payload.name) ;
+    const hasActivity = state.some(aActivity => {
+      return (aActivity.date === action.payload.date && aActivity.name === action.payload.name) ;
     });
 
-    return (hasTask) ?
+    return (hasActivity) ?
       state :
       [
         ...state,
         Object.assign({},action.payload)
       ];
   }
-  case constants.REMOVE_TASK:
-    return state.filter(aTask => {
-      if(aTask.date !== action.payload.date || aTask.name !== action.payload.name) return true;
+  case constants.REMOVE_ACTIVITY:
+    return state.filter(aActivity => {
+      if(aActivity.date !== action.payload.date || aActivity.name !== action.payload.name) return true;
     });
-  case constants.CLEAR_TASK:
+  case constants.CLEAR_ACTIVITY:
     return [];
-  case constants.CHECK_TASK:
-    return state.map(aTask => {
-      if(aTask.date === action.payload.date && aTask.name === action.payload.name){
-        aTask.status = true;
+  case constants.CHECK_ACTIVITY:
+    return state.map(aActivity => {
+      if(aActivity.date === action.payload.date && aActivity.name === action.payload.name){
+        aActivity.status = true;
       }
-      return aTask;
+      return aActivity;
     });
-  case constants.UNCHECK_TASK:
-    return state.map(aTask => {
-      if(aTask.date === action.payload.date && aTask.name === action.payload.name){
-        aTask.status = false;
+  case constants.UNCHECK_ACTIVITY:
+    return state.map(aActivity => {
+      if(aActivity.date === action.payload.date && aActivity.name === action.payload.name){
+        aActivity.status = false;
       }
-      return aTask;
+      return aActivity;
     });
   default:
     return state;
@@ -115,7 +115,7 @@ export const types = (state=false, action) => {
 
 //We combine our reducers in the same shape of our initial state
 export default combineReducers({
-  tasks,
+  activities,
   user,
   goals,
   types

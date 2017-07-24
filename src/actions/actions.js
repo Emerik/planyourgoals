@@ -1,37 +1,37 @@
 import constants from '../store/constants';
 
-/* TASK ACTION CREATOR */
-export function addTask({name, description, type, date, duration, status=false}) {
+/* ACTIVITY ACTION CREATOR */
+export function addActivity({name, description, goal, date, duration, status=false}) {
   return {
-    type: constants.ADD_TASK,
-    payload: {name, description, type, date, duration, status}
+    type: constants.ADD_ACTIVITY,
+    payload: {name, description, goal, date, duration, status}
   };
 }
 
-export function removeTask({name, description, type, date, duration, status=false}) {
+export function removeActivity({name, description, goal, date, duration, status=false}) {
   return {
-    type: constants.REMOVE_TASK,
-    payload: {name, description, type, date, duration, status}
+    type: constants.REMOVE_ACTIVITY,
+    payload: {name, description, goal, date, duration, status}
   };
 }
 
-export function clearTask() {
+export function clearActivity() {
   return {
-    type: constants.CLEAR_TASK
+    type: constants.CLEAR_ACTIVITY
   };
 }
 
-export function checkTask({name, description, type, date, duration, status=true}) {
+export function checkActivity({name, description, goal, date, duration, status=true}) {
   return {
-    type: constants.CHECK_TASK,
-    payload: {name, description, type, date, duration, status}
+    type: constants.CHECK_ACTIVITY,
+    payload: {name, description, goal, date, duration, status}
   };
 }
 
-export function uncheckTask({name, description, type, date, duration, status=false}) {
+export function uncheckActivity({name, description, goal, date, duration, status=false}) {
   return {
-    type: constants.UNCHECK_TASK,
-    payload: {name, description, type, date, duration, status}
+    type: constants.UNCHECK_ACTIVITY,
+    payload: {name, description, goal, date, duration, status}
   };
 }
 

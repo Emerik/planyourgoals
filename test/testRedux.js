@@ -81,31 +81,31 @@ describe('[User TEST]', () => {
 
 
 var store;
-// Test on task -------------------------------------------------------
-describe('[Task TEST]', () => {
+// Test on Activity -------------------------------------------------------
+describe('[Activity TEST]', () => {
   beforeEach(() => { //Before each test we empty the database
     store = storeFactory(initialState);
   });
 
 
-  /* Add a task in the store*/
-  it('it should have add a task', () => {
+  /* Add an Activity in the store*/
+  it('it should have add an activity', () => {
 
-    const tempTask = {
-      'name': 'la task test',
-      'description': 'je suis une task pour le test, check moi si t\'es cap',
-      'type': 'Test',
+    const tempActivity = {
+      'name': 'l\'activity test',
+      'description': 'je suis une activity pour le test, check moi si t\'es cap',
+      'goal': 'Test',
       'date': '01/01/2017',
       'duration': '2',
       'status': 'false'
     };
 
     const expectedAction = {
-      type: constants.ADD_TASK,
-      payload: tempTask
+      type: constants.ADD_ACTIVITY,
+      payload: tempActivity
     };
 
-    const actual = Actions.addTask(tempTask);
+    const actual = Actions.addActivity(tempActivity);
 
     expect(actual).to.deep.equal(expectedAction);
 
@@ -113,144 +113,147 @@ describe('[Task TEST]', () => {
     store.dispatch(actual);
     const nextState = store.getState();
 
-    expect(nextState.tasks.length).to.equal(previousState.tasks.length+1);
+    expect(nextState.activities.length).to.equal(previousState.activities.length+1);
 
-    expect(nextState.tasks[nextState.tasks.length-1]).to.deep.equal(tempTask);
+    expect(nextState.activities[nextState.activities.length-1]).to.deep.equal(tempActivity);
   });
 
-  /* Remove a task in the store*/
-  it('it should have remove task', () => {
+  /* Remove a Activity in the store*/
+  it('it should have remove activity', () => {
 
-    const tempTask = {
-      'name': 'la task test',
-      'description': 'je suis une task pour le test, check moi si t\'es cap',
-      'type': 'Test',
+    const tempActivity = {
+      'name': 'la activity test',
+      'description': 'je suis une activity pour le test, check moi si t\'es cap',
+      'goal': 'Test',
       'date': '01/01/2017',
       'duration': '2',
       'status': 'false'
     };
 
-    const tempTask2 = {
-      'name': 'la task test 2',
-      'description': 'je suis une task pour le test, check moi si t\'es cap',
-      'type': 'Test',
+    const tempActivity2 = {
+      'name': 'la activity test 2',
+      'description': 'je suis une Activity pour le test, check moi si t\'es cap',
+      'goal': 'Test',
       'date': '02/01/2017',
       'duration': '2',
       'status': 'false'
     };
 
     const expectedAction = {
-      type: constants.REMOVE_TASK,
-      payload: tempTask
+      type: constants.REMOVE_ACTIVITY,
+      payload: tempActivity
     };
 
-    const actual = Actions.removeTask(tempTask);
+    const actual = Actions.removeActivity(tempActivity);
 
     expect(actual).to.deep.equal(expectedAction);
 
-    //Add our temporay task
-    store.dispatch(Actions.addTask(tempTask));
-    store.dispatch(Actions.addTask(tempTask2));
+    //Add our temporay Activity
+    store.dispatch(Actions.addActivity(tempActivity));
+    store.dispatch(Actions.addActivity(tempActivity2));
 
     let previousState = store.getState();
     store.dispatch(actual);
     let nextState = store.getState();
-    expect(nextState.tasks.length).to.equal(previousState.tasks.length-1);
+    expect(nextState.activities.length).to.equal(previousState.activities.length-1);
 
     previousState = store.getState();
     store.dispatch(actual);
     nextState = store.getState();
-    expect(nextState.tasks.length).to.equal(previousState.tasks.length);
+    expect(nextState.activities.length).to.equal(previousState.activities.length);
   });
 
-  /* Remove all the tasks in the store*/
-  it('it should have remove all the task', () => {
+  /* Remove all the activities in the store*/
+  it('it should have remove all the Activity', () => {
 
 
     const expectedAction = {
-      type: constants.CLEAR_TASK,
+      type: constants.CLEAR_ACTIVITY,
     };
 
-    const actual = Actions.clearTask();
+    const actual = Actions.clearActivity();
 
     expect(actual).to.deep.equal(expectedAction);
 
-    //Add our temporay task
+    //Add our temporay Activity
     store.dispatch(actual);
 
     const nextState = store.getState();
 
-    expect(nextState.tasks.length).to.equal(0);
+    expect(nextState.activities.length).to.equal(0);
   });
 
-  /* Check a task in the store*/
-  it('it should have checked a task', () => {
+  /* Check a Activity in the store*/
+  it('it should have checked a Activity', () => {
 
-    const tempTask = {
-      'name': 'la task test',
-      'description': 'je suis une task pour le test, check moi si t\'es cap',
-      'type': 'Test',
+    const tempActivity = {
+      'name': 'la Activity test',
+      'description': 'je suis une Activity pour le test, check moi si t\'es cap',
+      'goal': 'Test',
       'date': '01/01/2017',
       'duration': '2',
       'status': 'false'
     };
 
     const expectedAction = {
-      type: constants.CHECK_TASK,
-      payload: tempTask
+      type: constants.CHECK_ACTIVITY,
+      payload: tempActivity
     };
 
-    const actual = Actions.checkTask(tempTask);
+    const actual = Actions.checkActivity(tempActivity);
 
     expect(actual).to.deep.equal(expectedAction);
 
-    //Add our temporay task
-    store.dispatch(Actions.addTask(tempTask));
+    //Add our temporay Activity
+    store.dispatch(Actions.addActivity(tempActivity));
 
     store.dispatch(actual);
     const nextState = store.getState();
 
-    expect(nextState.tasks[nextState.tasks.length-1]).to.deep.not.equal(tempTask);
+    expect(nextState.activities[nextState.activities.length-1]).to.deep.not.equal(tempActivity);
 
-    tempTask.status = true;
-    expect(nextState.tasks[nextState.tasks.length-1]).to.deep.equal(tempTask);
+    tempActivity.status = true;
+    expect(nextState.activities[nextState.activities.length-1]).to.deep.equal(tempActivity);
 
   });
 
-  /* Uncheck a task in the store*/
-  it('it should have unchecked a task', () => {
+  /* Uncheck a Activity in the store*/
+  it('it should have unchecked a Activity', () => {
 
-    const tempTask = {
-      'name': 'la task test',
-      'description': 'je suis une task pour le test, check moi si t\'es cap',
-      'type': 'Test',
+    const tempActivity = {
+      'name': 'la Activity test',
+      'description': 'je suis une Activity pour le test, check moi si t\'es cap',
+      'goal': 'Test',
       'date': '01/01/2017',
       'duration': '2',
       'status': 'true'
     };
 
     const expectedAction = {
-      type: constants.UNCHECK_TASK,
-      payload: tempTask
+      type: constants.UNCHECK_ACTIVITY,
+      payload: tempActivity
     };
 
-    const actual = Actions.uncheckTask(tempTask);
+    const actual = Actions.uncheckActivity(tempActivity);
 
     expect(actual).to.deep.equal(expectedAction);
 
-    //Add our temporay task
-    store.dispatch(Actions.addTask(tempTask));
+    //Add our temporay Activity
+    store.dispatch(Actions.addActivity(tempActivity));
 
     store.dispatch(actual);
     const nextState = store.getState();
 
-    expect(nextState.tasks[nextState.tasks.length-1]).to.deep.not.equal(tempTask);
-    tempTask.status = false;
-    expect(nextState.tasks[nextState.tasks.length-1]).to.deep.equal(tempTask);
+    expect(nextState.activities[nextState.activities.length-1]).to.deep.not.equal(tempActivity);
+    tempActivity.status = false;
+    expect(nextState.activities[nextState.activities.length-1]).to.deep.equal(tempActivity);
   });
 
 
 });
+
+
+
 
 // Test on goal -------------------------------------------------------
 describe('[Goal TEST]', () => {

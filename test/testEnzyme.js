@@ -287,7 +287,7 @@ describe('[Dashboard TEST]', () => {
 
   });
 
-  it('it should have shallow rend Dashboard Headers comp', () => {
+  it('it should have shallow render Dashboard Headers comp', () => {
     const wrapper = shallow( <Dashboard
       goals={['Sport']}
       activities={[]}
@@ -295,7 +295,17 @@ describe('[Dashboard TEST]', () => {
 
     expect(wrapper.find('Header')).to.have.length(6);
 
+  });
 
+  it('it should have change the Goal index selected', () => {
+    const wrapper = shallow( <Dashboard
+      goals={['Sport', 'Test']}
+      activities={[]}
+    /> );
+
+    wrapper.find('.TitleWithIcon').find('Icon').at(1).simulate('click');
+
+    expect(wrapper.state('typeSelected').index).to.equal(1);
 
   });
 

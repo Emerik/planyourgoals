@@ -108,7 +108,7 @@ class Dashboard extends Component {
   */
   previousType = () => {
 
-    if(!this.props.goals || this.props.goals.length) return;
+    if(!this.props.goals || this.props.goals.length == 0) return;
 
     const indexPrevious = this.state.typeSelected.index == 0 ?
       (this.props.goals.length-1)
@@ -127,7 +127,7 @@ class Dashboard extends Component {
   */
   nextType = () => {
 
-    if(!this.props.goals || this.props.goals.length) return;
+    if(!this.props.goals || this.props.goals.length == 0) return;
 
     const indexNext = this.state.typeSelected.index == (this.props.goals.length-1)  ?
       0
@@ -176,7 +176,7 @@ class Dashboard extends Component {
   /**
   * This function retrun HTML for goals
   **/
-  generateGoal = (goals) => {
+  generateGoals = (goals) => {
     if(!goals) return;
 
     return goals.map( (goal, index) => {
@@ -211,6 +211,7 @@ class Dashboard extends Component {
       );
     });
   }
+
   render() {
     return (
       <div className='Dashboard'>
@@ -225,7 +226,7 @@ class Dashboard extends Component {
                   <Header> Goals </Header>
                   <Divider/>
                   {
-                    this.generateGoal(this.props.goals)
+                    this.generateGoals(this.props.goals)
                   }
                 </div>
               </div>

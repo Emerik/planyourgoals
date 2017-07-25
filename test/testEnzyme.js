@@ -11,7 +11,7 @@ import Dashboard from '../src/components/ui/Dashboard';
 
 
 /* ACTIVITY NORMAL */
-describe('[TaskNormal TEST]', () => {
+describe('[ActivityNormal TEST]', () => {
   var testActivty = {
     'name': 'l\'activity test',
     'description': 'je suis une activity pour le test, check moi si t\'es cap',

@@ -20,10 +20,11 @@ class ActivityModal extends React.Component {
       open: false,
       weekDate: this.props.weekDate,
       name: '',
-      description: '',
-      goal: '',
       date: '',
-      duration: 0
+      description: '',
+      sport: '',
+      activityType: '',
+      target: -1,
     };
   }
 
@@ -39,13 +40,34 @@ class ActivityModal extends React.Component {
     this.setState({open: false});
   }
 
-  getGoalOptions = () => {
-    if(this.props.goals){
-      return this.props.goals.map( (goal, index) => {
+  getSportOptions = () => {
+    if(this.props.sports){
+      return this.props.sports.map( (sport, index) => {
         return (
           { key: index,
-            value: goal.type,
-            text: goal.type
+            value: sport.name,
+            text: sport.name
+          }
+        );
+      });
+    }
+
+    return [];
+  }
+
+  getTypeOptions = () => {
+    if(this.props.sports){
+
+      const sport =  this.props.sports.find( (sport) => {
+        if(sport.name === this.state.sport) return true;
+      });
+
+      if(sport == undefined || sport.activityTypes == undefined) return {};
+      return sport.activityTypes.map( (type, index) => {
+        return (
+          { key: index,
+            value: type,
+            text: type
           }
         );
       });
@@ -62,9 +84,18 @@ class ActivityModal extends React.Component {
     this.setState({description: e.target.value});
   }
 
-  handleGoalChange = (e, data) => {
-    this.setState({goal: data.value});
+  handleSportChange = (e, data) => {
+    this.setState({sport: data.value});
   }
+
+  handleTypeChange = (e, data) => {
+    this.setState({activityType: data.value});
+  }
+
+  handleTargetChange = (e) => {
+    this.setState({target: e.target.value});
+  }
+
 
   handleDayChange = (e, data) => {
 
@@ -87,11 +118,13 @@ class ActivityModal extends React.Component {
     // Dispatch Action
     return this.props.onAddActivity({
       name: this.state.name,
-      description:  this.state.description,
-      goal:  this.state.goal,
-      status: false,
       date:  dateActivityFormated,
-      duration: this.state.duration
+      description:  this.state.description,
+      sport:  this.state.sport,
+      activityType: this.state.activityType,
+      status: false,
+      target: this.state.target,
+      resultat:''
     });
   }
 
@@ -120,9 +153,17 @@ class ActivityModal extends React.Component {
             <Input className='inputModal' fluid placeholder='Description...' label={{ basic: true, content: 'Description' }}
               labelPosition='left' value={this.state.description} onChange={this.handleDescriptionChange}/>
 
-            <Dropdown className='inputModal' placeholder='Select Goal' fluid search selection options={this.getGoalOptions()} onChange={this.handleGoalChange}/>
+            <Dropdown className='inputModal' placeholder='Select Sport'
+              fluid search selection options={this.getSportOptions()} onChange={this.handleSportChange}/>
 
-            <Dropdown className='inputModal' placeholder='Select Day' fluid search selection options={dayOptions} onChange={this.handleDayChange}/>
+            <Dropdown className='inputModal' placeholder='Select Sport Type'
+              fluid search selection options={this.getTypeOptions()} onChange={this.handleTypeChange}/>
+
+            <Input className='inputModal' fluid placeholder='objectif' label={{ basic: true, content: 'Objectif' }}
+              labelPosition='left' value={this.state.target} onChange={this.handleTargetChange}/>
+
+            <Dropdown className='inputModal' placeholder='Select Day'
+              fluid search selection options={dayOptions} onChange={this.handleDayChange}/>
           </div>
           <Modal.Actions>
             <Button basic color='red' onClick={this.closeModal}>
@@ -142,7 +183,7 @@ class ActivityModal extends React.Component {
 ActivityModal.propTypes = {
   weekDate: PropTypes.object.isRequired,
   onAddActivity: PropTypes.func,
-  goals: PropTypes.array
+  sports: PropTypes.array
 };
 
 export default ActivityModal;

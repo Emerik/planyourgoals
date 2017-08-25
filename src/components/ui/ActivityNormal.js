@@ -15,23 +15,27 @@ class ActivityNormal extends Component {
     if(this.props.activity.status == true){
       // Dispatch Action
       return this.props.onUncheckActivity({
+        id: this.props.activity.id,
         name: this.props.activity.name,
-        description:  this.props.activity.description,
-        goal:  this.props.activity.goal,
-        status: false,
         date:  this.props.activity.date,
-        duration: this.props.activity.duration
+        description:  this.props.activity.description,
+        sport:  this.props.activity.sport,
+        activityType: this.props.activity.activityType,
+        status: false,
+        resultat: this.props.activity.reusltat
       });
     }
     else{
       // Dispatch Action
       return this.props.onCheckActivity({
+        id: this.props.activity.id,
         name: this.props.activity.name,
-        description:  this.props.activity.description,
-        goal:  this.props.activity.goal,
-        status: true,
         date:  this.props.activity.date,
-        duration: this.props.activity.duration
+        description:  this.props.activity.description,
+        sport:  this.props.activity.sport,
+        activityType: this.props.activity.activityType,
+        status: true,
+        resultat: this.props.activity.reusltat
       });
     }
   }
@@ -40,12 +44,13 @@ class ActivityNormal extends Component {
 
     // Dispatch Action
     return this.props.onDeleteActivity({
+      id: this.props.activity.id,
       name: this.props.activity.name,
-      description:  this.props.activity.description,
-      goal:  this.props.activity.goal,
-      status: this.props.activity.status,
       date:  this.props.activity.date,
-      duration: this.props.activity.duration
+      description:  this.props.activity.description,
+      sport:  this.props.activity.sport,
+      activityType: this.props.activity.activityType,
+      resultat: this.props.activity.reusltat
     });
   }
 
@@ -60,7 +65,7 @@ class ActivityNormal extends Component {
             {this.props.activity.description}
           </Card.Description>
           <Card.Meta>
-            {this.props.activity.goal}
+            {this.props.activity.sport}
             <Icon name='delete' size='small' color='red' link onClick={ this.handleDelete}/>
           </Card.Meta>
         </Card.Content>

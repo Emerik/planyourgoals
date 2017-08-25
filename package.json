@@ -43,7 +43,7 @@
     "react-router-dom": "^4.1.1",
     "redux": "^3.7.0",
     "redux-thunk": "^2.2.0",
-    "semantic-ui-react": "^0.68.5"
+    "semantic-ui-react": "^0.71.5"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

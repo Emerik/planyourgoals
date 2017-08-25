@@ -92,12 +92,15 @@ describe('[Activity TEST]', () => {
   it('it should have add an activity', () => {
 
     const tempActivity = {
-      'name': 'l\'activity test',
-      'description': 'je suis une activity pour le test, check moi si t\'es cap',
-      'goal': 'Test',
-      'date': '01/01/2017',
-      'duration': '2',
-      'status': 'false'
+      'id': '12',
+      'name': 'Match contre Federer',
+      'date': '2017-08-29',
+      'description': 'Match avec Theo pour travailler le lift',
+      'sport': 'Tennis',
+      'activityType': 'competition',
+      'status': false,
+      'target': 0,
+      'resultat': ''
     };
 
     const expectedAction = {
@@ -122,21 +125,27 @@ describe('[Activity TEST]', () => {
   it('it should have remove activity', () => {
 
     const tempActivity = {
-      'name': 'la activity test',
-      'description': 'je suis une activity pour le test, check moi si t\'es cap',
-      'goal': 'Test',
-      'date': '01/01/2017',
-      'duration': '2',
-      'status': 'false'
+      'id': '12',
+      'name': 'Match contre Theo',
+      'date': '2017-08-29',
+      'description': 'Match avec Theo pour travailler le lift',
+      'sport': 'Tennis',
+      'activityType': 'competition',
+      'status': false,
+      'target': 0,
+      'resultat': ''
     };
 
     const tempActivity2 = {
-      'name': 'la activity test 2',
-      'description': 'je suis une Activity pour le test, check moi si t\'es cap',
-      'goal': 'Test',
-      'date': '02/01/2017',
-      'duration': '2',
-      'status': 'false'
+      'id': '14',
+      'name': 'Match contre Theo',
+      'date': '2017-08-30',
+      'description': 'Match avec Theo pour travailler le lift',
+      'sport': 'Tennis',
+      'activityType': 'competition',
+      'status': false,
+      'target': 0,
+      'resultat': ''
     };
 
     const expectedAction = {
@@ -187,12 +196,15 @@ describe('[Activity TEST]', () => {
   it('it should have checked a Activity', () => {
 
     const tempActivity = {
-      'name': 'la Activity test',
-      'description': 'je suis une Activity pour le test, check moi si t\'es cap',
-      'goal': 'Test',
-      'date': '01/01/2017',
-      'duration': '2',
-      'status': 'false'
+      'id': '12',
+      'name': 'Match contre Theo',
+      'date': '2017-08-29',
+      'description': 'Match avec Theo pour travailler le lift',
+      'sport': 'Tennis',
+      'activityType': 'competition',
+      'status': false,
+      'target': 0,
+      'resultat': ''
     };
 
     const expectedAction = {
@@ -221,12 +233,15 @@ describe('[Activity TEST]', () => {
   it('it should have unchecked a Activity', () => {
 
     const tempActivity = {
-      'name': 'la Activity test',
-      'description': 'je suis une Activity pour le test, check moi si t\'es cap',
-      'goal': 'Test',
-      'date': '01/01/2017',
-      'duration': '2',
-      'status': 'true'
+      'id': '12',
+      'name': 'Match contre Federer',
+      'date': '2017-08-29',
+      'description': 'Match avec Theo pour travailler le lift',
+      'sport': 'Tennis',
+      'activityType': 'competition',
+      'status': true,
+      'target': 0,
+      'resultat': ''
     };
 
     const expectedAction = {
@@ -254,7 +269,6 @@ describe('[Activity TEST]', () => {
 
 
 
-
 // Test on goal -------------------------------------------------------
 describe('[Goal TEST]', () => {
   beforeEach(() => {
@@ -266,10 +280,13 @@ describe('[Goal TEST]', () => {
   it('it should have add a goal', () => {
 
     const tempGoal = {
-      'type': 'Test',
-      'target': '12',
-      'time': '24',
-      'deadline': '2017/07/31'
+      'id': '12',
+      'name': 'Goal temp',
+      'startingdate': '2017-08-01',
+      'deadline': '2017/08/31',
+      'sport': 'Tennis',
+      'target': '6',
+      'goaltype': 'duration'
     };
 
     const expectedAction = {
@@ -294,10 +311,13 @@ describe('[Goal TEST]', () => {
   it('it should have remove goal', () => {
 
     const tempGoal = {
-      'type': 'Test',
-      'target': '12',
-      'time': '24',
-      'deadline': '2017/07/31'
+      'id': '12',
+      'name': 'Goal temp',
+      'startingdate': '2017-08-01',
+      'deadline': '2017/08/31',
+      'sport': 'Tennis',
+      'target': '6',
+      'goaltype': 'duration'
     };
 
     const expectedAction = {
@@ -349,17 +369,21 @@ describe('[Goal TEST]', () => {
   it('it should have changed a goal', () => {
 
     const tempGoal = {
-      'type': 'Test',
-      'target': '12',
-      'time': '24',
-      'deadline': '2017/07/31'
+      'id': '0',
+      'startingdate': '2017-08-01',
+      'deadline': '2017/08/31',
+      'sport': 'Tennis',
+      'target': '6',
+      'goaltype': 'duration'
     };
 
     const tempGoalNew = {
-      'type': 'Test',
-      'target': '14',// Field change
-      'time': '24',
-      'deadline': '2017/07/31'
+      'id': '12',
+      'startingdate': '2017-08-01',
+      'deadline': '2017/08/31',
+      'sport': 'Tennis',
+      'target': '9', // Field changed
+      'goaltype': 'duration'
     };
 
     const expectedAction = {
@@ -386,27 +410,29 @@ describe('[Goal TEST]', () => {
 
 });
 
-// Test on Type
-describe('[Type TEST]', () => {
+
+
+// Test on Sport
+describe('[Sport TEST]', () => {
   beforeEach(() => {
     store = storeFactory(initialState);
   });
 
 
-  /* Change the types in the store*/
-  it('it should have change the types', () => {
+  /* Change the sports in the store*/
+  it('it should have change the sports', () => {
 
-    const tempTypes = [
+    const tempSports = [
       'Normal',
       'Code'
     ];
 
     const expectedAction = {
-      type: constants.CHANGE_TYPES,
-      payload: tempTypes
+      type: constants.CHANGE_SPORTS,
+      payload: tempSports
     };
 
-    const testAction = Actions.changeTypes(tempTypes);
+    const testAction = Actions.changeSports(tempSports);
 
     expect(testAction).to.deep.equal(expectedAction);
 
@@ -414,17 +440,17 @@ describe('[Type TEST]', () => {
 
     const nextState = store.getState();
 
-    expect(nextState.types).to.deep.equal(tempTypes);
+    expect(nextState.sports).to.deep.equal(tempSports);
   });
 
-  /* Clear the types in the store*/
-  it('it should have clear the types', () => {
+  /* Clear the sports in the store*/
+  it('it should have clear the sports', () => {
 
     const expectedAction = {
-      type: constants.CLEAR_TYPES,
+      type: constants.CLEAR_SPORTS,
     };
 
-    const testAction = Actions.clearTypes();
+    const testAction = Actions.clearSports();
 
     expect(testAction).to.deep.equal(expectedAction);
 
@@ -433,7 +459,7 @@ describe('[Type TEST]', () => {
     store.dispatch(testAction);
     let nextState = store.getState();
 
-    expect(nextState.types).to.deep.equal([]);
+    expect(nextState.sports).to.deep.equal([]);
 
   });
 

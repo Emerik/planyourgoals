@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Welcome from './Welcome';
+import WelcomeContainer from '../container/WelcomeContainer';
 import WeekActivity from '../container/WeekActivityContainer';
 import MenuBar from './MenuBar';
 import Dashboard from '../container/DashboardContainer';
@@ -23,7 +23,7 @@ class App extends React.Component {
 
   onRoot(){
     if(!this.props.location.pathname || this.props.location.pathname === '/'){
-      return (  <Welcome history={this.props.history}/> );
+      return (  <WelcomeContainer history={this.props.history}/> );
     }
 
   }

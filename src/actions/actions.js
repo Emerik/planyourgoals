@@ -1,17 +1,17 @@
 import constants from '../store/constants';
 
 /* ACTIVITY ACTION CREATOR */
-export function addActivity({name, description, goal, date, duration, status=false}) {
+export function addActivity({id,name, date, description, sport, activityType, status=false, target, resultat}) {
   return {
     type: constants.ADD_ACTIVITY,
-    payload: {name, description, goal, date, duration, status}
+    payload: {id, name, date, description, sport, activityType, status, target, resultat}
   };
 }
 
-export function removeActivity({name, description, goal, date, duration, status=false}) {
+export function removeActivity({id, name, date, description, sport, activityType, status=false, target, resultat}) {
   return {
     type: constants.REMOVE_ACTIVITY,
-    payload: {name, description, goal, date, duration, status}
+    payload: {id, name, date, description, sport, activityType, status, target, resultat}
   };
 }
 
@@ -21,17 +21,17 @@ export function clearActivity() {
   };
 }
 
-export function checkActivity({name, description, goal, date, duration, status=true}) {
+export function checkActivity({id, name, date, description, sport, activityType, status=false, target, resultat}) {
   return {
     type: constants.CHECK_ACTIVITY,
-    payload: {name, description, goal, date, duration, status}
+    payload: {id, name, date, description, sport, activityType, status, target, resultat}
   };
 }
 
-export function uncheckActivity({name, description, goal, date, duration, status=false}) {
+export function uncheckActivity({id, name, date, description, sport, activityType, status=false, target, resultat}) {
   return {
     type: constants.UNCHECK_ACTIVITY,
-    payload: {name, description, goal, date, duration, status}
+    payload: {id, name, date, description, sport, activityType, status, target, resultat}
   };
 }
 
@@ -50,17 +50,17 @@ export function removeUser() {
 }
 
 /* GOAL ACTION CREATOR */
-export function addGoal({type, target, time, deadline}) {
+export function addGoal({id, name, startingdate, deadline, sport, target, goaltype}) {
   return {
     type: constants.ADD_GOAL,
-    payload: {type, target, time, deadline}
+    payload: {id, name, startingdate, deadline, sport, target, goaltype}
   };
 }
 
-export function removeGoal({type, target, time, deadline}) {
+export function removeGoal({id, name, startingdate, deadline, sport, target, goaltype}) {
   return {
     type: constants.REMOVE_GOAL,
-    payload: {type, target, time, deadline}
+    payload: {id, name, startingdate, deadline, sport, target, goaltype}
   };
 }
 
@@ -78,16 +78,16 @@ export function setGoal(oldGoal, newGoal) {
   };
 }
 
-/* TYPE ACTION CREATOR */
-export function changeTypes(types) {
+/* SPORT ACTION CREATOR */
+export function changeSports(sports) {
   return {
-    type: constants.CHANGE_TYPES,
-    payload: types
+    type: constants.CHANGE_SPORTS,
+    payload: sports
   };
 }
 
-export function clearTypes() {
+export function clearSports() {
   return {
-    type: constants.CLEAR_TYPES,
+    type: constants.CLEAR_SPORTS,
   };
 }

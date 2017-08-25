@@ -7,42 +7,88 @@
         },
     "activities":[
         {
-            "name": "Code router",
-            "description": "Le switch dans App n'est pas pour moi une solution optimal",
-            "goal": "Code",
+            "id": "0",
+            "name": "Match avec Theo",
+            "date": "2017-08-30",
+            "description": "Match avec Theo pour travailler le lift",
+            "sport": "Tennis",
+            "activityType": "trainingMatch",
             "status": false,
-            "date": "2017-07-05",
-            "duration": "2"
+            "target": "0",
+            "resultat": ""
         },
         {
-            "name": "Ameliorer l'interface",
-            "description": "Ajouter des animations pour une expériences utilisateurs plus immersive",
-            "goal": "Code",
+            "id": "1",
+            "name": "Gamme avec Antoine",
+            "date": "2017-08-28",
+            "description": "Match avec Theo pour travailler le lift",
+            "sport": "Tennis",
+            "activityType": "gamme",
             "status": true,
-            "date": "2017-07-04",
-            "duration": "2"
+            "target": "0",
+            "resultat": "Bonne sensation en coup droit"
         },
         {
-            "name": "Faire les courses",
-            "description": "J'ai besoin de mozzarella",
-            "goal": "Course",
-            "status": true,
-            "date": "2017-07-05",
-            "duration": "2"
+            "id": "2",
+            "name": "Match contre Theo",
+            "date": "2017-08-29",
+            "description": "Match avec Theo pour travailler le lift",
+            "sport": "Tennis",
+            "activityType": "competition",
+            "status": false,
+            "target": "0",
+            "resultat": ""
+        },
+        {
+            "id": "3",
+            "name": "Running Beaugrennelle",
+            "date": "2017-08-30",
+            "description": "Run à faible allure",
+            "sport": "Running",
+            "activityType": "trainingDistance",
+            "status": false,
+            "target":"10",
+            "resultat": ""
         }
         ],
     "goals": [
         {
-            "type": "Course",
+            "id": "0",
+            "name": "Objectif tennis",
+            "startingdate": "2017-08-01",
+            "deadline": "2017-09-10",
+            "sport": "Tennis",
             "target": "6",
-            "time": "24",
-            "deadline": "2017/07/31"
+            "goaltype": "duration"
         },
         {
-            "type": "Code",
-            "target": "4",
-            "time": "10",
-            "deadline": "2017/07/31"
+            "id": "1",
+            "name": "10 seance de running",
+            "startingdate": "2017-08-01",
+            "deadline": "2017-08-31",
+            "sport": "running",
+            "target": "10",
+            "goaltype": "distance"
+        }
+    ],
+    "sports": [
+        {
+          "id": "0",
+          "name": "Tennis",
+          "activityTypes": [
+            "competition",
+            "trainingMatch",
+            "gamme"
+          ]
+        },
+        {
+          "id": "1",
+          "name": "Cycling",
+          "activityTypes": [
+            "competition",
+            "trainingDuration",
+            "trainingDistance"
+          ]
         }
     ]
 

@@ -187,7 +187,7 @@ class Dashboard extends Component {
               <Header size='small'>
                 <Icon name={this.getGoalProgressIcon(goal)} />
                 <Header.Content>
-                  {goal.type}
+                  {goal.name}
                 </Header.Content>
               </Header>
             </Segment>

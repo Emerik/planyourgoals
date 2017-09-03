@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import { Segment, Grid, Icon, Header, Divider, Popup } from 'semantic-ui-react';
+import { Segment, Grid, Icon, Header, Divider, Popup, Tab } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import CircularProgressbar from 'react-circular-progressbar';
 import moment from 'moment';
@@ -212,6 +212,98 @@ class Dashboard extends Component {
     });
   }
 
+  getActivityDoneByGoal = (goal) => {
+    //TODO calculate Activity done percentage for a goal given
+    return 50;
+  }
+
+  getProgressByGoalType = (goal) => {
+    //TODO return HTML to show progress depend of the goal type (distance, duration, frequency)
+  }
+
+  getSportTime = () => {
+    if( !this.props.activities ) return 0;
+
+    return this.props.activities.reduce( (acc, activity) => {
+      return acc + +activity.duration;
+    }, 0);
+
+  }
+
+  getDistance = () => {
+    if( !this.props.activities ) return 0;
+
+    return this.props.activities.reduce( (acc, activity) => {
+      if( activity.distance != null ) return acc + +activity.distance;
+      else return 0;
+    }, 0);
+
+  }
+
+  /**
+  * This function return HTML for goals
+  **/
+  generateGoalsV2 = (goals) => {
+    if (!goals) return [];
+
+    const htmlGoals =  goals.map( (goal) => {
+      return { menuItem: goal.name, render: () =>
+        <Tab.Pane>
+          <Grid centered columns={3}>
+            <Grid.Row>
+              <Grid.Column textAlign='center'>
+                <Header as='h3'>Date</Header>
+                <p><b>{goal.startingdate+'->'+goal.deadline}</b></p>
+              </Grid.Column>
+              <Grid.Column textAlign='center'>
+                <Header as='h3'>Target</Header>
+                <p><b>{goal.target}</b></p>
+              </Grid.Column>
+              <Grid.Column textAlign='center'>
+                <Header as='h3'>Sport</Header>
+                <p><b>{goal.sport}</b></p>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <div className='CirProgBarSmall'>
+                <CircularProgressbar percentage={this.getActivityDoneByGoal()}/>
+                You achieved {this.getActivityDoneByGoal()}% of your Goal !
+
+                {this.getProgressByGoalType()}
+              </div>
+            </Grid.Row>
+          </Grid>
+        </Tab.Pane> };
+    });
+
+    const generalStats = { menuItem: 'Statistiques', render: () =>
+      <Tab.Pane>
+        <Grid centered columns={2}>
+          <Grid.Row>
+            <Grid.Column textAlign='center'>
+              <Header as='h3'>Temps total</Header>
+              <p><b>{this.getSportTime()+'H'}</b></p>
+            </Grid.Column>
+            <Grid.Column textAlign='center'>
+              <Header as='h3'>Distance total</Header>
+              <p><b>{this.getDistance()+'km'}</b></p>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <div className='CirProgBarSmall'>
+              <CircularProgressbar percentage={75}/>
+            </div>
+          </Grid.Row>
+        </Grid>
+      </Tab.Pane> };
+
+    htmlGoals.unshift(generalStats);
+
+    return htmlGoals;
+  }
+
+
+
   render() {
     return (
       <div className='Dashboard'>
@@ -219,55 +311,7 @@ class Dashboard extends Component {
             Dashboard
         </Header>
         <Segment style={{textAlign:'center'}}>
-          <Grid>
-            <div className="three column row">
-              <div className="column ui">
-                <div style={{width:'70%', display:'inline-block'}}>
-                  <Header> Goals </Header>
-                  <Divider/>
-                  {
-                    this.generateGoals(this.props.goals)
-                  }
-                </div>
-              </div>
-              <div className="column ui">
-                <Header size='medium'>Week</Header>
-                <Divider/>
-                <div className='CirProgBarLarge'>
-                  <CircularProgressbar percentage={this.getActivityDonePercByWeek()}/>
-                </div>
-              </div>
-              <div className="column ui">
-                <Header size='medium'>Goal</Header>
-                <Divider/>
-                <div className='CirProgBarMedium'>
-                  <CircularProgressbar className='CirProgBarMedium' percentage={this.getActivityDoneByTypePerc(this.props.activities, this.state.typeSelected.name)} />
-                </div>
-                <div className='TitleWithIcon'>
-                  <Icon name='arrow left' link fitted onClick={this.previousType}/>
-                  <div className='progressTitle'>
-                    {this.state.typeSelected.name}
-                  </div>
-                  <Icon name='arrow right' link fitted onClick={this.nextType}/>
-                </div>
-              </div>
-            </div>
-            {/*Second ROW*/}
-            <div className="three column row">
-              <div className="column ui">
-              </div>
-              <div className="column ui">
-                <p>
-                  What a journey! Look at all the activities you accomplished this week!
-                </p>
-              </div>
-              <div className="column ui">
-                <p>
-                  <strong>{this.state.typeSelected.name}</strong> activities is on the road to success
-                </p>
-              </div>
-            </div>
-          </Grid>
+          <Tab menu={{ fluid: true, vertical: true, tabular: 'left', secondary:true, pointing:true }} panes={this.generateGoalsV2(this.props.goals)} />
           <Divider/>
           <GoalModal/>
         </Segment>

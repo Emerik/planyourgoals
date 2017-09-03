@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header, Grid, Segment, Icon } from 'semantic-ui-react';
+import { Header, Grid, Segment, Image, Icon } from 'semantic-ui-react';
 import moment from 'moment';
 
 
@@ -53,7 +53,7 @@ class Welcome extends React.Component {
       return (
         <Segment key={index}>
           <Header size='small'>
-            <Icon name='bicycle' />
+            <Image src={'images/'+activity.sport+'.png'} size='mini' />
             <Header.Content>
               {activity.name}
             </Header.Content>
@@ -72,7 +72,7 @@ class Welcome extends React.Component {
       return (
         <Segment key={index}>
           <Header size='small'>
-            <Icon name='bicycle' />
+            <Image src={'images/'+activity.sport+'.png'} size='mini' />
             <Header.Content>
               {activity.name}
             </Header.Content>

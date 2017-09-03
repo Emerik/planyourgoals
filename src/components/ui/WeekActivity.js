@@ -41,8 +41,12 @@ class WeekActivity extends Component {
   }
 
   getActivitiesByDay(dayIndex) {
-    return this.getWeekActivities().filter((activity) => {
+    const dayActivities =  this.getWeekActivities().filter((activity) => {
       return (new Date(activity.date)).getDay() == dayIndex;
+    });
+
+    return dayActivities.sort( (activityA, activityB) => {
+      return +activityA.hour - +activityB.hour;
     });
   }
 

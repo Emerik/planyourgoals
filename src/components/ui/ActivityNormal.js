@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import { Checkbox, Card, Icon } from 'semantic-ui-react';
+import { Checkbox, Card, Icon, Image, Grid } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 /**
@@ -18,6 +18,9 @@ class ActivityNormal extends Component {
         id: this.props.activity.id,
         name: this.props.activity.name,
         date:  this.props.activity.date,
+        hour: this.props.activity.hour,
+        duration: this.props.activity.duration,
+        distance: this.props.activity.distance,
         description:  this.props.activity.description,
         sport:  this.props.activity.sport,
         activityType: this.props.activity.activityType,
@@ -31,6 +34,9 @@ class ActivityNormal extends Component {
         id: this.props.activity.id,
         name: this.props.activity.name,
         date:  this.props.activity.date,
+        hour: this.props.activity.hour,
+        duration: this.props.activity.duration,
+        distance: this.props.activity.distance,
         description:  this.props.activity.description,
         sport:  this.props.activity.sport,
         activityType: this.props.activity.activityType,
@@ -47,6 +53,9 @@ class ActivityNormal extends Component {
       id: this.props.activity.id,
       name: this.props.activity.name,
       date:  this.props.activity.date,
+      hour: this.props.activity.hour,
+      duration: this.props.activity.duration,
+      distance: this.props.activity.distance,
       description:  this.props.activity.description,
       sport:  this.props.activity.sport,
       activityType: this.props.activity.activityType,
@@ -54,19 +63,60 @@ class ActivityNormal extends Component {
     });
   }
 
+  getSportIcon = (sport) => {
+    switch(sport){
+    case 'tennis':
+      return 'images/tennis.png';
+    case 'bicycle':
+      return 'images/bycicle.png';
+    case 'running':
+      return 'images/running.png';
+    case 'swim':
+      return 'images/swim.png';
+    case 'triathlon':
+      return 'images/triathlon.png';
+    default:
+      return '';
+    }
+  }
+
+  displayDistance = (distance) => {
+    if (!distance) return;
+
+    return ( <Grid.Row columns={1}>
+      {this.props.activity.distance+' Km'}
+    </Grid.Row>
+    );
+  }
+
   render() {
     return (
-      <Card className="ActivityNormal">
+      <Card className="ActivityNormal" centered>
         <Card.Content>
-          <Card.Content>
-            <Checkbox label={this.props.activity.name} defaultChecked={this.props.activity.status} onClick={this.handleCheckChange}/>
-          </Card.Content>
-          <Card.Description>
-            {this.props.activity.description}
-          </Card.Description>
+          <Grid centered>
+            <Grid.Row columns={3}>
+              <Grid.Column width={3}>
+                <Image src={this.getSportIcon(this.props.activity.sport)} size='mini' />
+              </Grid.Column>
+              <Grid.Column width={10}>
+                {this.props.activity.name}
+              </Grid.Column>
+              <Grid.Column width={3}>
+                <Checkbox defaultChecked={this.props.activity.status} onClick={this.handleCheckChange}/>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row divided columns={2}>
+              <Grid.Column width={3}>
+                {this.props.activity.hour}H
+              </Grid.Column>
+              <Grid.Column width={13}>
+                {this.props.activity.description}
+              </Grid.Column>
+            </Grid.Row>
+            {this.displayDistance(this.props.activity.distance)}
+          </Grid>
           <Card.Meta>
-            {this.props.activity.sport}
-            <Icon name='delete' size='small' color='red' link onClick={ this.handleDelete}/>
+            <Icon name='delete' size='medium' color='red' link fitted onClick={this.handleDelete}/>
           </Card.Meta>
         </Card.Content>
       </Card>

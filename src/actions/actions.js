@@ -1,17 +1,17 @@
 import constants from '../store/constants';
 
 /* ACTIVITY ACTION CREATOR */
-export function addActivity({id,name, date, description, sport, activityType, status=false, target, resultat}) {
+export function addActivity({id,name, date, hour, duration, distance=null, description, sport, activityType, status=false, resultat}) {
   return {
     type: constants.ADD_ACTIVITY,
-    payload: {id, name, date, description, sport, activityType, status, target, resultat}
+    payload: {id, name, date, hour, duration, distance, description, sport, activityType, status, resultat}
   };
 }
 
-export function removeActivity({id, name, date, description, sport, activityType, status=false, target, resultat}) {
+export function removeActivity({id, name, date, hour, duration, distance=null, description, sport, activityType, status=false, resultat}) {
   return {
     type: constants.REMOVE_ACTIVITY,
-    payload: {id, name, date, description, sport, activityType, status, target, resultat}
+    payload: {id, name, date, hour, duration, distance, description, sport, activityType, status, resultat}
   };
 }
 
@@ -21,17 +21,17 @@ export function clearActivity() {
   };
 }
 
-export function checkActivity({id, name, date, description, sport, activityType, status=false, target, resultat}) {
+export function checkActivity({id, name, date, hour, duration, distance=null, description, sport, activityType, status=false, resultat}) {
   return {
     type: constants.CHECK_ACTIVITY,
-    payload: {id, name, date, description, sport, activityType, status, target, resultat}
+    payload: {id, name, date, hour, duration, distance, description, sport, activityType, status, resultat}
   };
 }
 
-export function uncheckActivity({id, name, date, description, sport, activityType, status=false, target, resultat}) {
+export function uncheckActivity({id, name, date, hour, duration, distance=null, description, sport, activityType, status=false, resultat}) {
   return {
     type: constants.UNCHECK_ACTIVITY,
-    payload: {id, name, date, description, sport, activityType, status, target, resultat}
+    payload: {id, name, date, hour, duration, distance, description, sport, activityType, status, resultat}
   };
 }
 

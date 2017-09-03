@@ -95,11 +95,13 @@ describe('[Activity TEST]', () => {
       'id': '12',
       'name': 'Match contre Federer',
       'date': '2017-08-29',
+      'hour': '9',
+      'duration': '2',
+      'distance':  null,
       'description': 'Match avec Theo pour travailler le lift',
       'sport': 'Tennis',
       'activityType': 'competition',
       'status': false,
-      'target': 0,
       'resultat': ''
     };
 
@@ -126,13 +128,15 @@ describe('[Activity TEST]', () => {
 
     const tempActivity = {
       'id': '12',
-      'name': 'Match contre Theo',
+      'name': 'Match contre Federer',
       'date': '2017-08-29',
+      'hour': '9',
+      'duration': '2',
+      'distance':  null,
       'description': 'Match avec Theo pour travailler le lift',
       'sport': 'Tennis',
       'activityType': 'competition',
       'status': false,
-      'target': 0,
       'resultat': ''
     };
 
@@ -140,11 +144,13 @@ describe('[Activity TEST]', () => {
       'id': '14',
       'name': 'Match contre Theo',
       'date': '2017-08-30',
+      'hour': '12',
+      'duration': '1',
+      'distance': null,
       'description': 'Match avec Theo pour travailler le lift',
       'sport': 'Tennis',
       'activityType': 'competition',
       'status': false,
-      'target': 0,
       'resultat': ''
     };
 
@@ -197,13 +203,15 @@ describe('[Activity TEST]', () => {
 
     const tempActivity = {
       'id': '12',
-      'name': 'Match contre Theo',
+      'name': 'Match contre Federer',
       'date': '2017-08-29',
+      'hour': '9',
+      'duration': '2',
+      'distance':  null,
       'description': 'Match avec Theo pour travailler le lift',
       'sport': 'Tennis',
       'activityType': 'competition',
       'status': false,
-      'target': 0,
       'resultat': ''
     };
 
@@ -236,11 +244,13 @@ describe('[Activity TEST]', () => {
       'id': '12',
       'name': 'Match contre Federer',
       'date': '2017-08-29',
+      'hour': '9',
+      'duration': '2',
+      'distance':  null,
       'description': 'Match avec Theo pour travailler le lift',
       'sport': 'Tennis',
       'activityType': 'competition',
       'status': true,
-      'target': 0,
       'resultat': ''
     };
 

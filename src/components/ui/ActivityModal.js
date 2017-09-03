@@ -10,6 +10,31 @@ const dayOptions = [ { key: '1', value: '1', text: 'Lundi' },
   { key: '4', value: '4', text: 'Jeudi' },
   { key: '5', value: '5', text: 'Vendredi' }];
 
+const hourOptions = [ { key: '1', value: '0', text: '00:00' },
+  { key: '2', value: '1', text: '01:00' },
+  { key: '3', value: '2', text: '02:00' },
+  { key: '4', value: '3', text: '03:00' },
+  { key: '5', value: '4', text: '04:00' },
+  { key: '6', value: '5', text: '05:00' },
+  { key: '7', value: '6', text: '06:00' },
+  { key: '8', value: '7', text: '07:00' },
+  { key: '9', value: '8', text: '08:00' },
+  { key: '10', value: '9', text: '09:00' },
+  { key: '11', value: '10', text: '10:00' },
+  { key: '12', value: '11', text: '11:00' },
+  { key: '13', value: '12', text: '12:00' },
+  { key: '14', value: '13', text: '13:00' },
+  { key: '15', value: '14', text: '14:00' },
+  { key: '16', value: '15', text: '15:00' },
+  { key: '17', value: '16', text: '16:00' },
+  { key: '18', value: '17', text: '17:00' },
+  { key: '19', value: '18', text: '18:00' },
+  { key: '20', value: '19', text: '19:00' },
+  { key: '21', value: '20', text: '20:00' },
+  { key: '22', value: '21', text: '21:00' },
+  { key: '23', value: '22', text: '22:00' },
+  { key: '24', value: '23', text: '23:00' }];
+
 
 class ActivityModal extends React.Component {
 
@@ -21,10 +46,13 @@ class ActivityModal extends React.Component {
       weekDate: this.props.weekDate,
       name: '',
       date: '',
+      hour: '',
+      duration: '',
+      distance: null,
       description: '',
       sport: '',
       activityType: '',
-      target: -1,
+      durationError: false
     };
   }
 
@@ -92,10 +120,9 @@ class ActivityModal extends React.Component {
     this.setState({activityType: data.value});
   }
 
-  handleTargetChange = (e) => {
-    this.setState({target: e.target.value});
+  handleDistanceChange = (e) => {
+    this.setState({distance: e.target.value});
   }
-
 
   handleDayChange = (e, data) => {
 
@@ -103,9 +130,30 @@ class ActivityModal extends React.Component {
     this.setState({date: activityDate});
   }
 
+  handleHourChange = (e, data) => {
+    this.setState({hour: data.value});
+  }
+
+  handleDurationChange = (e) => {
+    this.setState({duration: e.target.value});
+
+    if (e.target.value == parseInt(e.target.value, 10)){
+      this.setState({
+        duration: e.target.value,
+        durationError: false
+      });
+
+    }
+    else {
+      // Color input in red
+      this.setState({durationError: true});
+    }
+  }
+
   handleAdd = () => {
 
-    if( !this.state.name || !this.state.date){
+    if( !this.state.name || !this.state.date
+      || !this.state.sport || !this.state.activityType ){
       console.log('Field must be filled');
       return;
     }
@@ -119,11 +167,13 @@ class ActivityModal extends React.Component {
     return this.props.onAddActivity({
       name: this.state.name,
       date:  dateActivityFormated,
+      hour: this.state.hour,
+      duration: this.state.duration,
+      distance: this.state.distance,
       description:  this.state.description,
       sport:  this.state.sport,
       activityType: this.state.activityType,
       status: false,
-      target: this.state.target,
       resultat:''
     });
   }
@@ -135,6 +185,14 @@ class ActivityModal extends React.Component {
 
   getDateActivityFormated(laDate) {
     return laDate.year()+'-'+(laDate.month()+1)+'-'+laDate.date();
+  }
+
+  displayDistance = (activityType) => {
+    if ( activityType == 'trainingDistance' ) {
+      return ( <Input className='inputModal' fluid placeholder='distance' label={{ basic: true, content: 'Distance' }}
+        labelPosition='left' value={this.state.distance} onChange={this.handleDistanceChange}/>
+      );
+    }
   }
 
   render (){
@@ -158,12 +216,17 @@ class ActivityModal extends React.Component {
 
             <Dropdown className='inputModal' placeholder='Select Sport Type'
               fluid search selection options={this.getTypeOptions()} onChange={this.handleTypeChange}/>
-
-            <Input className='inputModal' fluid placeholder='objectif' label={{ basic: true, content: 'Objectif' }}
-              labelPosition='left' value={this.state.target} onChange={this.handleTargetChange}/>
-
+            {
+              this.displayDistance(this.state.activityType)
+            }
             <Dropdown className='inputModal' placeholder='Select Day'
               fluid search selection options={dayOptions} onChange={this.handleDayChange}/>
+
+            <Dropdown className='inputModal' placeholder='Select Hour'
+              fluid search selection options={hourOptions} onChange={this.handleHourChange}/>
+
+            <Input className='inputModal' fluid placeholder='Duration' error={this.state.durationError} label={{ basic: true, content: 'Durée' }}
+              labelPosition='left' value={this.state.duration} onChange={this.handleDurationChange}/>
           </div>
           <Modal.Actions>
             <Button basic color='red' onClick={this.closeModal}>

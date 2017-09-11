@@ -91,3 +91,17 @@ export function clearSports() {
     type: constants.CLEAR_SPORTS,
   };
 }
+
+/* GOALTYPE ACTION CREATOR */
+export function fetchGoaltype(goaltypes) {
+  return {
+    type: constants.FETCH_GOALTYPE,
+    payload: goaltypes
+  };
+}
+
+export function clearGoaltype() {
+  return {
+    type: constants.CLEAR_GOALTYPE,
+  };
+}

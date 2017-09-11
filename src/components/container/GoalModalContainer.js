@@ -4,7 +4,8 @@ import { addGoal } from '../../actions/actions';
 
 const mapStateToProps = (state) => {
   return {
-    sports: state.sports
+    sports: state.sports,
+    goaltypes: state.goaltypes
   };
 };
 

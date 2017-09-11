@@ -18,7 +18,10 @@ class WeekActivity extends Component {
   }
 
   getMonday() {
-    return moment().day('Monday');
+    if(moment().format('e') != 0) return moment().day('Monday');
+
+    // If it's Sunday
+    return moment().day(0 - 6); // Get Last Monday
   }
 
   getWeekActivities() {

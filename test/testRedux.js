@@ -475,3 +475,57 @@ describe('[Sport TEST]', () => {
 
 
 });
+
+// Test on GoalType
+describe('[Goaltype TEST]', () => {
+  beforeEach(() => {
+    store = storeFactory(initialState);
+  });
+
+
+  /* Change the sports in the goaltypes*/
+  it('it should have change the goaltypes', () => {
+
+    const tempGoaltype = [
+      'Normal',
+      'Code'
+    ];
+
+    const expectedAction = {
+      type: constants.FETCH_GOALTYPE,
+      payload: tempGoaltype
+    };
+
+    const testAction = Actions.fetchGoaltype(tempGoaltype);
+
+    expect(testAction).to.deep.equal(expectedAction);
+
+    store.dispatch(testAction);
+
+    const nextState = store.getState();
+
+    expect(nextState.goaltypes).to.deep.equal(tempGoaltype);
+  });
+
+  /* Clear the goaltypes in the store*/
+  it('it should have clear the goaltypes', () => {
+
+    const expectedAction = {
+      type: constants.CLEAR_GOALTYPE,
+    };
+
+    const testAction = Actions.clearGoaltype();
+
+    expect(testAction).to.deep.equal(expectedAction);
+
+
+    // Remove the types from the store
+    store.dispatch(testAction);
+    let nextState = store.getState();
+
+    expect(nextState.goaltypes).to.deep.equal([]);
+
+  });
+
+
+});

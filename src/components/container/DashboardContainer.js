@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 const mapStateToProps = state => {
   return {
     activities: state.activities,
-    goals: state.goals
+    goals: state.goals,
+    goaltypes: state.goaltypes
   };
 };
 

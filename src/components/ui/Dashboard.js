@@ -1,9 +1,10 @@
 import React,{ Component } from 'react';
-import { Segment, Grid, Icon, Header, Divider, Popup, Tab } from 'semantic-ui-react';
+import { Segment, Grid, Header, Divider, Tab, Label, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import CircularProgressbar from 'react-circular-progressbar';
 import moment from 'moment';
 import GoalModal from '../container/GoalModalContainer';
+import PieChart from 'react-svg-piechart';
 
 /**
 * Dashboard with metrics and stats
@@ -18,11 +19,18 @@ class Dashboard extends Component {
         name: (this.props.goals &&  this.props.goals.length != 0) ? this.props.goals[0].type : '',
         index: 0
       },
+      expandedSector: null
     };
+
+    this.handleMouseEnterOnSector = this.handleMouseEnterOnSector.bind(this);
+  }
+
+  handleMouseEnterOnSector(sector) {
+    this.setState({expandedSector: sector});
   }
 
   /*
-  * This function return the number of activites done
+  * [Unused] This function return the number of activites done
   */
   getActivityDonePerc() {
 
@@ -37,7 +45,7 @@ class Dashboard extends Component {
   }
 
   /*
-  * This function return the number of activities done
+  * [Unused] This function return the number of activities done
   */
   getActivityDonePercByWeek() {
     // If activities is empty
@@ -65,84 +73,31 @@ class Dashboard extends Component {
     return Math.round(nbDone*100/weekActivity.length);
   }
 
-
-  /*
-  * This function return the percentage of activities done by the type selected
+  /**
+  * This function returns if an activity belongs to a goal depending on his date
   */
-  getActivityDoneByTypePerc(activities, goal) {
+  isWithinGoal = (activity, goal) => {
+    if( !activity || !goal ) return 0;
 
-    const activityDone = this.getActivityDoneByType(activities, goal);
+    const activityDate = moment(activity.date);
+    const goalStartDate = moment(goal.startingdate);
+    const goalDeadline = moment(goal.deadline);
 
-    const activityNumber = this.getActivityNumberByType(activities, goal);
+    if(
+      ( activityDate.isAfter(goalStartDate, 'day') && activityDate.isBefore(goalDeadline, 'day') )
+      ||
+      (activityDate.isSame(goalStartDate, 'day') )
+      ||
+      (activityDate.isSame(goalDeadline, 'day') )
+    ){
+      return true;
+    }
 
-    if(activityNumber === 0) return 0;
-
-    return Math.round(activityDone*100/activityNumber);
-  }
-
-  /*
-  * This function return the number of activities completed by type
-  */
-  getActivityDoneByType(activities, goal) {
-    if( !activities || !goal) return 0;
-    return activities.reduce((nbDone, activity) => {
-      if(activity.goal == goal && activity.status == true) return nbDone + 1;
-      return nbDone;
-    }, 0);
-  }
-
-  /*
-  * This function return the number of activities by the type
-  */
-  getActivityNumberByType(activities, goal){
-    if(!activities) return 0;
-
-    return activities.reduce((nbr, activity) => {
-      if(activity.goal == goal) return nbr + 1;
-      return nbr;
-    }, 0);
-  }
-
-  /*
-  * This function change the type selected (decrement)
-  */
-  previousType = () => {
-
-    if(!this.props.goals || this.props.goals.length == 0) return;
-
-    const indexPrevious = this.state.typeSelected.index == 0 ?
-      (this.props.goals.length-1)
-      : this.state.typeSelected.index-1;
-
-    this.setState({
-      typeSelected: {
-        name: this.props.goals[indexPrevious].type,
-        index: indexPrevious
-      }
-    });
-  }
-
-  /*
-  * This function change the type selected (increment)
-  */
-  nextType = () => {
-
-    if(!this.props.goals || this.props.goals.length == 0) return;
-
-    const indexNext = this.state.typeSelected.index == (this.props.goals.length-1)  ?
-      0
-      : this.state.typeSelected.index+1;
-
-    this.setState({
-      typeSelected: {
-        name: this.props.goals[indexNext].type,
-        index: indexNext
-      }
-    });
+    return false;
   }
 
   /**
-  * This function return the color for goal depending on deadline
+  * [Unused] This function return the color for goal depending on deadline
   **/
   getGoalColor = (deadline) => {
     if(moment().unix() > moment(deadline, 'YYYY-MM-DD').unix()){
@@ -157,7 +112,7 @@ class Dashboard extends Component {
   }
 
   /**
-  * This function return the icon to set for a goal according to his progress
+  * [Unused] This function return the icon to set for a goal according to his progress
   **/
   getGoalProgressIcon = (goal) => {
     const activityDone = this.getActivityDoneByType(this.props.activities, goal.type);
@@ -174,53 +129,57 @@ class Dashboard extends Component {
   }
 
   /**
-  * This function retrun HTML for goals
-  **/
-  generateGoals = (goals) => {
-    if(!goals) return;
+  * This function return the activities done which match the goal in parameters
+  */
+  getActivityDoneByGoal = (goal) => {
+    if(!this.props.activities) return null;
 
-    return goals.map( (goal, index) => {
-      return (
-        <Popup key={index}
-          trigger={
-            <Segment  color={this.getGoalColor(goal.deadline)}>
-              <Header size='small'>
-                <Icon name={this.getGoalProgressIcon(goal)} />
-                <Header.Content>
-                  {goal.name}
-                </Header.Content>
-              </Header>
-            </Segment>
-          }
-          hoverable
-          position='right center'
-          inverted
-          flowing
-        >
-          <Grid centered columns={2}>
-            <Grid.Column textAlign='center'>
-              <Header as='h3'>Deadline</Header>
-              <p><b>{goal.deadline}</b></p>
-            </Grid.Column>
-            <Grid.Column textAlign='center'>
-              <Header as='h3'>Target</Header>
-              <p><b>{goal.target}</b></p>
-            </Grid.Column>
-          </Grid>
-        </Popup>
-      );
+    return this.props.activities.filter( (activity) => {
+      if(( activity.activityType == 'distance' && goal.goaltype == 1 && activity.sport == goal.sport)
+      ||
+      (activity.activityType == 'duration' && goal.goaltype == 0 && activity.sport == goal.sport)
+      ||
+      (goal.goaltype != 0 && goal.goaltype != 1 && activity.sport == goal.sport)
+      &&
+      (this.isWithinGoal(activity, goal))
+      ){
+        return true;
+      }
     });
   }
 
-  getActivityDoneByGoal = (goal) => {
-    //TODO calculate Activity done percentage for a goal given
-    return 50;
-  }
-
+  /**
+  * This function return the progress of goal depends of activities done
+  */
   getProgressByGoalType = (goal) => {
-    //TODO return HTML to show progress depend of the goal type (distance, duration, frequency)
+
+    if(!goal || goal === null) return 0;
+
+    const activitiesDone = this.getActivityDoneByGoal(goal);
+
+    if(!activitiesDone || activitiesDone === null) return 0;
+    switch(goal.goaltype){
+    case 0: // Duration
+      return Math.round(activitiesDone.reduce((acc, activity) => {
+        if(activity.duration === null) return 0;
+        return acc+(+activity.duration);
+      },0)
+      /goal.target*100);
+    case 1: // Distance
+      return Math.round( activitiesDone.reduce((acc, activity) => {
+        if(activity.distance === null) return 0;
+        return acc+(+activity.distance);
+      },0)
+      /goal.target*100);
+    default:
+      console.log('default');
+      return Math.round(activitiesDone.length/goal.target*100);
+    }
   }
 
+  /**
+  * This function return the total sport time of all activities
+  */
   getSportTime = () => {
     if( !this.props.activities ) return 0;
 
@@ -230,6 +189,9 @@ class Dashboard extends Component {
 
   }
 
+  /**
+  * This function return the total distance covered by all activites
+  */
   getDistance = () => {
     if( !this.props.activities ) return 0;
 
@@ -237,6 +199,45 @@ class Dashboard extends Component {
       if( activity.distance != null ) return acc + +activity.distance;
       else return 0;
     }, 0);
+
+  }
+
+  /**
+  * This function return sport data from activities for general stats
+  */
+  getSportData = () =>{
+
+    const colorArray = [ 'teal', 'orange',  'green', 'yellow', 'teal', 'blue','red'];
+
+    // We get sports from activities
+    let sportArray = this.props.activities.map((activity) => {
+      return activity.sport;
+    });
+
+    // We filter to get only distinct values
+    sportArray = sportArray.filter( (value, index, array) => {
+      return array.indexOf(value) === index;
+    }
+    );
+
+    //  We count occurence
+    sportArray = sportArray.map( (sportActivity) => {
+      return {
+        name: sportActivity,
+        occ: this.props.activities.reduce( (acc, activity) => {
+          if(sportActivity == activity.sport) return acc+1;
+          else return acc;
+        }, 0)
+      };
+    });
+
+    // We return an array
+    return sportArray.map( (sport, index) => {
+      return {
+        label: sport.name,
+        value: sport.occ,
+        color: colorArray[index]};
+    });
 
   }
 
@@ -249,36 +250,42 @@ class Dashboard extends Component {
     const htmlGoals =  goals.map( (goal) => {
       return { menuItem: goal.name, render: () =>
         <Tab.Pane>
-          <Grid centered columns={3}>
+          <Grid centered columns={4}>
             <Grid.Row>
               <Grid.Column textAlign='center'>
                 <Header as='h3'>Date</Header>
-                <p><b>{goal.startingdate+'->'+goal.deadline}</b></p>
+                <p><b>{'['+goal.startingdate+'] -> ['+goal.deadline+']'}</b></p>
               </Grid.Column>
               <Grid.Column textAlign='center'>
-                <Header as='h3'>Target</Header>
+                <Header as='h3'>Objectif</Header>
                 <p><b>{goal.target}</b></p>
               </Grid.Column>
               <Grid.Column textAlign='center'>
                 <Header as='h3'>Sport</Header>
                 <p><b>{goal.sport}</b></p>
               </Grid.Column>
+              <Grid.Column textAlign='center'>
+                <Header as='h3'>Type</Header>
+                <p><b>{this.getLabelGoaltype(+goal.goaltype)}</b></p>
+              </Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <div className='CirProgBarSmall'>
-                <CircularProgressbar percentage={this.getActivityDoneByGoal()}/>
-                You achieved {this.getActivityDoneByGoal()}% of your Goal !
+                <CircularProgressbar percentage={this.getProgressByGoalType(goal)}/>
+                You achieved {this.getProgressByGoalType(goal)}% of your Goal !
 
-                {this.getProgressByGoalType()}
               </div>
             </Grid.Row>
           </Grid>
         </Tab.Pane> };
     });
 
+
+    const data = this.getSportData();
+
     const generalStats = { menuItem: 'Statistiques', render: () =>
       <Tab.Pane>
-        <Grid centered columns={2}>
+        <Grid centered columns={2} padded>
           <Grid.Row>
             <Grid.Column textAlign='center'>
               <Header as='h3'>Temps total</Header>
@@ -290,9 +297,35 @@ class Dashboard extends Component {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <div className='CirProgBarSmall'>
-              <CircularProgressbar percentage={75}/>
-            </div>
+            <Grid.Column>
+              <div>
+                <PieChart
+                  className='pieChartDashboard'
+                  data={ data }
+                  expandedSector={this.state.expandedSector}
+                  onSectorHover={this.handleMouseEnterOnSector}
+                  sectorStrokeWidth={2}
+                  expandOnHover
+                  shrinkOnTouchEnd
+                />
+              </div>
+            </Grid.Column>
+            <Grid.Column >
+              <div>
+                {
+                  data.map((element, i) => (
+                    <div key={i} style={{margin:'5%'}}>
+                      <Label size='large' color={element.color} horizontal>
+                        {
+                          this.state.expandedSector === i ? (<Icon name='selected radio'/>) : ''
+                        }
+                        {element.label} : {element.value}
+                      </Label>
+                    </div>
+                  ))
+                }
+              </div>
+            </Grid.Column>
           </Grid.Row>
         </Grid>
       </Tab.Pane> };
@@ -302,7 +335,17 @@ class Dashboard extends Component {
     return htmlGoals;
   }
 
+  /**
+  * This function return the label of an goaltype from its ID
+  */
+  getLabelGoaltype(idGoalType){
 
+    const goaltype =  this.props.goaltypes.find((goaltype) => {
+      if(goaltype.id == idGoalType) return goaltype;
+    });
+
+    return goaltype.name;
+  }
 
   render() {
     return (
@@ -323,7 +366,8 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   activities: PropTypes.array,
-  goals: PropTypes.array
+  goals: PropTypes.array,
+  goaltypes: PropTypes.array
 };
 
 export default Dashboard;

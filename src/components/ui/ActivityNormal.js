@@ -67,12 +67,12 @@ class ActivityNormal extends Component {
     switch(sport){
     case 'tennis':
       return 'images/tennis.png';
-    case 'bicycle':
-      return 'images/bycicle.png';
+    case 'cycling':
+      return 'images/cycling.png';
     case 'running':
       return 'images/running.png';
-    case 'swim':
-      return 'images/swim.png';
+    case 'swimming':
+      return 'images/swimming.png';
     case 'triathlon':
       return 'images/triathlon.png';
     default:

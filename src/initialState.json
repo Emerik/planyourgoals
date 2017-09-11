@@ -1,103 +1,150 @@
 {
-    "user":
-        {
-            "email": "emerik@federemerik.fr",
-            "pseudo": "Emerik",
-            "token": "2016-12-7"
-        },
-    "activities":[
-        {
-            "id": "0",
-            "name": "Match avec Theo",
-            "date": "2017-08-30",
-            "hour": "10",
-            "duration": "2",
-            "distance": null,
-            "description": "Match avec Theo pour travailler le lift",
-            "sport": "tennis",
-            "activityType": "trainingMatch",
-            "status": false,
-            "resultat": ""
-        },
-        {
-            "id": "1",
-            "name": "Gamme avec Antoine",
-            "date": "2017-08-28",
-            "hour": "10",
-            "duration": "2",
-            "distance": null,
-            "description": "Match avec Theo pour travailler le lift",
-            "sport": "tennis",
-            "activityType": "gamme",
-            "status": true,
-            "resultat": "Bonne sensation en coup droit"
-        },
-        {
-            "id": "2",
-            "name": "Match contre Theo",
-            "date": "2017-08-29",
-            "hour": "19",
-            "duration": "2",
-            "distance": null,
-            "description": "Match avec Theo pour travailler le lift",
-            "sport": "tennis",
-            "activityType": "competition",
-            "status": false,
-            "resultat": ""
-        },
-        {
-            "id": "3",
-            "name": "Running Beaugrennelle",
-            "date": "2017-08-30",
-            "hour": "8",
-            "duration": "1",
-            "distance": "10",
-            "description": "Run à faible allure",
-            "sport": "running",
-            "activityType": "trainingDistance",
-            "status": false,
-            "resultat": ""
-        }
-        ],
-    "goals": [
-        {
-            "id": "0",
-            "name": "Objectif tennis",
-            "startingdate": "2017-08-01",
-            "deadline": "2017-09-10",
-            "sport": "Tennis",
-            "target": "6",
-            "goaltype": "duration"
-        },
-        {
-            "id": "1",
-            "name": "10 seance de running",
-            "startingdate": "2017-08-01",
-            "deadline": "2017-08-31",
-            "sport": "running",
-            "target": "10",
-            "goaltype": "distance"
-        }
-    ],
-    "sports": [
-        {
-          "id": "0",
-          "name": "Tennis",
-          "activityTypes": [
-            "competition",
-            "trainingMatch",
-            "gamme"
-          ]
-        },
-        {
-          "id": "1",
-          "name": "Cycling",
-          "activityTypes": [
-            "competition",
-            "trainingDuration",
-            "trainingDistance"
-          ]
-        }
-    ]
-
+  "user": {
+    "email": "emerik@federemerik.fr",
+    "pseudo": "Emerik",
+    "token": "2016-12-7"
+  },
+  "activities": [{
+      "id": "0",
+      "name": "Match avec Theo",
+      "date": "2017-08-30",
+      "hour": "10",
+      "duration": "2",
+      "distance": null,
+      "description": "Match avec Theo pour travailler le lift",
+      "sport": "tennis",
+      "activityType": "trainingMatch",
+      "status": false,
+      "resultat": ""
+    },
+    {
+      "id": "1",
+      "name": "Gamme avec Antoine",
+      "date": "2017-08-28",
+      "hour": "10",
+      "duration": "2",
+      "distance": null,
+      "description": "Match avec Theo pour travailler le lift",
+      "sport": "tennis",
+      "activityType": "gamme",
+      "status": true,
+      "resultat": "Bonne sensation en coup droit"
+    },
+    {
+      "id": "2",
+      "name": "Match contre Theo",
+      "date": "2017-09-12",
+      "hour": "19",
+      "duration": "2",
+      "distance": null,
+      "description": "Match avec Theo pour travailler le lift",
+      "sport": "tennis",
+      "activityType": "competition",
+      "status": false,
+      "resultat": ""
+    },
+    {
+      "id": "3",
+      "name": "Running Beaugrennelle",
+      "date": "2017-08-30",
+      "hour": "8",
+      "duration": "1",
+      "distance": "10",
+      "description": "Run à faible allure",
+      "sport": "running",
+      "activityType": "distance",
+      "status": false,
+      "resultat": ""
+    },
+    {
+      "id": "4",
+      "name": "Swim session Beaugrennelle",
+      "date": "2017-09-04",
+      "hour": "8",
+      "duration": "1",
+      "distance": "12",
+      "description": "Swim à faible allure",
+      "sport": "swimming",
+      "activityType": "distance",
+      "status": false,
+      "resultat": ""
+    }
+  ],
+  "goals": [{
+      "id": "0",
+      "name": "Objectif tennis",
+      "startingdate": "2017-08-01",
+      "deadline": "2017-09-10",
+      "sport": "tennis",
+      "target": "6",
+      "goaltype": 2
+    },
+    {
+      "id": "1",
+      "name": "10 km ",
+      "startingdate": "2017-08-01",
+      "deadline": "2017-08-31",
+      "sport": "running",
+      "target": "12",
+      "goaltype": 1
+    }
+  ],
+  "sports": [{
+      "id": "0",
+      "name": "tennis",
+      "activityTypes": [
+        "competition",
+        "trainingMatch",
+        "gamme"
+      ]
+    },
+    {
+      "id": "1",
+      "name": "cycling",
+      "activityTypes": [
+        "competition",
+        "duration",
+        "distance"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "running",
+      "activityTypes": [
+        "competition",
+        "duration",
+        "distance"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "swimming",
+      "activityTypes": [
+        "competition",
+        "duration",
+        "distance"
+      ]
+    },
+    {
+      "id": "4",
+      "name": "triathlon",
+      "activityTypes": [
+        "competition"
+      ]
+    }
+  ],
+  "goaltypes": [
+    {
+      "id": 0,
+      "name": "duration"
+    },
+    {
+      "id": 1,
+      "name":"distance"
+    },
+    {
+      "id": 2,
+      "name": "number"
+    }
+  ]
 }

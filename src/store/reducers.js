@@ -111,6 +111,19 @@ export const sports = (state=false, action) => {
   }
 };
 
+/* GOAL TYPE */
+export const goaltypes = (state=false, action) => {
+
+  switch (action.type) {
+  case constants.CLEAR_GOALTYPE:
+    return [];
+  case constants.FETCH_GOALTYPE:
+    return action.payload;
+  default:
+    return state;
+  }
+};
+
 
 
 //We combine our reducers in the same shape of our initial state
@@ -118,5 +131,6 @@ export default combineReducers({
   activities,
   user,
   goals,
-  sports
+  sports,
+  goaltypes
 });

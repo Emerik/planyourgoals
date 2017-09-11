@@ -1,24 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Modal, Input, Icon, Segment, Label, Dropdown } from 'semantic-ui-react';
+import { Button, Modal, Input, Icon, Dropdown } from 'semantic-ui-react';
 import moment from 'moment';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
-// TODO replace with real data (fetch or from store)
-const goalType = [
-  { key: 0,
-    value: 'temps',
-    text: 'temps'
-  },
-  { key: 1,
-    value: 'distance',
-    text: 'distance'
-  },
-  { key: 2,
-    value: 'fréquence',
-    text: 'fréquence'
-  }];
 
 class GoalModal extends React.Component {
 
@@ -31,7 +17,7 @@ class GoalModal extends React.Component {
       deadline: moment(),
       sport: '',
       name: '',
-      goalType: '',
+      goaltype: '',
       target: 0,
       targetError: false
     };
@@ -62,8 +48,18 @@ class GoalModal extends React.Component {
   }
 
   getTypeOptions = () => {
+    if(this.props.goaltypes){
+      return this.props.goaltypes.map( (type, index) => {
+        return (
+          { key: index,
+            value: type.id,
+            text: type.name
+          }
+        );
+      });
+    }
 
-    return goalType; // TODO put goal types into store or fetch from server
+    return [];
   }
 
   handleNameChange = (e) => {
@@ -100,7 +96,7 @@ class GoalModal extends React.Component {
   }
 
   handleTypeChange = (e, data) => {
-    this.setState({goalType: data.value});
+    this.setState({goaltype: data.value});
   }
 
   handleAdd = () => {
@@ -123,7 +119,7 @@ class GoalModal extends React.Component {
       deadline: deadlineFormated,
       sport: this.state.sport,
       name: this.state.name,
-      goalType: this.state.goalType,
+      goaltype: this.state.goaltype,
       target: this.state.target,
     });
 
@@ -178,6 +174,7 @@ class GoalModal extends React.Component {
 
 GoalModal.propTypes = {
   sports: PropTypes.array,
+  goaltypes: PropTypes.array,
   onAddGoal: PropTypes.func
 };
 

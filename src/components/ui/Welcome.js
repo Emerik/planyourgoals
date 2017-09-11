@@ -21,7 +21,10 @@ class Welcome extends React.Component {
 
 
   getMonday() {
-    return moment().day('Monday');
+    if(moment().format('e') != 0) return moment().day('Monday');
+
+    // If it's Sunday
+    return moment().day(0 - 6); // Get Last Monday
   }
 
   getWeekActivity = () => {
@@ -87,24 +90,24 @@ class Welcome extends React.Component {
     if( !this.props.goals || this.props.goals.length == 0 ) return null;
 
     const mondayDate = this.getMonday();
-    const endWeek = moment().add(6,'d');
+    const endWeek = this.getMonday().add(6,'d');
 
     const weekGoals = this.props.goals.filter( (goal) => {
       const goalStartDate = moment(goal.startingdate, 'YYYY-MM-DD');
       const goalEndDate = moment(goal.deadline, 'YYYY-MM-DD');
+
       if(
         ( goalStartDate.isBefore(mondayDate, 'day') && goalEndDate.isAfter(mondayDate, 'day') )
         ||
-        (goalStartDate.isSame(mondayDate, 'day') || goalEndDate.isSame(mondayDate, 'day'))
-        ||
         ( goalStartDate.isAfter(mondayDate, 'day') && goalStartDate.isBefore(endWeek, 'day') )
+        ||
+        (goalStartDate.isSame(mondayDate, 'day') || goalEndDate.isSame(endWeek, 'day'))
+
       ){
         return true;
       }
     });
 
-
-    console.log(weekGoals);
 
     return weekGoals.map( (goal, index) => {
       return (

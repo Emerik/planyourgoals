@@ -2,6 +2,13 @@ import GoalModal from '../ui/GoalModal';
 import { connect } from 'react-redux';
 import { addGoal } from '../../actions/actions';
 
+const mapStateToProps = (state) => {
+  return {
+    sports: state.sports,
+    goaltypes: state.goaltypes
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onAddGoal(goal){
@@ -10,4 +17,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect (null, mapDispatchToProps) (GoalModal);
+export default connect (mapStateToProps, mapDispatchToProps) (GoalModal);

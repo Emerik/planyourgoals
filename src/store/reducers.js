@@ -10,7 +10,7 @@ export const activities = (state = [], action) => {
     if(state === null) return [action.payload];
 
     const hasActivity = state.some(aActivity => {
-      return (aActivity.date === action.payload.date && aActivity.name === action.payload.name) ;
+      return (aActivity.id === action.payload.id ) ;
     });
 
     return (hasActivity) ?
@@ -22,23 +22,30 @@ export const activities = (state = [], action) => {
   }
   case constants.REMOVE_ACTIVITY:
     return state.filter(aActivity => {
-      if(aActivity.date !== action.payload.date || aActivity.name !== action.payload.name) return true;
+      if(aActivity.id !== action.payload.id) return true;
     });
   case constants.CLEAR_ACTIVITY:
     return [];
   case constants.CHECK_ACTIVITY:
     return state.map(aActivity => {
-      if(aActivity.date === action.payload.date && aActivity.name === action.payload.name){
+      if(aActivity.id == action.payload.id){
         aActivity.status = true;
       }
       return aActivity;
     });
   case constants.UNCHECK_ACTIVITY:
     return state.map(aActivity => {
-      if(aActivity.date === action.payload.date && aActivity.name === action.payload.name){
+      if(aActivity.id == action.payload.id){
         aActivity.status = false;
       }
       return aActivity;
+    });
+  case constants.MOD_ACTIVITY:
+    return state.map( activity => {
+      if(activity.id == action.payload.id){
+        return action.payload;
+      }
+      return activity;
     });
   default:
     return state;
@@ -68,7 +75,7 @@ export const goals = (state = [], action) => {
     if(state === null) return [action.payload];
 
     const hasGoal = state.some(aGoal => {
-      return (aGoal.type === action.payload.type && aGoal.deadline === action.payload.deadline) ;
+      return (aGoal === action.payload) ;
     });
 
     return (hasGoal) ?
@@ -80,7 +87,7 @@ export const goals = (state = [], action) => {
   }
   case constants.REMOVE_GOAL:
     return state.filter(aGoal => {
-      if(aGoal.type === action.payload.type && aGoal.deadline === action.payload.deadline) return false;
+      if(aGoal.id === action.payload.id) return false;
 
       return true;
     });
@@ -88,7 +95,7 @@ export const goals = (state = [], action) => {
     return [];
   case constants.SET_GOAL:
     return state.map(aGoal => {
-      if(aGoal.type === action.payload.type && aGoal.deadline === action.payload.deadline){
+      if(aGoal.id === action.payload.id){
         return action.newgoal;
       }
       return aGoal;
@@ -98,13 +105,26 @@ export const goals = (state = [], action) => {
   }
 };
 
-/* TYPES DEPRECATED */
-export const types = (state=false, action) => {
+/* SPORTS */
+export const sports = (state=false, action) => {
 
   switch (action.type) {
-  case constants.CLEAR_TYPES:
+  case constants.CLEAR_SPORTS:
     return [];
-  case constants.CHANGE_TYPES:
+  case constants.CHANGE_SPORTS:
+    return action.payload;
+  default:
+    return state;
+  }
+};
+
+/* GOAL TYPE */
+export const goaltypes = (state=false, action) => {
+
+  switch (action.type) {
+  case constants.CLEAR_GOALTYPE:
+    return [];
+  case constants.FETCH_GOALTYPE:
     return action.payload;
   default:
     return state;
@@ -118,5 +138,6 @@ export default combineReducers({
   activities,
   user,
   goals,
-  types
+  sports,
+  goaltypes
 });

@@ -13,12 +13,17 @@ import Dashboard from '../src/components/ui/Dashboard';
 /* ACTIVITY NORMAL */
 describe('[ActivityNormal TEST]', () => {
   var testActivty = {
-    'name': 'l\'activity test',
-    'description': 'je suis une activity pour le test, check moi si t\'es cap',
-    'goal': 'Test',
-    'date': '01/01/2017',
+    'id': '12',
+    'name': 'Match contre Federer',
+    'date': '2017-08-29',
+    'hour': '9',
     'duration': '2',
-    'status': false
+    'distance':  null,
+    'description': 'Match avec Theo pour travailler le lift',
+    'sport': 'Tennis',
+    'activityType': 'competition',
+    'status': false,
+    'resultat': ''
   };
 
   beforeEach(() => {
@@ -30,11 +35,10 @@ describe('[ActivityNormal TEST]', () => {
     expect(wrapper.find('Card')).to.have.length(1);
   });
 
-  it('it should have shallow rend an ActivityNormal Checkbox comp', () => {
-    const wrapper = shallow(<ActivityNormal activity={testActivty}/>);
+  it('it should have render an ActivityNormal Checkbox comp', () => {
+    const wrapper = mount(<ActivityNormal activity={testActivty}/>);
     expect(wrapper.find('Checkbox')).to.have.length(1);
 
-    expect(wrapper.find('Checkbox').props().label).to.equal(testActivty.name);
   });
 
   it('it should have shallow render an ActivityNormal comp', () => {
@@ -145,7 +149,7 @@ describe('[WeekActivity TEST]', () => {
 
     expect(wrapper.find('Grid')).to.have.length(1);
 
-    expect(wrapper.find('ActivityList')).to.have.length(5);
+    expect(wrapper.find('ActivityList')).to.have.length(7);
   });
 
   it('it should have shallow render a WeekActivity comp with activities', () => {
@@ -179,7 +183,7 @@ describe('[WeekActivity TEST]', () => {
 
     expect(wrapper.find('Grid')).to.have.length(1);
 
-    expect(wrapper.find('ActivityList')).to.have.length(5);
+    expect(wrapper.find('ActivityList')).to.have.length(7);
 
   });
 
@@ -288,26 +292,39 @@ describe('[Dashboard TEST]', () => {
   });
 
   it('it should have shallow render Dashboard Headers comp', () => {
+
+    const tempGoals = [
+      {
+        'id': '0',
+        'name': 'Objectif tennis',
+        'startingdate': '2017-08-01',
+        'deadline': '2017-09-10',
+        'sport': 'Tennis',
+        'target': '6',
+        'goaltype': 'duration'
+      },
+      {
+        'id': '1',
+        'name': '10 seance de running',
+        'startingdate': '2017-08-01',
+        'deadline': '2017-08-31',
+        'sport': 'running',
+        'target': '10',
+        'goaltype': 'distance'
+      }
+    ];
+
+
     const wrapper = shallow( <Dashboard
-      goals={['Sport']}
+      goals={tempGoals}
       activities={[]}
     /> );
 
-    expect(wrapper.find('Header')).to.have.length(6);
+    expect(wrapper.find('Tab')).to.have.length(1);
 
   });
 
-  it('it should have change the Goal index selected', () => {
-    const wrapper = shallow( <Dashboard
-      goals={['Sport', 'Test']}
-      activities={[]}
-    /> );
 
-    wrapper.find('.TitleWithIcon').find('Icon').at(1).simulate('click');
-
-    expect(wrapper.state('typeSelected').index).to.equal(1);
-
-  });
 
 
   // TODO more test on dashboard utility function AND nested comp

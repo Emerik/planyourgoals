@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Modal, Input, Icon, Segment, Label } from 'semantic-ui-react';
+import { Button, Modal, Input, Icon, Dropdown } from 'semantic-ui-react';
 import moment from 'moment';
-import { SingleDatePicker } from 'react-dates';
+import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
-
 
 
 class GoalModal extends React.Component {
@@ -14,8 +13,11 @@ class GoalModal extends React.Component {
     super(props);
     this.state = {
       open: false,
-      type: 'Sport',
+      startingdate: moment(),
       deadline: moment(),
+      sport: '',
+      name: '',
+      goaltype: '',
       target: 0,
       targetError: false
     };
@@ -30,8 +32,38 @@ class GoalModal extends React.Component {
   }
 
 
-  handleTypeChange = (e) => {
-    this.setState({type: e.target.value});
+  getSportOptions = () => {
+    if(this.props.sports){
+      return this.props.sports.map( (sport, index) => {
+        return (
+          { key: index,
+            value: sport.name,
+            text: sport.name
+          }
+        );
+      });
+    }
+
+    return [];
+  }
+
+  getTypeOptions = () => {
+    if(this.props.goaltypes){
+      return this.props.goaltypes.map( (type, index) => {
+        return (
+          { key: index,
+            value: type.id,
+            text: type.name
+          }
+        );
+      });
+    }
+
+    return [];
+  }
+
+  handleNameChange = (e) => {
+    this.setState({name: e.target.value});
   }
 
   handleTargetChange = (e, data) => {
@@ -49,31 +81,48 @@ class GoalModal extends React.Component {
     }
   }
 
+  handleStartingDateChange = ( date ) => {
+
+    this.setState({startingdate: date});
+  }
+
   handleDeadlineChange = ( date ) => {
 
     this.setState({deadline: date});
   }
 
+  handleSportChange = (e, data) => {
+    this.setState({sport: data.value});
+  }
+
+  handleTypeChange = (e, data) => {
+    this.setState({goaltype: data.value});
+  }
+
   handleAdd = () => {
 
-    if( !this.state.type || !this.state.deadline || this.state.target == 0){
+    if( !this.state.name || !this.state.deadline || this.state.target == 0){
       console.log('Field must be filled');
       return;
     }
 
-    const dateActivityFormated = this.state.deadline.format('YYYY-MM-DD');
+    const startingdateFormated = this.state.startingdate.format('YYYY-MM-DD');
+    const deadlineFormated = this.state.deadline.format('YYYY-MM-DD');
 
-    // CLose the modal
+
+    // Close and reuthe modal
     this.setState({open: false});
 
     // Dispatch Action
     return this.props.onAddGoal({
-
-      type:  this.state.type,
-      deadline:  dateActivityFormated,
+      startingdate: startingdateFormated,
+      deadline: deadlineFormated,
+      sport: this.state.sport,
+      name: this.state.name,
+      goaltype: this.state.goaltype,
       target: this.state.target,
-      duration: 0
     });
+
   }
 
   render (){
@@ -86,19 +135,22 @@ class GoalModal extends React.Component {
           <Modal.Header>Add a Goal </Modal.Header>
           <div className='ModalInputGroup'>
 
-            <Segment className='inputModal'>
-              <Label as='a' color='teal' ribbon>Date</Label>
-              <SingleDatePicker
-                date={this.state.deadline}
-                onDateChange={this.handleDeadlineChange}
-                focused={this.state.focused}
-                onFocusChange={({ focused }) => this.setState({ focused })}
-                numberOfMonths={1}
-              />
-            </Segment>
+            <Input className='inputModal' fluid label={{ basic: true, content: 'Name' }}
+              labelPosition='left' placeholder='Name...' onChange={this.handleNameChange}/>
 
-            <Input className='inputModal' fluid label={{ basic: true, content: 'Type' }}
-              labelPosition='left' placeholder='Type...' onChange={this.handleTypeChange}/>
+            <DateRangePicker
+              startDate={this.state.startingdate} // momentPropTypes.momentObj or null,
+              endDate={this.state.deadline} // momentPropTypes.momentObj or null,
+              onDatesChange={({ startDate, endDate }) => this.setState({ startingdate: startDate, deadline: endDate })} // PropTypes.func.isRequired,
+              focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
+              onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
+            />
+
+            <Dropdown className='inputModal' placeholder='Select Sport'
+              fluid search selection options={this.getSportOptions()} onChange={this.handleSportChange}/>
+
+            <Dropdown className='inputModal' placeholder='Select Goal Type'
+              fluid search selection options={this.getTypeOptions()} onChange={this.handleTypeChange}/>
 
             <Input className='inputModal' fluid label={{ basic: true, content: 'Target' }}
               labelPosition='left' placeholder='Target...' error={this.state.targetError} onChange={this.handleTargetChange}/>
@@ -121,6 +173,8 @@ class GoalModal extends React.Component {
 }
 
 GoalModal.propTypes = {
+  sports: PropTypes.array,
+  goaltypes: PropTypes.array,
   onAddGoal: PropTypes.func
 };
 

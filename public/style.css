@@ -23,10 +23,12 @@ body {
   padding: 1%; }
 
 .Welcome {
+  background-color: rgba(0, 0, 0, 0.6);
   margin-left: auto;
   margin-right: auto;
-  margin-top: 20%;
-  width: 50%;
+  margin-top: 5%;
+  padding: 5%;
+  width: 75%;
   text-align: center;
   color: #ffffff; }
   .Welcome .title {
@@ -90,6 +92,14 @@ body {
     stroke: #ec5615;
     stroke-linecap: round;
     transition: stroke-dashoffset 0.5s ease 0s; }
+
+.CirProgBarSmall {
+  width: 25%;
+  margin: auto; }
+
+.pieChartDashboard {
+  width: 75%;
+  margin: auto; }
 
 .progressTitle {
   font-size: 1.42em;

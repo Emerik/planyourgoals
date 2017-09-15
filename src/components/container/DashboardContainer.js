@@ -1,11 +1,21 @@
 import Dashboard from '../ui/Dashboard';
 import { connect } from 'react-redux';
+import { removeGoal } from '../../actions/actions';
 
 const mapStateToProps = state => {
   return {
     activities: state.activities,
-    goals: state.goals
+    goals: state.goals,
+    goaltypes: state.goaltypes
   };
 };
 
-export default connect (mapStateToProps, null) (Dashboard);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onRemoveGoal(goal){
+      dispatch(removeGoal(goal));
+    }
+  };
+};
+
+export default connect (mapStateToProps, mapDispatchToProps) (Dashboard);

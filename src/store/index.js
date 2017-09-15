@@ -12,7 +12,7 @@ const consoleMessages = store => next => action => {
 
 
 
-    let {user, activities} = store.getState();
+    let {user, activities, goals} = store.getState();
 
     console.log(`
         user: ${user.pseudo}
@@ -20,6 +20,7 @@ const consoleMessages = store => next => action => {
     `);
 
     console.log(activities);
+    console.log(goals);
 
     console.groupEnd();
 

@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import { Checkbox, Card, Icon } from 'semantic-ui-react';
+import { Checkbox, Card, Icon, Image, Grid } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 /**
@@ -15,23 +15,33 @@ class ActivityNormal extends Component {
     if(this.props.activity.status == true){
       // Dispatch Action
       return this.props.onUncheckActivity({
+        id: this.props.activity.id,
         name: this.props.activity.name,
-        description:  this.props.activity.description,
-        goal:  this.props.activity.goal,
-        status: false,
         date:  this.props.activity.date,
-        duration: this.props.activity.duration
+        hour: this.props.activity.hour,
+        duration: this.props.activity.duration,
+        distance: this.props.activity.distance,
+        description:  this.props.activity.description,
+        sport:  this.props.activity.sport,
+        activityType: this.props.activity.activityType,
+        status: false,
+        resultat: this.props.activity.resultat
       });
     }
     else{
       // Dispatch Action
       return this.props.onCheckActivity({
+        id: this.props.activity.id,
         name: this.props.activity.name,
-        description:  this.props.activity.description,
-        goal:  this.props.activity.goal,
-        status: true,
         date:  this.props.activity.date,
-        duration: this.props.activity.duration
+        hour: this.props.activity.hour,
+        duration: this.props.activity.duration,
+        distance: this.props.activity.distance,
+        description:  this.props.activity.description,
+        sport:  this.props.activity.sport,
+        activityType: this.props.activity.activityType,
+        status: true,
+        resultat: this.props.activity.resultat
       });
     }
   }
@@ -40,28 +50,79 @@ class ActivityNormal extends Component {
 
     // Dispatch Action
     return this.props.onDeleteActivity({
+      id: this.props.activity.id,
       name: this.props.activity.name,
-      description:  this.props.activity.description,
-      goal:  this.props.activity.goal,
-      status: this.props.activity.status,
       date:  this.props.activity.date,
-      duration: this.props.activity.duration
+      hour: this.props.activity.hour,
+      duration: this.props.activity.duration,
+      distance: this.props.activity.distance,
+      description:  this.props.activity.description,
+      sport:  this.props.activity.sport,
+      activityType: this.props.activity.activityType,
+      resultat: this.props.activity.reusltat
     });
+  }
+
+  getSportIcon = (sport) => {
+    switch(sport){
+    case 'tennis':
+      return 'images/tennis.png';
+    case 'cycling':
+      return 'images/cycling.png';
+    case 'running':
+      return 'images/running.png';
+    case 'swimming':
+      return 'images/swimming.png';
+    case 'triathlon':
+      return 'images/triathlon.png';
+    default:
+      return '';
+    }
+  }
+
+  displayDistance = (distance) => {
+    if (!distance) return;
+
+    return ( <Grid.Row columns={1}>
+      {this.props.activity.distance+' Km'}
+    </Grid.Row>
+    );
+  }
+
+  onActivityClick = () => {
+    //Launch ActivityModal
+    console.log('click');
+    this.props.toggleModal(this.props.activity);
   }
 
   render() {
     return (
-      <Card className="ActivityNormal">
+      <Card className="ActivityNormal" centered>
         <Card.Content>
-          <Card.Content>
-            <Checkbox label={this.props.activity.name} defaultChecked={this.props.activity.status} onClick={this.handleCheckChange}/>
-          </Card.Content>
-          <Card.Description>
-            {this.props.activity.description}
-          </Card.Description>
+          <Grid centered doubling>
+            <Grid.Row columns={3}>
+              <Grid.Column width={4}>
+                <Image src={this.getSportIcon(this.props.activity.sport)} size='mini' />
+              </Grid.Column>
+              <Grid.Column width={9}>
+                <div onClick={this.onActivityClick} style={{cursor:'pointer'}}>{this.props.activity.name}</div>
+              </Grid.Column>
+              <Grid.Column width={3}>
+                <Checkbox defaultChecked={this.props.activity.status} onClick={this.handleCheckChange}/>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row divided columns={2}>
+              <Grid.Column width={4}>
+                {this.props.activity.hour ? this.props.activity.hour+'H' : ''}
+              </Grid.Column>
+              <Grid.Column width={12}>
+                {this.props.activity.description.length < 50 ? this.props.activity.description : this.props.activity.description.substring(0,8)+'...'}
+              </Grid.Column>
+            </Grid.Row>
+            {this.displayDistance(this.props.activity.distance)}
+          </Grid>
           <Card.Meta>
-            {this.props.activity.goal}
-            <Icon name='delete' size='small' color='red' link onClick={ this.handleDelete}/>
+            <Icon name='delete' size='medium' color='red' link fitted onClick={this.handleDelete}/>
           </Card.Meta>
         </Card.Content>
       </Card>
@@ -74,7 +135,8 @@ ActivityNormal.propTypes = {
   activity: PropTypes.object.required,
   onDeleteActivity: PropTypes.func,
   onCheckActivity: PropTypes.func,
-  onUncheckActivity: PropTypes.func
+  onUncheckActivity: PropTypes.func,
+  toggleModal: PropTypes.func
 };
 
 

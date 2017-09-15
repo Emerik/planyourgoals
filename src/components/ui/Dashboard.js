@@ -287,6 +287,9 @@ class Dashboard extends Component {
       <Tab.Pane>
         <Grid centered columns={2} padded>
           <Grid.Row>
+            <Header as='h2'>Statistiques Global</Header>
+          </Grid.Row>
+          <Grid.Row>
             <Grid.Column textAlign='center'>
               <Header as='h3'>Temps total</Header>
               <p><b>{this.getSportTime()+'H'}</b></p>

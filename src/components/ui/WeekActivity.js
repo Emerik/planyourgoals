@@ -13,7 +13,11 @@ class WeekActivity extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {weekDate: this.getMonday()};
+    this.state = {
+      weekDate: this.getMonday(),
+      openModal: false,
+      activitySelected: undefined
+    };
 
   }
 
@@ -74,6 +78,14 @@ class WeekActivity extends Component {
     }
   }
 
+  toggleModal = (activity) => {
+    console.log(this.state.openModal);
+    this.setState({
+      openModal: !this.state.openModal,
+      activitySelected : activity
+    });
+  }
+
   render() {
     return (
       <div className='WeekActivity'>
@@ -88,22 +100,28 @@ class WeekActivity extends Component {
           </div>
           <div className="five column row">
             <div className="column ui segment">
-              <ActivityList name={'Lundi'} activities={this.getActivitiesByDay(1)}/>
+              <ActivityList name={'Lundi'} activities={this.getActivitiesByDay(1)} toggleModal={this.toggleModal}/>
             </div>
             <div className="column ui segment">
-              <ActivityList name={'Mardi'} activities={this.getActivitiesByDay(2)}/>
+              <ActivityList name={'Mardi'} activities={this.getActivitiesByDay(2)} toggleModal={this.toggleModal}/>
             </div>
             <div className="column ui segment">
-              <ActivityList name={'Mercredi'} activities={this.getActivitiesByDay(3)}/>
+              <ActivityList name={'Mercredi'} activities={this.getActivitiesByDay(3)} toggleModal={this.toggleModal}/>
             </div>
             <div className="column ui segment">
-              <ActivityList name={'Jeudi'} activities={this.getActivitiesByDay(4)}/>
+              <ActivityList name={'Jeudi'} activities={this.getActivitiesByDay(4)} toggleModal={this.toggleModal}/>
             </div>
             <div className="column ui segment">
-              <ActivityList name={'Vendredi'} activities={this.getActivitiesByDay(5)}/>
+              <ActivityList name={'Vendredi'} activities={this.getActivitiesByDay(5)} toggleModal={this.toggleModal}/>
+            </div>
+            <div className="column ui segment">
+              <ActivityList name={'Samedi'} activities={this.getActivitiesByDay(6)} toggleModal={this.toggleModal}/>
+            </div>
+            <div className="column ui segment">
+              <ActivityList name={'Dimanche'} activities={this.getActivitiesByDay(0)} toggleModal={this.toggleModal}/>
             </div>
           </div>
-          <ActivityModal weekDate={this.state.weekDate}/>
+          <ActivityModal weekDate={this.state.weekDate} open={this.state.openModal} activity={this.state.activitySelected} toggleModal={this.toggleModal}/>
         </Grid>
       </div>
     );

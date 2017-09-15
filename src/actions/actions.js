@@ -35,6 +35,13 @@ export function uncheckActivity({id, name, date, hour, duration, distance=null, 
   };
 }
 
+export function changeActivity(activity){
+  return {
+    type: constants.MOD_ACTIVITY,
+    payload: activity
+  };
+}
+
 /* USER ACTION CREATOR */
 export function setUser(user) {
   return {

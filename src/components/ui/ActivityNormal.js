@@ -25,7 +25,7 @@ class ActivityNormal extends Component {
         sport:  this.props.activity.sport,
         activityType: this.props.activity.activityType,
         status: false,
-        resultat: this.props.activity.reusltat
+        resultat: this.props.activity.resultat
       });
     }
     else{
@@ -41,7 +41,7 @@ class ActivityNormal extends Component {
         sport:  this.props.activity.sport,
         activityType: this.props.activity.activityType,
         status: true,
-        resultat: this.props.activity.reusltat
+        resultat: this.props.activity.resultat
       });
     }
   }
@@ -89,28 +89,34 @@ class ActivityNormal extends Component {
     );
   }
 
+  onActivityClick = () => {
+    //Launch ActivityModal
+    console.log('click');
+    this.props.toggleModal(this.props.activity);
+  }
+
   render() {
     return (
       <Card className="ActivityNormal" centered>
         <Card.Content>
-          <Grid centered>
+          <Grid centered doubling>
             <Grid.Row columns={3}>
-              <Grid.Column width={3}>
+              <Grid.Column width={4}>
                 <Image src={this.getSportIcon(this.props.activity.sport)} size='mini' />
               </Grid.Column>
-              <Grid.Column width={10}>
-                {this.props.activity.name}
+              <Grid.Column width={9}>
+                <div onClick={this.onActivityClick} style={{cursor:'pointer'}}>{this.props.activity.name}</div>
               </Grid.Column>
               <Grid.Column width={3}>
                 <Checkbox defaultChecked={this.props.activity.status} onClick={this.handleCheckChange}/>
               </Grid.Column>
             </Grid.Row>
             <Grid.Row divided columns={2}>
-              <Grid.Column width={3}>
-                {this.props.activity.hour}H
+              <Grid.Column width={4}>
+                {this.props.activity.hour ? this.props.activity.hour+'H' : ''}
               </Grid.Column>
-              <Grid.Column width={13}>
-                {this.props.activity.description}
+              <Grid.Column width={12}>
+                {this.props.activity.description.length < 50 ? this.props.activity.description : this.props.activity.description.substring(0,8)+'...'}
               </Grid.Column>
             </Grid.Row>
             {this.displayDistance(this.props.activity.distance)}
@@ -129,7 +135,8 @@ ActivityNormal.propTypes = {
   activity: PropTypes.object.required,
   onDeleteActivity: PropTypes.func,
   onCheckActivity: PropTypes.func,
-  onUncheckActivity: PropTypes.func
+  onUncheckActivity: PropTypes.func,
+  toggleModal: PropTypes.func
 };
 
 

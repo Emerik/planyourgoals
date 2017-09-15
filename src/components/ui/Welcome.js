@@ -126,9 +126,10 @@ class Welcome extends React.Component {
   render () {
     return (
       <div className="Welcome">
-        <h1 className="title">Plan Your Goals</h1>
-
-        <Header as='h2' inverted> Welcome {this.props.user ? this.props.user.pseudo : 'Inconnu'} </Header>
+        <h1 className="title">PlanYourGoals</h1>
+        <Segment inverted >
+          <Header as='h2' inverted> Aperçu de votre semaine</Header>
+        </Segment>
 
         <Grid columns={3} divided inverted>
           <Grid.Row>

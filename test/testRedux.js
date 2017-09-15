@@ -274,6 +274,57 @@ describe('[Activity TEST]', () => {
     expect(nextState.activities[nextState.activities.length-1]).to.deep.equal(tempActivity);
   });
 
+  /* Modify an Activity in the store*/
+  it('it should have change an Activity', () => {
+
+    const tempActivity = {
+      'id': '12',
+      'name': 'Match contre Federer',
+      'date': '2017-08-29',
+      'hour': '9',
+      'duration': '2',
+      'distance':  null,
+      'description': 'Match avec Theo pour travailler le lift',
+      'sport': 'Tennis',
+      'activityType': 'competition',
+      'status': true,
+      'resultat': ''
+    };
+
+    const tempActivityChange = {
+      'id': '12',
+      'name': 'Match contre Federer',
+      'date': '2017-08-29',
+      'hour': '11',
+      'duration': '2',
+      'distance':  null,
+      'description': 'Match avec Federer pour travailler le lift',
+      'sport': 'Tennis',
+      'activityType': 'competition',
+      'status': true,
+      'resultat': ''
+    };
+
+    const expectedAction = {
+      type: constants.MOD_ACTIVITY,
+      payload: tempActivityChange
+    };
+
+    const actual = Actions.changeActivity(tempActivityChange);
+
+    expect(actual).to.deep.equal(expectedAction);
+
+    //Add our temporay Activity
+    store.dispatch(Actions.addActivity(tempActivity));
+
+    store.dispatch(actual);
+    const nextState = store.getState();
+
+    expect(nextState.activities[nextState.activities.length-1]).to.deep.not.equal(tempActivity);
+  
+    expect(nextState.activities[nextState.activities.length-1]).to.deep.equal(tempActivityChange);
+  });
+
 
 });
 

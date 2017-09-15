@@ -149,7 +149,7 @@ describe('[WeekActivity TEST]', () => {
 
     expect(wrapper.find('Grid')).to.have.length(1);
 
-    expect(wrapper.find('ActivityList')).to.have.length(5);
+    expect(wrapper.find('ActivityList')).to.have.length(7);
   });
 
   it('it should have shallow render a WeekActivity comp with activities', () => {
@@ -183,7 +183,7 @@ describe('[WeekActivity TEST]', () => {
 
     expect(wrapper.find('Grid')).to.have.length(1);
 
-    expect(wrapper.find('ActivityList')).to.have.length(5);
+    expect(wrapper.find('ActivityList')).to.have.length(7);
 
   });
 

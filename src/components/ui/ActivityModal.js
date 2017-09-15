@@ -8,7 +8,9 @@ const dayOptions = [ { key: '1', value: '1', text: 'Lundi' },
   { key: '2', value: '2', text: 'Mardi' },
   { key: '3', value: '3', text: 'Mercredi' },
   { key: '4', value: '4', text: 'Jeudi' },
-  { key: '5', value: '5', text: 'Vendredi' }];
+  { key: '5', value: '5', text: 'Vendredi' },
+  { key: '6', value: '6', text: 'Samedi' },
+  { key: '7', value: '7 ', text: 'Dimanche' }];
 
 const hourOptions = [ { key: '1', value: '0', text: '00:00' },
   { key: '2', value: '1', text: '01:00' },
@@ -42,30 +44,69 @@ class ActivityModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
+      open: this.props.open ? this.props.open : false,
       weekDate: this.props.weekDate,
-      name: '',
-      date: '',
-      hour: '',
-      duration: '',
-      distance: null,
-      description: '',
-      sport: '',
-      activityType: '',
-      durationError: false
+      durationError: false,
+      modActivity: this.props.activity ? true : false
     };
+    this.initializeState(this.props.activity);
+  }
+
+  initializeState = (activity) => {
+    if(activity){
+      this.setState({
+        id: activity.id,
+        name: activity.name,
+        date: activity.date,
+        hour: activity.hour,
+        duration: activity.duration,
+        distance: activity.distance,
+        description: activity.description,
+        sport: activity.sport,
+        activityType: activity.activityType,
+        status: activity.status,
+        resultat: activity.resulat
+      });
+    }
+    else{
+      this.setState({
+        id: -1,
+        name: '',
+        date: '',
+        hour: '',
+        duration: '',
+        distance: null,
+        description: '',
+        sport: '',
+        activityType: '',
+        status: false,
+        resultat: ''
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ weekDate: nextProps.weekDate });
+    this.setState({
+      weekDate: nextProps.weekDate,
+      open: nextProps.open,
+      modActivity: nextProps.activity ? true : false
+    });
+
+    this.initializeState(nextProps.activity);
   }
 
   openModal = () => {
     this.setState({open: true});
+    this.props.toggleModal();
   }
 
   closeModal = () => {
-    this.setState({open: false});
+    this.setState({
+      open: false
+
+    });
+    this.initializeState();
+    this.props.toggleModal();
   }
 
   getSportOptions = () => {
@@ -104,6 +145,8 @@ class ActivityModal extends React.Component {
     return [];
   }
 
+
+  // Handle input changes -----------------------------------------------
   handleNameChange = (e) => {
     this.setState({name: e.target.value});
   }
@@ -155,16 +198,22 @@ class ActivityModal extends React.Component {
     if( !this.state.name || !this.state.date
       || !this.state.sport || !this.state.activityType ){
       console.log('Field must be filled');
+      //TODO Notice user of his mistake
       return;
     }
+    // console.log(this.state.date);
+    // this.setState({date: moment(this.state.date)});
+    // console.log(this.state.date);
+    let dateActivityFormated;
+    this.state.date ?  dateActivityFormated = moment(this.state.date).format('YYYY-MM-DD') : dateActivityFormated = undefined;
 
-    const dateActivityFormated = this.state.date.format('YYYY-MM-DD');
+    // Close the modal
+    this.closeModal();
 
-    // CLose the modal
-    this.setState({open: false});
 
     // Dispatch Action
     return this.props.onAddActivity({
+      id: this.state.id,
       name: this.state.name,
       date:  dateActivityFormated,
       hour: this.state.hour,
@@ -173,9 +222,9 @@ class ActivityModal extends React.Component {
       description:  this.state.description,
       sport:  this.state.sport,
       activityType: this.state.activityType,
-      status: false,
-      resultat:''
-    });
+      status: this.state.status,
+      resultat:this.state.resultat
+    }, this.state.modActivity);
   }
 
   getDateFormated(laDate) {
@@ -195,44 +244,53 @@ class ActivityModal extends React.Component {
     }
   }
 
+  generateForm = () => {
+    return (
+      <div className='ModalInputGroup'>
+
+        <Input className='inputModal' fluid placeholder='Name...' label={{ basic: true, content: 'Name' }}
+          labelPosition='left' value={this.state.name} onChange={this.handleNameChange}/>
+
+        <Input className='inputModal' fluid placeholder='Description...' label={{ basic: true, content: 'Description' }}
+          labelPosition='left' value={this.state.description} onChange={this.handleDescriptionChange}/>
+
+        <Dropdown className='inputModal' placeholder='Select Sport'fluid search
+          selection options={this.getSportOptions()} defaultValue={this.state.sport} onChange={this.handleSportChange}/>
+
+        <Dropdown className='inputModal' placeholder='Select Sport Type'
+          fluid search selection options={this.getTypeOptions()}
+          defaultValue={this.state.activityType} onChange={this.handleTypeChange}/>
+        {
+          this.displayDistance(this.state.activityType)
+        }
+        <Dropdown className='inputModal' placeholder='Select Day'
+          fluid search selection options={dayOptions}
+          defaultValue={moment(this.state.date).format('e')} onChange={this.handleDayChange}/>
+
+        <Dropdown className='inputModal' placeholder='Select Hour'
+          fluid search selection options={hourOptions}
+          defaultValue={this.state.hour} onChange={this.handleHourChange}/>
+
+        <Input className='inputModal' fluid placeholder='Duration' error={this.state.durationError} label={{ basic: true, content: 'Durée' }}
+          labelPosition='left' value={this.state.duration} onChange={this.handleDurationChange}/>
+      </div>
+    );
+  }
+
   render (){
     return (
       <div className='ActivityModal'>
-
         <Button inverted circular={true} onClick={this.openModal}>Add Activity</Button>
-
         <Modal size='small' dimmer='blurring' open={this.state.open} >
           <Modal.Header>Add an Activity on {this.getDateFormated(this.state.weekDate)} week </Modal.Header>
-          <div className='ModalInputGroup'>
-
-            <Input className='inputModal' fluid placeholder='Name...' label={{ basic: true, content: 'Name' }}
-              labelPosition='left' value={this.state.name} onChange={this.handleNameChange}/>
-
-            <Input className='inputModal' fluid placeholder='Description...' label={{ basic: true, content: 'Description' }}
-              labelPosition='left' value={this.state.description} onChange={this.handleDescriptionChange}/>
-
-            <Dropdown className='inputModal' placeholder='Select Sport'
-              fluid search selection options={this.getSportOptions()} onChange={this.handleSportChange}/>
-
-            <Dropdown className='inputModal' placeholder='Select Sport Type'
-              fluid search selection options={this.getTypeOptions()} onChange={this.handleTypeChange}/>
-            {
-              this.displayDistance(this.state.activityType)
-            }
-            <Dropdown className='inputModal' placeholder='Select Day'
-              fluid search selection options={dayOptions} onChange={this.handleDayChange}/>
-
-            <Dropdown className='inputModal' placeholder='Select Hour'
-              fluid search selection options={hourOptions} onChange={this.handleHourChange}/>
-
-            <Input className='inputModal' fluid placeholder='Duration' error={this.state.durationError} label={{ basic: true, content: 'Durée' }}
-              labelPosition='left' value={this.state.duration} onChange={this.handleDurationChange}/>
-          </div>
+          {
+            this.generateForm()
+          }
           <Modal.Actions>
             <Button basic color='red' onClick={this.closeModal}>
               <Icon name='remove' /> Cancel
             </Button>
-            <Button color='green'onClick={this.handleAdd}>
+            <Button color='green' onClick={this.handleAdd}>
               <Icon name='checkmark' /> Add
             </Button>
           </Modal.Actions>
@@ -245,8 +303,11 @@ class ActivityModal extends React.Component {
 
 ActivityModal.propTypes = {
   weekDate: PropTypes.object.isRequired,
+  open: PropTypes.boolean,
+  toggleModal: PropTypes.func,
   onAddActivity: PropTypes.func,
-  sports: PropTypes.array
+  sports: PropTypes.array,
+  activity: PropTypes.object,
 };
 
 export default ActivityModal;

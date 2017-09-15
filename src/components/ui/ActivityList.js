@@ -18,7 +18,7 @@ class ActivityList extends Component {
       return activities.map( (activity, index) => {
         return (
           <List.Item key={index}>
-            <ActivityNormal activity={activity}/>
+            <ActivityNormal activity={activity} toggleModal={this.props.toggleModal}/>
           </List.Item>
         );
       });
@@ -42,7 +42,8 @@ class ActivityList extends Component {
 
 ActivityList.propTypes = {
   name: PropTypes.string,
-  activities: PropTypes.array
+  activities: PropTypes.array,
+  toggleModal: PropTypes.func
 };
 
 export default ActivityList;

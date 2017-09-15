@@ -40,6 +40,13 @@ export const activities = (state = [], action) => {
       }
       return aActivity;
     });
+  case constants.MOD_ACTIVITY:
+    return state.map( activity => {
+      if(activity.id == action.payload.id){
+        return action.payload;
+      }
+      return activity;
+    });
   default:
     return state;
   }

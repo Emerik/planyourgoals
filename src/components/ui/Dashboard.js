@@ -241,6 +241,19 @@ class Dashboard extends Component {
 
   }
 
+
+  handleDelete = (goal) => {
+    // Dispatch Action
+    return this.props.onRemoveGoal({
+      id: goal.id,
+      name: goal.name,
+      startingdate:  goal.startingdate,
+      deadline: goal.deadline,
+      sport: goal.sport,
+      target: goal.target,
+      goaltype:  goal.goaltype
+    });
+  }
   /**
   * This function return HTML for goals
   **/
@@ -275,6 +288,9 @@ class Dashboard extends Component {
                 You achieved {this.getProgressByGoalType(goal)}% of your Goal !
 
               </div>
+            </Grid.Row>
+            <Grid.Row>
+              <Icon name='delete' size='medium' color='red' link fitted onClick={() => this.handleDelete(goal)}/>
             </Grid.Row>
           </Grid>
         </Tab.Pane> };
@@ -370,7 +386,8 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   activities: PropTypes.array,
   goals: PropTypes.array,
-  goaltypes: PropTypes.array
+  goaltypes: PropTypes.array,
+  onRemoveGoal: PropTypes.func
 };
 
 export default Dashboard;

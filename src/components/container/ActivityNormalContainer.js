@@ -1,17 +1,17 @@
 import ActivityNormal from '../ui/ActivityNormal';
 import { connect } from 'react-redux';
-import { removeActivity, checkActivity, uncheckActivity } from '../../actions/actions';
+import { removeActivityFromServer, updateActivityServer } from '../../actions/actionsOut';
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onDeleteActivity(activity){
-      dispatch(removeActivity(activity));
+      dispatch(removeActivityFromServer(activity));
     },
     onCheckActivity(activity){
-      dispatch(checkActivity(activity));
+      dispatch(updateActivityServer(activity));
     },
     onUncheckActivity(activity){
-      dispatch(uncheckActivity(activity));
+      dispatch(updateActivityServer(activity));
     }
   };
 };

@@ -12,7 +12,8 @@ class Welcome extends React.Component {
   }
 
   componentDidMount(){
-
+    this.props.getActivity();
+    this.props.getGoal();
   }
 
   componentWillUnmount(){
@@ -172,7 +173,9 @@ class Welcome extends React.Component {
 Welcome.propTypes = {
   user: PropTypes.object,
   activities: PropTypes.array,
-  goals: PropTypes.array
+  goals: PropTypes.array,
+  getActivity: PropTypes.func,
+  getGoal: PropTypes.func
 
 };
 

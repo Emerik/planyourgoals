@@ -25,6 +25,13 @@ class Dashboard extends Component {
     this.handleMouseEnterOnSector = this.handleMouseEnterOnSector.bind(this);
   }
 
+  /*
+  * This function launch process after component initialisation
+  */
+  componentWillMount(){
+    if(this.props.loadGoalsFromServer) this.props.loadGoalsFromServer();
+  }
+
   handleMouseEnterOnSector(sector) {
     this.setState({expandedSector: sector});
   }
@@ -387,7 +394,8 @@ Dashboard.propTypes = {
   activities: PropTypes.array,
   goals: PropTypes.array,
   goaltypes: PropTypes.array,
-  onRemoveGoal: PropTypes.func
+  onRemoveGoal: PropTypes.func,
+  loadGoalsFromServer: PropTypes.function
 };
 
 export default Dashboard;

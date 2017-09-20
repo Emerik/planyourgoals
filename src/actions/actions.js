@@ -42,6 +42,13 @@ export function changeActivity(activity){
   };
 }
 
+export function replaceActivities(activities){
+  return {
+    type: constants.REPLACE_ACTIVITY,
+    payload: activities
+  };
+}
+
 /* USER ACTION CREATOR */
 export function setUser(user) {
   return {
@@ -82,6 +89,13 @@ export function setGoal(oldGoal, newGoal) {
     type: constants.SET_GOAL,
     payload: oldGoal,
     newgoal: newGoal
+  };
+}
+
+export function replaceGoals(newGoal) {
+  return {
+    type: constants.REPLACE_GOAL,
+    payload: newGoal,
   };
 }
 

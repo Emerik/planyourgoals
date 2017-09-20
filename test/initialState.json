@@ -146,5 +146,6 @@
       "id": 2,
       "name": "number"
     }
-  ]
+  ],
+  "fetching": false
 }

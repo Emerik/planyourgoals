@@ -1,5 +1,6 @@
 import WeekActivity from '../ui/WeekActivity';
 import { connect } from 'react-redux';
+import { fetchActivity } from '../../actions/actionsOut';
 
 const mapStateToProps = state => {
   return {
@@ -7,4 +8,12 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect (mapStateToProps) (WeekActivity);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadActivitiesFromServer(){
+      dispatch(fetchActivity());
+    }
+  };
+};
+
+export default connect (mapStateToProps, mapDispatchToProps) (WeekActivity);

@@ -321,10 +321,60 @@ describe('[Activity TEST]', () => {
     const nextState = store.getState();
 
     expect(nextState.activities[nextState.activities.length-1]).to.deep.not.equal(tempActivity);
-  
+
     expect(nextState.activities[nextState.activities.length-1]).to.deep.equal(tempActivityChange);
   });
 
+  /* Replace all Activity in the store*/
+  it('it should have replace all Activity', () => {
+
+    const tempActivity = {
+      'id': '12',
+      'name': 'Match contre Federer',
+      'date': '2017-08-29',
+      'hour': '9',
+      'duration': '2',
+      'distance':  null,
+      'description': 'Match avec Theo pour travailler le lift',
+      'sport': 'Tennis',
+      'activityType': 'competition',
+      'status': true,
+      'resultat': ''
+    };
+
+    const tempActivity2 = {
+      'id': '24',
+      'name': 'Match contre Nadal',
+      'date': '2017-08-29',
+      'hour': '11',
+      'duration': '2',
+      'distance':  null,
+      'description': 'Match avec Nadal pour bosser le lift',
+      'sport': 'Tennis',
+      'activityType': 'competition',
+      'status': true,
+      'resultat': ''
+    };
+
+    const newActivities = [tempActivity, tempActivity2];
+
+    const expectedAction = {
+      type: constants.REPLACE_ACTIVITY,
+      payload: newActivities
+    };
+
+    const actual = Actions.replaceActivities(newActivities);
+
+    expect(actual).to.deep.equal(expectedAction);
+
+    expect(store.getState().activities).to.deep.not.equal(newActivities);
+
+    // DISPATCH
+    store.dispatch(actual);
+    const nextState = store.getState();
+
+    expect(nextState.activities).to.deep.equal(newActivities);
+  });
 
 });
 
@@ -467,6 +517,47 @@ describe('[Goal TEST]', () => {
 
     expect(nextState.goals[nextState.goals.length-1]).to.deep.equal(tempGoalNew);
 
+  });
+
+  /* Replace all Goal in the store*/
+  it('it should have replace all Goal', () => {
+
+    const tempGoal = {
+      'id': '0',
+      'startingdate': '2017-08-01',
+      'deadline': '2017/08/31',
+      'sport': 'Tennis',
+      'target': '6',
+      'goaltype': 'duration'
+    };
+
+    const tempGoal2 = {
+      'id': '12',
+      'startingdate': '2017-08-01',
+      'deadline': '2017/08/31',
+      'sport': 'Tennis',
+      'target': '9', // Field changed
+      'goaltype': 'duration'
+    };
+
+    const newGoals = [tempGoal, tempGoal2];
+
+    const expectedAction = {
+      type: constants.REPLACE_GOAL,
+      payload: newGoals
+    };
+
+    const actual = Actions.replaceGoals(newGoals);
+
+    expect(actual).to.deep.equal(expectedAction);
+
+    expect(store.getState().goals).to.deep.not.equal(newGoals);
+
+    // DISPATCH
+    store.dispatch(actual);
+    const nextState = store.getState();
+
+    expect(nextState.goals).to.deep.equal(newGoals);
   });
 
 });

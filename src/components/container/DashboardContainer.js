@@ -1,6 +1,6 @@
 import Dashboard from '../ui/Dashboard';
 import { connect } from 'react-redux';
-import { removeGoal } from '../../actions/actions';
+import { fetchGoal, removeGoalFromServer } from '../../actions/actionsOut';
 
 const mapStateToProps = state => {
   return {
@@ -13,7 +13,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onRemoveGoal(goal){
-      dispatch(removeGoal(goal));
+      dispatch(removeGoalFromServer(goal));
+    },
+    loadGoalsFromServer(){
+      dispatch(fetchGoal());
     }
   };
 };

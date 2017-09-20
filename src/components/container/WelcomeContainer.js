@@ -1,6 +1,6 @@
 import Welcome from '../ui/Welcome';
 import { connect } from 'react-redux';
-// import { addActivity } from '../../actions/actions';
+import { fetchActivity, fetchGoal } from '../../actions/actionsOut';
 
 const mapStateToProps = (state) => {
   return {
@@ -10,12 +10,15 @@ const mapStateToProps = (state) => {
   };
 };
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     onAddActivity(activity){
-//       dispatch(addActivity(activity));
-//     }
-//   };
-// };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getActivity(){
+      dispatch(fetchActivity());
+    },
+    getGoal(){
+      dispatch(fetchGoal());
+    },
+  };
+};
 
-export default connect (mapStateToProps, null) (Welcome);
+export default connect (mapStateToProps, mapDispatchToProps) (Welcome);

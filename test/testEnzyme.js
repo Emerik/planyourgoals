@@ -41,7 +41,7 @@ describe('[ActivityNormal TEST]', () => {
 
   });
 
-  it('it should have shallow render an ActivityNormal comp', () => {
+  it('it should have shallow render an ActivityNormal comp and check it', () => {
     let clicked = false;
     const wrapper = shallow(
       <ActivityNormal
@@ -53,6 +53,20 @@ describe('[ActivityNormal TEST]', () => {
     wrapper.find('Checkbox').simulate('click');
     expect(clicked).to.equal(true);
   });
+
+  it('it should have shallow render an ActivityNormal comp and delete it', () => {
+    let clicked = false;
+    const wrapper = shallow(
+      <ActivityNormal
+        activity={testActivty}
+        onDeleteActivity={()=>{clicked=true;}}
+      />
+    );
+
+    wrapper.find('Icon').simulate('click');
+    expect(clicked).to.equal(true);
+  });
+
 });
 
 

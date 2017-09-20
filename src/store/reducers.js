@@ -43,10 +43,12 @@ export const activities = (state = [], action) => {
   case constants.MOD_ACTIVITY:
     return state.map( activity => {
       if(activity.id == action.payload.id){
-        return action.payload;
+        return Object.assign( {},action.payload );
       }
       return activity;
     });
+  case constants.REPLACE_ACTIVITY:
+    return action.payload;
   default:
     return state;
   }
@@ -100,6 +102,8 @@ export const goals = (state = [], action) => {
       }
       return aGoal;
     });
+  case constants.REPLACE_GOAL:
+    return action.payload;
   default:
     return state;
   }
@@ -131,6 +135,18 @@ export const goaltypes = (state=false, action) => {
   }
 };
 
+/* FETCHING */
+export const fetching = (state=false, action) => {
+
+  switch (action.type) {
+  case constants.FETCH_ACTIVITY:
+    return true;
+  case constants.CANCEL_FETCHING:
+    return false;
+  default:
+    return state;
+  }
+};
 
 
 //We combine our reducers in the same shape of our initial state
@@ -139,5 +155,6 @@ export default combineReducers({
   user,
   goals,
   sports,
-  goaltypes
+  goaltypes,
+  fetching
 });

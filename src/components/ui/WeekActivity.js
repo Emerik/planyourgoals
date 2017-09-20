@@ -21,6 +21,13 @@ class WeekActivity extends Component {
 
   }
 
+  /*
+  * This function launch process after component initialisation
+  */
+  componentWillMount(){
+    if(this.props.loadActivitiesFromServer) this.props.loadActivitiesFromServer();
+  }
+
   getMonday() {
     if(moment().format('e') != 0) return moment().day('Monday');
 
@@ -79,7 +86,6 @@ class WeekActivity extends Component {
   }
 
   toggleModal = (activity) => {
-    console.log(this.state.openModal);
     this.setState({
       openModal: !this.state.openModal,
       activitySelected : activity
@@ -130,6 +136,7 @@ class WeekActivity extends Component {
 
 WeekActivity.propTypes = {
   activities: PropTypes.array,
+  loadActivitiesFromServer: PropTypes.function
 };
 
 

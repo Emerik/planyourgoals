@@ -1,12 +1,12 @@
-import config from './config';
+import { serverConfig, consoleConfig } from './config';
 import express from 'express';
 import sassMiddleware from 'node-sass-middleware';
 import path from 'path';
 
-console.log(config);
+consoleConfig();
 
 const server = express();
-const port = config.port;
+const port = serverConfig.port;
 
 
 //Use sass middleware
@@ -31,7 +31,7 @@ server.get(['/', '/week-activity', '/dashboard'], (req, res) => {
 server.use(express.static('public'));
 
 // Server listen on port
-server.listen(port, config.host, () =>{
+server.listen(port, serverConfig.host, () =>{
   // Success handler
   console.log('Express listening on port', port);
 });

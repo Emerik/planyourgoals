@@ -100,9 +100,9 @@ export function replaceGoals(newGoal) {
 }
 
 /* SPORT ACTION CREATOR */
-export function changeSports(sports) {
+export function replaceSports(sports) {
   return {
-    type: constants.CHANGE_SPORTS,
+    type: constants.REPLACE_SPORTS,
     payload: sports
   };
 }
@@ -114,9 +114,9 @@ export function clearSports() {
 }
 
 /* GOALTYPE ACTION CREATOR */
-export function fetchGoaltype(goaltypes) {
+export function replaceGoaltypes(goaltypes) {
   return {
-    type: constants.FETCH_GOALTYPE,
+    type: constants.REPLACE_GOALTYPE,
     payload: goaltypes
   };
 }

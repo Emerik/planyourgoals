@@ -2,7 +2,7 @@ import constants from '../store/constants';
 import fetch from 'isomorphic-fetch';
 import { configApi } from '../../config';
 import { replaceActivities, addActivity, changeActivity, removeActivity,
-  replaceGoals, addGoal, removeGoal } from './actions';
+  replaceGoals, addGoal, removeGoal, replaceGoaltypes, replaceSports } from './actions';
 
 
 /**
@@ -174,6 +174,50 @@ export const removeGoalFromServer = (goal, callback) => (dispatch) => {
     .then( resultJSON => {
 
       dispatch(removeGoal(goal));
+      if (callback) callback(null, resultJSON);
+    }
+    )
+    .catch(errorCatched => {
+      //dispatch(addError(errorCatched));
+      console.log(errorCatched);
+      if (callback) callback('Error');
+    });
+};
+
+/**
+* This function get sports from API server
+**/
+export const fetchSport = (callback) => (dispatch) => {
+
+  dispatch({
+    type: constants.FETCH_ACTIVITY
+  });
+  fetch(configApi.apiUrl+'/api/sports')
+    .then( result => result.json())
+    .then( resultJSON => {
+      dispatch(replaceSports(resultJSON.sports));
+      if (callback) callback(null, resultJSON);
+    }
+    )
+    .catch(errorCatched => {
+      //dispatch(addError(errorCatched));
+      console.log(errorCatched);
+      if (callback) callback('Error');
+    });
+};
+
+/**
+* This function get goaltypes from API server
+**/
+export const fetchGoaltype = (callback) => (dispatch) => {
+
+  dispatch({
+    type: constants.FETCH_ACTIVITY
+  });
+  fetch(configApi.apiUrl+'/api/goaltypes')
+    .then( result => result.json())
+    .then( resultJSON => {
+      dispatch(replaceGoaltypes(resultJSON.goaltypes));
       if (callback) callback(null, resultJSON);
     }
     )

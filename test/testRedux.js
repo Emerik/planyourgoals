@@ -580,11 +580,11 @@ describe('[Sport TEST]', () => {
     ];
 
     const expectedAction = {
-      type: constants.CHANGE_SPORTS,
+      type: constants.REPLACE_SPORTS,
       payload: tempSports
     };
 
-    const testAction = Actions.changeSports(tempSports);
+    const testAction = Actions.replaceSports(tempSports);
 
     expect(testAction).to.deep.equal(expectedAction);
 
@@ -634,11 +634,11 @@ describe('[Goaltype TEST]', () => {
     ];
 
     const expectedAction = {
-      type: constants.FETCH_GOALTYPE,
+      type: constants.REPLACE_GOALTYPE,
       payload: tempGoaltype
     };
 
-    const testAction = Actions.fetchGoaltype(tempGoaltype);
+    const testAction = Actions.replaceGoaltypes(tempGoaltype);
 
     expect(testAction).to.deep.equal(expectedAction);
 

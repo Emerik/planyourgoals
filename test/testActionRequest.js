@@ -18,13 +18,11 @@ if(process.env.TEST_REQUEST == 'true') {
     /* Fetch Activities from API SERVER in the store*/
     it('it should have fetch activities from the server', function(done) {
 
-      const previousState = store.getState();
       store.dispatch(Actions.fetchActivity((err)=>{
         if(err) done('Erreur sur le fetching ',err);
 
         const nextState = store.getState();
 
-        expect(nextState.activities).to.not.deep.equal(previousState.activities);
         // On part du principe que le serveur à des task TODO faire autrement
         expect(nextState.activities.length).to.not.equal(0);
         done();
@@ -156,14 +154,11 @@ if(process.env.TEST_REQUEST == 'true') {
 
       this.timeout(10000);
 
-      const previousState = store.getState();
-
       store.dispatch(Actions.fetchGoal((err)=>{
         if(err) done('Erreur sur le fetching des Goal',err);
 
         const nextState = store.getState();
 
-        expect(nextState.goals).to.not.deep.equal(previousState.goals);
         // On part du principe que le serveur à des task TODO faire autrement
         expect(nextState.goals.length).to.not.equal(0);
         done();
@@ -222,6 +217,48 @@ if(process.env.TEST_REQUEST == 'true') {
 
       store.dispatch(Actions.removeGoalFromServer(testGoal, (err)=>{
         if(err) done('Erreur sur la suppression du Goal',err);
+        done();
+      }));
+
+    });
+
+    /* Fetch goaltypes from API SERVER in the store*/
+    it('it should have fetch goaltypes from the server', function(done) {
+
+      this.timeout(10000);
+
+      store.dispatch(Actions.fetchGoaltype((err)=>{
+        if(err) done('Erreur sur le fetching des Goaltypes',err);
+
+        const nextState = store.getState();
+
+        // On part du principe que le serveur à des task TODO faire autrement
+        expect(nextState.goaltypes.length).to.not.equal(0);
+        done();
+      }));
+
+    });
+
+  });
+
+  // Test on sport -------------------------------------------------------
+  describe('[Sport TEST]', () => {
+    beforeEach(() => {
+      store = storeFactory(initialState);
+    });
+
+    /* Fetch sports from API SERVER in the store*/
+    it('it should have fetch sports from the server', function(done) {
+
+      this.timeout(10000);
+
+      store.dispatch(Actions.fetchSport((err)=>{
+        if(err) done('Erreur sur le fetching des Goal',err);
+
+        const nextState = store.getState();
+
+        // On part du principe que le serveur à des task TODO faire autrement
+        expect(nextState.sports.length).to.not.equal(0);
         done();
       }));
 

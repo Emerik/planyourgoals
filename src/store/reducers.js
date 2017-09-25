@@ -115,7 +115,7 @@ export const sports = (state=false, action) => {
   switch (action.type) {
   case constants.CLEAR_SPORTS:
     return [];
-  case constants.CHANGE_SPORTS:
+  case constants.REPLACE_SPORTS:
     return action.payload;
   default:
     return state;
@@ -128,7 +128,7 @@ export const goaltypes = (state=false, action) => {
   switch (action.type) {
   case constants.CLEAR_GOALTYPE:
     return [];
-  case constants.FETCH_GOALTYPE:
+  case constants.REPLACE_GOALTYPE:
     return action.payload;
   default:
     return state;

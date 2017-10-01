@@ -70,12 +70,12 @@ class ActivityModal extends React.Component {
     }
     else{
       this.setState({
-        id: -1,
+        id: null,
         name: '',
         date: '',
         hour: '',
         duration: '',
-        distance: null,
+        distance: 0,
         description: '',
         sport: '',
         activityType: '',
@@ -93,6 +93,13 @@ class ActivityModal extends React.Component {
     });
 
     this.initializeState(nextProps.activity);
+  }
+
+  /*
+  * This function launch process after component initialisation
+  */
+  componentWillMount(){
+    if(this.props.getFreshSports) this.props.getFreshSports();
   }
 
   openModal = () => {
@@ -207,12 +214,8 @@ class ActivityModal extends React.Component {
     let dateActivityFormated;
     this.state.date ?  dateActivityFormated = moment(this.state.date).format('YYYY-MM-DD') : dateActivityFormated = undefined;
 
-    // Close the modal
-    this.closeModal();
-
-
     // Dispatch Action
-    return this.props.onAddActivity({
+    this.props.onAddActivity({
       id: this.state.id,
       name: this.state.name,
       date:  dateActivityFormated,
@@ -223,8 +226,12 @@ class ActivityModal extends React.Component {
       sport:  this.state.sport,
       activityType: this.state.activityType,
       status: this.state.status,
-      resultat:this.state.resultat
+      resultat: (this.state.resultat ? this.state.resultat : '')
     }, this.state.modActivity);
+
+
+
+    return this.closeModal();
   }
 
   getDateFormated(laDate) {
@@ -306,6 +313,7 @@ ActivityModal.propTypes = {
   open: PropTypes.boolean,
   toggleModal: PropTypes.func,
   onAddActivity: PropTypes.func,
+  getFreshSports: PropTypes.func,
   sports: PropTypes.array,
   activity: PropTypes.object,
 };

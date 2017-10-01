@@ -1,4 +1,4 @@
-import { serverConfig, consoleConfig } from './config';
+import { serverConfig, consoleConfig, configFirebase } from './config';
 import express from 'express';
 import sassMiddleware from 'node-sass-middleware';
 import path from 'path';
@@ -8,6 +8,8 @@ consoleConfig();
 const server = express();
 const port = serverConfig.port;
 
+// Create a Firebase Instance
+configFirebase();
 
 //Use sass middleware
 server.use(sassMiddleware({
@@ -29,6 +31,8 @@ server.get(['/', '/week-activity', '/dashboard'], (req, res) => {
 
 
 server.use(express.static('public'));
+
+
 
 // Server listen on port
 server.listen(port, serverConfig.host, () =>{

@@ -30,8 +30,8 @@ class Welcome extends React.Component {
 
   getWeekActivity = () => {
     // If activities is empty
-    if( !this.props.activities || this.props.activities.length == 0 ) return null;
 
+    if( !this.props.activities || this.props.activities.length == 0 ) return null;
     const mondayDate = this.getMonday();
     const endWeek = moment(mondayDate).add(6,'d');
 
@@ -49,8 +49,11 @@ class Welcome extends React.Component {
   }
 
   getActivityDone = () => {
+    const activities = this.getWeekActivity();
 
-    return this.getWeekActivity().map( (activity, index) => {
+    if( !activities || activities.length == 0 ) return null;
+
+    return activities.map( (activity, index) => {
 
       if(activity.status == false) return;
 
@@ -69,7 +72,11 @@ class Welcome extends React.Component {
   }
 
   getActivityTodo = () => {
-    return this.getWeekActivity().map( (activity, index) => {
+    const activities = this.getWeekActivity();
+
+    if( !activities || activities.length == 0 ) return null;
+
+    return activities.map( (activity, index) => {
 
       if(activity.status == true) return;
 

@@ -4,15 +4,48 @@ import constants from '../src/store/constants';
 import initialState from './initialState';
 let chai = require('chai');
 var expect = chai.expect;
+import firebaseConfig from '../firebaseConfig';
 
 if(process.env.TEST_REQUEST == 'true') {
 
 
+  firebaseConfig();
+
   var store;
+
+  // Test on Activity -------------------------------------------------------
+  // describe('[Request User TEST]', () => {
+  //   beforeEach(() => {
+  //     store = storeFactory(initialState);
+  //   });
+  //
+  //   /* Fetch Activities from API SERVER in the store*/
+  //   it('it should have sign-in user from the server', function(done) {
+  //
+  //     this.timeout(6000);
+  //
+  //     const email = process.env.email_test;
+  //     const password = process.env.password_test;
+  //
+  //     store.dispatch(Actions.signIn(email, password,(err)=>{
+  //       if(err) done('Erreur sur l\'auth ',err);
+  //
+  //       const nextState = store.getState();
+  //
+  //       expect(nextState.user.email).to.equal(email);
+  //       done();
+  //     }));
+  //
+  //   });
+  //
+  // });
+
+
+
   // Test on Activity -------------------------------------------------------
   describe('[Request Activity TEST]', () => {
     beforeEach(() => {
-      store = storeFactory(initialState);
+      store = storeFactory();
     });
 
     /* Fetch Activities from API SERVER in the store*/
@@ -60,8 +93,6 @@ if(process.env.TEST_REQUEST == 'true') {
           id: activityId});
 
         expect(nextState.activities.length).to.not.equal(0);
-
-        //Delete our test goal
 
         done();
       }));
@@ -146,7 +177,7 @@ if(process.env.TEST_REQUEST == 'true') {
   // Test on goal -------------------------------------------------------
   describe('[Goal TEST]', () => {
     beforeEach(() => {
-      store = storeFactory(initialState);
+      store = storeFactory();
     });
 
     /* Fetch goals from API SERVER in the store*/
@@ -202,8 +233,6 @@ if(process.env.TEST_REQUEST == 'true') {
 
     /* Remove a goal to API SERVER and add it to the store */
     it('it should have remove a goal from the server', function(done) {
-      const previousState = store.getState();
-      console.log('gogoogogo ',previousState.goals.length);
 
       const testGoal = {
         'id': goalId,
@@ -244,7 +273,7 @@ if(process.env.TEST_REQUEST == 'true') {
   // Test on sport -------------------------------------------------------
   describe('[Sport TEST]', () => {
     beforeEach(() => {
-      store = storeFactory(initialState);
+      store = storeFactory();
     });
 
     /* Fetch sports from API SERVER in the store*/
@@ -268,5 +297,5 @@ if(process.env.TEST_REQUEST == 'true') {
 
 }
 else{
-  console.log('No action request test ask');
+  console.log('No action-request tests asks');
 }

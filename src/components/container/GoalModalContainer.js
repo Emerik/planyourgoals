@@ -1,6 +1,6 @@
 import GoalModal from '../ui/GoalModal';
 import { connect } from 'react-redux';
-import { addGoalToServer } from '../../actions/actionsOut';
+import { addGoalToServer, fetchSport, fetchGoaltype } from '../../actions/actionsOut';
 
 const mapStateToProps = (state) => {
   return {
@@ -13,6 +13,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onAddGoal(goal){
       dispatch(addGoalToServer(goal));
+    },
+    getFreshSports(){
+      dispatch(fetchSport());
+    },
+    getFreshGoaltypes(){
+      dispatch(fetchGoaltype());
     }
   };
 };

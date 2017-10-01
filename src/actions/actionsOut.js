@@ -1,9 +1,48 @@
 import constants from '../store/constants';
-import fetch from 'isomorphic-fetch';
-import { configApi } from '../../config';
-import { replaceActivities, addActivity, changeActivity, removeActivity,
-  replaceGoals, addGoal, removeGoal, replaceGoaltypes, replaceSports } from './actions';
 
+import { replaceActivities, addActivity, changeActivity, removeActivity,
+  replaceGoals, addGoal, removeGoal, replaceGoaltypes, replaceSports, setUser, removeUser } from './actions';
+import * as firebaseRequest from '../utils/firebaseUtils';
+
+
+/**
+* This function get activities from API server
+**/
+export const signIn = (email, password, callback) => (dispatch) => {
+
+  dispatch({
+    type: constants.FETCH_ACTIVITY
+  });
+
+  firebaseRequest.signIn(email, password, (err) => {
+    if (err) return callback(err);
+
+    dispatch(setUser({
+      email: email,
+      pseudo:'test',
+      token: 'token'}));
+    if(callback) return callback(null,true);
+    return 0;
+  });
+};
+
+/**
+* This function get activities from API server
+**/
+export const signOut = (callback) => (dispatch) => {
+
+  dispatch({
+    type: constants.FETCH_ACTIVITY
+  });
+
+  firebaseRequest.signOut((err) => {
+    if (err) return callback(err);
+
+    dispatch(removeUser());
+
+    if(callback) callback(null,true);
+  });
+};
 
 /**
 * This function get activities from API server
@@ -13,100 +52,49 @@ export const fetchActivity = (callback) => (dispatch) => {
   dispatch({
     type: constants.FETCH_ACTIVITY
   });
-  fetch(configApi.apiUrl+'/api/activities')
-    .then( result => result.json())
-    .then( resultJSON => {
-      dispatch(replaceActivities(resultJSON.activities));
-      if (callback) callback(null, resultJSON);
-    }
-    )
-    .catch(errorCatched => {
-      //dispatch(addError(errorCatched));
-      console.log(errorCatched);
-      if (callback) callback('Error');
-    });
+
+  firebaseRequest.getAllActivity((err, activities) => {
+    if (err) return callback ? callback(err) : false;
+    dispatch(replaceActivities(activities));
+    if(callback) callback(null,true);
+    return true;
+  });
 };
 
 /**
 * This function add an activity to API server
 **/
-export const addActivityToServer = (activity, callback) => (dispatch) => {
+export const addActivityToServer = (activityToAdd, callback) => (dispatch) => {
 
-  fetch(configApi.apiUrl+'/api/activity', {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    method: 'POST',
-    body: JSON.stringify(activity)
-  })
-    .then( result => result.json())
-    .then( resultJSON => {
-
-      dispatch(addActivity({
-        ...activity,
-        id : resultJSON.activity.id
-      }));
-      if (callback) callback(null, resultJSON);
-    }
-    )
-    .catch(errorCatched => {
-      //dispatch(addError(errorCatched));
-      console.log(errorCatched);
-      if (callback) callback('Error');
-    });
+  firebaseRequest.addAnActivity(activityToAdd, (err, activity) => {
+    if (err) return callback ? callback(err) : false;
+    dispatch(addActivity(activity));
+    if(callback) callback(null,true);
+  });
 };
 
 /**
 * This function update an activity to API server
 **/
-export const updateActivityServer = (activity, callback) => (dispatch) => {
+export const updateActivityServer = (activityToUp, callback) => (dispatch) => {
 
-  fetch(configApi.apiUrl+'/api/activities/'+activity.id, {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    method: 'POST',
-    body: JSON.stringify(activity)
-  })
-    .then( result => result.json())
-    .then( resultJSON => {
-
-      dispatch(changeActivity({
-        id : resultJSON.activity.id,
-        ...activity
-      }));
-      if (callback) callback(null, resultJSON);
-    }
-    )
-    .catch(errorCatched => {
-      //dispatch(addError(errorCatched));
-      console.log(errorCatched);
-      if (callback) callback('Error');
-    });
+  firebaseRequest.updateActivity(activityToUp, (err) => {
+    if (err) return callback ? callback(err) : false;
+    dispatch(changeActivity(activityToUp));
+    if(callback) callback(null,true);
+  });
 };
 
 /**
 * This function remove an activity to API server
 **/
 export const removeActivityFromServer = (activity, callback) => (dispatch) => {
-  console.log('start removing');
-  fetch(configApi.apiUrl+'/api/activities/'+activity.id, {
-    method: 'DELETE'
-  })
-    .then( result => result.json())
-    .then( resultJSON => {
 
-      dispatch(removeActivity(activity));
-      if (callback) callback(null, resultJSON);
-    }
-    )
-    .catch(errorCatched => {
-      //dispatch(addError(errorCatched));
-      console.log(errorCatched);
-      if (callback) callback('Error');
-    });
+  firebaseRequest.deleteActivity(activity, (err) => {
+    if (err) return callback ? callback(err) : false;
+    dispatch(removeActivity(activity));
+    if(callback) callback(null,true);
+  });
 };
 
 /**
@@ -118,48 +106,25 @@ export const fetchGoal = (callback) => (dispatch) => {
     type: constants.FETCH_ACTIVITY
   });
 
-  fetch(configApi.apiUrl+'/api/goals')
-    .then( result => result.json())
-    .then( resultJSON => {
-      dispatch(replaceGoals(resultJSON.goals));
-      if (callback) callback(null, resultJSON);
-    }
-    )
-    .catch(errorCatched => {
-      //dispatch(addError(errorCatched));
-      console.log(errorCatched);
-      if (callback) callback('Error');
-    });
+  firebaseRequest.getAllGoal((err, goals) => {
+    if (err) return callback ? callback(err) : false;
+    dispatch(replaceGoals(goals));
+    if(callback) callback(null,true);
+    return true;
+  });
 };
 
 /**
 * This function add a goal to API server
 **/
-export const addGoalToServer = (goal, callback) => (dispatch) => {
+export const addGoalToServer = (goalToAdd, callback) => (dispatch) => {
 
-  fetch(configApi.apiUrl+'/api/goals', {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    method: 'POST',
-    body: JSON.stringify(goal)
-  })
-    .then( result => result.json())
-    .then( resultJSON => {
+  firebaseRequest.addAGoal(goalToAdd, (err, goalToAdd) => {
+    if (err) return callback ? callback(err) : false;
+    dispatch(addGoal(goalToAdd));
+    if(callback) callback(null,true);
+  });
 
-      dispatch(addGoal({
-        ...goal,
-        id : resultJSON.goal.id
-      }));
-      if (callback) callback(null, resultJSON);
-    }
-    )
-    .catch(errorCatched => {
-      //dispatch(addError(errorCatched));
-      console.log(errorCatched);
-      if (callback) callback('Error');
-    });
 };
 
 /**
@@ -167,21 +132,12 @@ export const addGoalToServer = (goal, callback) => (dispatch) => {
 **/
 export const removeGoalFromServer = (goal, callback) => (dispatch) => {
 
-  fetch(configApi.apiUrl+'/api/goals/'+goal.id, {
-    method: 'DELETE'
-  })
-    .then( result => result.json())
-    .then( resultJSON => {
+  firebaseRequest.deleteGoal(goal, (err) => {
+    if (err) return callback ? callback(err) : false;
+    dispatch(removeGoal(goal));
+    if(callback) callback(null,true);
+  });
 
-      dispatch(removeGoal(goal));
-      if (callback) callback(null, resultJSON);
-    }
-    )
-    .catch(errorCatched => {
-      //dispatch(addError(errorCatched));
-      console.log(errorCatched);
-      if (callback) callback('Error');
-    });
 };
 
 /**
@@ -192,18 +148,14 @@ export const fetchSport = (callback) => (dispatch) => {
   dispatch({
     type: constants.FETCH_ACTIVITY
   });
-  fetch(configApi.apiUrl+'/api/sports')
-    .then( result => result.json())
-    .then( resultJSON => {
-      dispatch(replaceSports(resultJSON.sports));
-      if (callback) callback(null, resultJSON);
-    }
-    )
-    .catch(errorCatched => {
-      //dispatch(addError(errorCatched));
-      console.log(errorCatched);
-      if (callback) callback('Error');
-    });
+
+  firebaseRequest.getAllSport((err, sports) => {
+    if (err) return callback ? callback(err) : false;
+    dispatch(replaceSports(sports));
+    if(callback) callback(null,true);
+    return true;
+  });
+
 };
 
 /**
@@ -214,16 +166,12 @@ export const fetchGoaltype = (callback) => (dispatch) => {
   dispatch({
     type: constants.FETCH_ACTIVITY
   });
-  fetch(configApi.apiUrl+'/api/goaltypes')
-    .then( result => result.json())
-    .then( resultJSON => {
-      dispatch(replaceGoaltypes(resultJSON.goaltypes));
-      if (callback) callback(null, resultJSON);
-    }
-    )
-    .catch(errorCatched => {
-      //dispatch(addError(errorCatched));
-      console.log(errorCatched);
-      if (callback) callback('Error');
-    });
+
+  firebaseRequest.getAllGoaltype((err, goaltypes) => {
+    if (err) return callback ? callback(err) : false;
+    dispatch(replaceGoaltypes(goaltypes));
+    if(callback) callback(null,true);
+    return true;
+  });
+
 };

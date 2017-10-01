@@ -23,6 +23,14 @@ class GoalModal extends React.Component {
     };
   }
 
+  /*
+  * This function launch process after component initialisation
+  */
+  componentWillMount(){
+    if(this.props.getFreshSports) this.props.getFreshSports();
+    if(this.props.getFreshGoaltypes) this.props.getFreshGoaltypes();
+  }
+
   openModal = () => {
     this.setState({open: true});
   }
@@ -175,7 +183,9 @@ class GoalModal extends React.Component {
 GoalModal.propTypes = {
   sports: PropTypes.array,
   goaltypes: PropTypes.array,
-  onAddGoal: PropTypes.func
+  onAddGoal: PropTypes.func,
+  getFreshSports: PropTypes.func,
+  getFreshGoaltypes: PropTypes.func
 };
 
 

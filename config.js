@@ -23,3 +23,13 @@ export const configApi = {
     return `http://${this.host}:${this.port}`;
   }
 };
+
+import firebaseConfig from './firebaseConfig';
+export const configFirebase = () => {
+
+  const appName = firebaseConfig();
+  console.log('***********');
+  console.log('Firebase init');
+  console.log('Firebase appName : ', appName);
+  console.log('***********');
+};

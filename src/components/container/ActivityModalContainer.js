@@ -1,6 +1,6 @@
 import ActivityModal from '../ui/ActivityModal';
 import { connect } from 'react-redux';
-import { addActivityToServer, updateActivityServer } from '../../actions/actionsOut';
+import { addActivityToServer, updateActivityServer, fetchSport } from '../../actions/actionsOut';
 
 const mapStateToProps = (state) => {
   return {
@@ -14,6 +14,9 @@ const mapDispatchToProps = (dispatch) => {
     onAddActivity(activity, mod){
       if( mod && mod == true) dispatch(updateActivityServer(activity));
       else dispatch(addActivityToServer(activity));
+    },
+    getFreshSports(){
+      dispatch(fetchSport());
     }
   };
 };

@@ -1,7 +1,7 @@
 import constants from '../store/constants';
-
 import { replaceActivities, addActivity, changeActivity, removeActivity,
-  replaceGoals, addGoal, removeGoal, replaceGoaltypes, replaceSports, setUser, removeUser } from './actions';
+  replaceGoals, addGoal, removeGoal, replaceGoaltypes, replaceSports,
+  setUser, removeUser } from './actions';
 import * as firebaseRequest from '../utils/firebaseUtils';
 
 

@@ -297,5 +297,5 @@ if(process.env.TEST_REQUEST == 'true') {
 
 }
 else{
-  console.log('No action-request tests asks');
+  console.log('No action-request tests asked');
 }

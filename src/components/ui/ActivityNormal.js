@@ -121,7 +121,7 @@ class ActivityNormal extends Component {
             {this.displayDistance(this.props.activity.distance)}
           </Grid>
           <Card.Meta>
-            <Icon name='delete' size='small' color='red' link fitted onClick={this.handleDelete}/>
+            <Icon name='delete' size='medium' color='red' link fitted onClick={this.handleDelete}/>
           </Card.Meta>
         </Card.Content>
       </Card>

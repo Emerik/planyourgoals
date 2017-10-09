@@ -35,7 +35,7 @@ class MenuBar extends Component {
       <div className="MenuBar">
         <Menu pointing secondary inverted>
           <Menu.Item name='Home'>
-            <Image src='./back.jpg' size='mini' shape='circular' />
+            <Image src='./logoPYG.png' size='mini' shape='circular' />
           </Menu.Item>
           <Menu.Item name='Home' index={0} active={activeItem === 'Home'} onClick={this.handleItemClick} />
           <Menu.Item name='Dashboard' index={1} active={activeItem === 'Dashboard'} onClick={this.handleItemClick} />

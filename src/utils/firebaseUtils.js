@@ -125,10 +125,10 @@ export const addAnActivity = (activityToAdd, callback) => {
 
   firebase.database().ref('/profils/'+firebase.auth().currentUser.uid+'/activities/').push(activityToAdd)
     .then( (snapshot) => {
-      return callback(null, {
-        id: snapshot.key,
-        ...activityToAdd
-      });
+
+      activityToAdd.id = snapshot.key;
+
+      return callback(null, activityToAdd);
     }
     )
     .catch(

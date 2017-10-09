@@ -1,6 +1,6 @@
 import Dashboard from '../ui/Dashboard';
 import { connect } from 'react-redux';
-import { fetchGoal, removeGoalFromServer } from '../../actions/actionsOut';
+import { fetchGoal, removeGoalFromServer, fetchActivity } from '../../actions/actionsOut';
 
 const mapStateToProps = state => {
   return {
@@ -17,6 +17,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     loadGoalsFromServer(){
       dispatch(fetchGoal());
+    },
+    loadActivitiesFromServer(){
+      dispatch(fetchActivity());
     }
   };
 };

@@ -30,6 +30,7 @@ class Dashboard extends Component {
   */
   componentWillMount(){
     if(this.props.loadGoalsFromServer) this.props.loadGoalsFromServer();
+    if(this.props.loadActivitiesFromServer) this.props.loadActivitiesFromServer();
   }
 
   handleMouseEnterOnSector(sector) {
@@ -395,7 +396,8 @@ Dashboard.propTypes = {
   goals: PropTypes.array,
   goaltypes: PropTypes.array,
   onRemoveGoal: PropTypes.func,
-  loadGoalsFromServer: PropTypes.function
+  loadGoalsFromServer: PropTypes.func,
+  loadActivitiesFromServer: PropTypes.func
 };
 
 export default Dashboard;

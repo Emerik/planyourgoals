@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import { Segment, Grid, Header, Divider, Tab, Label, Icon } from 'semantic-ui-react';
+import { Segment, Grid, Header, Divider, Tab, Label, Icon, Statistic } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import CircularProgressbar from 'react-circular-progressbar';
 import moment from 'moment';
@@ -15,6 +15,7 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       weekDate: moment().day('Monday'),
+      dateCursor: 0,
       typeSelected: {
         name: (this.props.goals &&  this.props.goals.length != 0) ? this.props.goals[0].type : '',
         index: 0
@@ -191,8 +192,11 @@ class Dashboard extends Component {
   getSportTime = () => {
     if( !this.props.activities ) return 0;
 
+    const deadline = moment().date(1).subtract(12-this.state.dateCursor,'months');
     return this.props.activities.reduce( (acc, activity) => {
-      return acc + +activity.duration;
+      const activityDate = moment(activity.date, 'YYYY-MM-DD');
+      if( !activity.duration || activity.duration == null || activityDate.isBefore(deadline, 'day') ) return acc;
+      return acc + parseFloat(activity.duration);
     }, 0);
 
   }
@@ -262,6 +266,21 @@ class Dashboard extends Component {
       goaltype:  goal.goaltype
     });
   }
+
+  /**
+  * This function change date taking into account to calculate totals
+  */
+  handleDateChange = (e) => {
+    this.setState({ dateCursor: e.target.value });
+  }
+
+  /**
+  * This function the date selected with the cursor
+  */
+  getDateLimit = () => {
+    return moment().date(1).subtract(12-this.state.dateCursor,'months').format('MMM YYYY');
+  }
+
   /**
   * This function return HTML for goals
   **/
@@ -314,13 +333,27 @@ class Dashboard extends Component {
             <Header as='h2'>Statistiques Global</Header>
           </Grid.Row>
           <Grid.Row>
+            <Header as='h3'>
+              <Header.Content>
+                Depuis :  {this.getDateLimit()}
+              </Header.Content>
+            </Header>
+            <div style={ {width:'100%'} }>
+              <input type='range'  min={0} max={12} value={this.state.dateCursor} onChange={this.handleDateChange} />
+            </div>
+          </Grid.Row>
+          <Grid.Row>
             <Grid.Column textAlign='center'>
-              <Header as='h3'>Temps total</Header>
-              <p><b>{this.getSportTime()+'H'}</b></p>
+              <Statistic size='small'>
+                <Statistic.Label>Temps total</Statistic.Label>
+                <Statistic.Value>{this.getSportTime()+'H'}</Statistic.Value>
+              </Statistic>
             </Grid.Column>
             <Grid.Column textAlign='center'>
-              <Header as='h3'>Distance total</Header>
-              <p><b>{this.getDistance()+'km'}</b></p>
+              <Statistic size='small'>
+                <Statistic.Label>Distance total</Statistic.Label>
+                <Statistic.Value>{this.getDistance()+'km'}</Statistic.Value>
+              </Statistic>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>

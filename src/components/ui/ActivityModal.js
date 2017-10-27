@@ -4,38 +4,7 @@ import { Button, Modal, Input, Dropdown, Icon } from 'semantic-ui-react';
 import moment from 'moment';
 
 
-const dayOptions = [ { key: '1', value: '1', text: 'Lundi' },
-  { key: '2', value: '2', text: 'Mardi' },
-  { key: '3', value: '3', text: 'Mercredi' },
-  { key: '4', value: '4', text: 'Jeudi' },
-  { key: '5', value: '5', text: 'Vendredi' },
-  { key: '6', value: '6', text: 'Samedi' },
-  { key: '7', value: '7 ', text: 'Dimanche' }];
 
-const hourOptions = [ { key: '1', value: '0', text: '00:00' },
-  { key: '2', value: '1', text: '01:00' },
-  { key: '3', value: '2', text: '02:00' },
-  { key: '4', value: '3', text: '03:00' },
-  { key: '5', value: '4', text: '04:00' },
-  { key: '6', value: '5', text: '05:00' },
-  { key: '7', value: '6', text: '06:00' },
-  { key: '8', value: '7', text: '07:00' },
-  { key: '9', value: '8', text: '08:00' },
-  { key: '10', value: '9', text: '09:00' },
-  { key: '11', value: '10', text: '10:00' },
-  { key: '12', value: '11', text: '11:00' },
-  { key: '13', value: '12', text: '12:00' },
-  { key: '14', value: '13', text: '13:00' },
-  { key: '15', value: '14', text: '14:00' },
-  { key: '16', value: '15', text: '15:00' },
-  { key: '17', value: '16', text: '16:00' },
-  { key: '18', value: '17', text: '17:00' },
-  { key: '19', value: '18', text: '18:00' },
-  { key: '20', value: '19', text: '19:00' },
-  { key: '21', value: '20', text: '20:00' },
-  { key: '22', value: '21', text: '21:00' },
-  { key: '23', value: '22', text: '22:00' },
-  { key: '24', value: '23', text: '23:00' }];
 
 
 class ActivityModal extends React.Component {
@@ -184,20 +153,8 @@ class ActivityModal extends React.Component {
     this.setState({hour: data.value});
   }
 
-  handleDurationChange = (e) => {
-    this.setState({duration: e.target.value});
-
-    if (e.target.value == parseInt(e.target.value, 10)){
-      this.setState({
-        duration: e.target.value,
-        durationError: false
-      });
-
-    }
-    else {
-      // Color input in red
-      this.setState({durationError: true});
-    }
+  handleDurationChange = (e, data) => {
+    this.setState({duration: data.value});
   }
 
   handleAdd = () => {
@@ -244,7 +201,7 @@ class ActivityModal extends React.Component {
   }
 
   displayDistance = (activityType) => {
-    if ( activityType == 'trainingDistance' ) {
+    if ( activityType == 'distance' ) {
       return ( <Input className='inputModal' fluid placeholder='distance' label={{ basic: true, content: 'Distance' }}
         labelPosition='left' value={this.state.distance} onChange={this.handleDistanceChange}/>
       );
@@ -274,12 +231,13 @@ class ActivityModal extends React.Component {
           fluid search selection options={dayOptions}
           defaultValue={moment(this.state.date).format('e')} onChange={this.handleDayChange}/>
 
-        <Dropdown className='inputModal' placeholder='Select Hour'
-          fluid search selection options={hourOptions}
+        <Dropdown className='icon inputModal' placeholder='Select Hour'
+          fluid search selection labeled floating button icon='calendar' options={hourOptions}
           defaultValue={this.state.hour} onChange={this.handleHourChange}/>
 
-        <Input className='inputModal' fluid placeholder='Duration' error={this.state.durationError} label={{ basic: true, content: 'Durée' }}
-          labelPosition='left' value={this.state.duration} onChange={this.handleDurationChange}/>
+        <Dropdown className='icon inputModal' placeholder='Select Duration'
+          fluid search selection labeled floating button icon='time' options={durationOptions}
+          defaultValue={this.state.duration} onChange={this.handleDurationChange}/>
       </div>
     );
   }
@@ -317,5 +275,52 @@ ActivityModal.propTypes = {
   sports: PropTypes.array,
   activity: PropTypes.object,
 };
+
+
+const dayOptions = [ { key: '1', value: '1', text: 'Lundi' },
+  { key: '2', value: '2', text: 'Mardi' },
+  { key: '3', value: '3', text: 'Mercredi' },
+  { key: '4', value: '4', text: 'Jeudi' },
+  { key: '5', value: '5', text: 'Vendredi' },
+  { key: '6', value: '6', text: 'Samedi' },
+  { key: '7', value: '7 ', text: 'Dimanche' }];
+
+const hourOptions = [ { key: '1', value: '0', text: '00:00' },
+  { key: '2', value: '1', text: '01:00' },
+  { key: '3', value: '2', text: '02:00' },
+  { key: '4', value: '3', text: '03:00' },
+  { key: '5', value: '4', text: '04:00' },
+  { key: '6', value: '5', text: '05:00' },
+  { key: '7', value: '6', text: '06:00' },
+  { key: '8', value: '7', text: '07:00' },
+  { key: '9', value: '8', text: '08:00' },
+  { key: '10', value: '9', text: '09:00' },
+  { key: '11', value: '10', text: '10:00' },
+  { key: '12', value: '11', text: '11:00' },
+  { key: '13', value: '12', text: '12:00' },
+  { key: '14', value: '13', text: '13:00' },
+  { key: '15', value: '14', text: '14:00' },
+  { key: '16', value: '15', text: '15:00' },
+  { key: '17', value: '16', text: '16:00' },
+  { key: '18', value: '17', text: '17:00' },
+  { key: '19', value: '18', text: '18:00' },
+  { key: '20', value: '19', text: '19:00' },
+  { key: '21', value: '20', text: '20:00' },
+  { key: '22', value: '21', text: '21:00' },
+  { key: '23', value: '22', text: '22:00' },
+  { key: '24', value: '23', text: '23:00' }];
+
+const durationOptions = [ { key: '0', value: '0', text: '00:30' },
+  { key: '1', value: '1', text: '01:00' },
+  { key: '2', value: '1.5', text: '01:30' },
+  { key: '3', value: '2', text: '02:00' },
+  { key: '4', value: '2.5', text: '02:30' },
+  { key: '5', value: '3', text: '03:00' },
+  { key: '6', value: '3.5', text: '03:30' },
+  { key: '7', value: '4', text: '04:00' },
+  { key: '8', value: '4.5', text: '04:30' },
+  { key: '9', value: '5', text: '05:00' },
+  { key: '10', value: '5.5', text: '05:30' },
+  { key: '11', value: '6', text: '06:00' }];
 
 export default ActivityModal;

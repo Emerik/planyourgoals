@@ -252,12 +252,21 @@ class Dashboard extends Component {
     }
     );
 
+    // We get Date selected by user
+    const deadline = moment().date(1).subtract(12-this.state.dateCursor,'months');
+
     //  We count occurence
     sportArray = sportArray.map( (sportActivity) => {
       return {
         name: sportActivity,
         occ: this.props.activities.reduce( (acc, activity) => {
-          if(sportActivity == activity.sport) return acc+1;
+          const activityDate = moment(activity.date, 'YYYY-MM-DD');
+          if(sportActivity == activity.sport
+            && (activityDate.isAfter(deadline, 'day') || activityDate.isSame(deadline, 'day'))
+          ){
+            
+            return acc+1;
+          }
           else return acc;
         }, 0)
       };

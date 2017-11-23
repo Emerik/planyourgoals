@@ -52,7 +52,7 @@ class Sign extends React.Component {
         <Input className='inputModal' fluid placeholder='Password...' label={{ basic: true, content: 'Password' }}
           labelPosition='left' type='password'  onChange={this.handlePasswordChange}/>
 
-        <Button inverted content='Retour' onClick={() => {this.setState({signin:false})}}/>
+        <Button inverted content='Retour' onClick={ () => this.setState({signin:false}) }/>
         <Button inverted content='Sign In' onClick={this.handleSignIn}/>
       </div>
     );
@@ -71,7 +71,7 @@ class Sign extends React.Component {
         <Input className='inputModal' fluid placeholder='Password...' label={{ basic: true, content: 'Password' }}
           labelPosition='left' type='password'  onChange={this.handlePasswordChange}/>
 
-        <Button inverted content='Retour' onClick={() => {this.setState({signup:false})}}/>
+        <Button inverted content='Retour' onClick={() => this.setState({signup:false})}/>
         <Button inverted content='Sign Up' onClick={this.handleSignUp}/>
       </div>
     );

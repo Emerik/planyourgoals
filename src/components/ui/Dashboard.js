@@ -20,6 +20,8 @@ class Dashboard extends Component {
         name: (this.props.goals &&  this.props.goals.length != 0) ? this.props.goals[0].type : '',
         index: 0
       },
+      totalDistance: 0,
+      totalTime: 0,
       expandedSector: null
     };
 
@@ -32,15 +34,24 @@ class Dashboard extends Component {
   componentWillMount(){
     if(this.props.loadGoalsFromServer) this.props.loadGoalsFromServer();
     if(this.props.loadActivitiesFromServer) this.props.loadActivitiesFromServer();
+
+    this.setState({totalTime : this.getSportTime(), totalDistance: this.getSportDistance()});
   }
 
+  /**
+  * This function change chart sector selected and update sport counters
+  **/
   handleMouseEnterOnSector(sector) {
-    this.setState({expandedSector: sector});
+    this.setState({
+      expandedSector: sector,
+      totalTime : this.getSportTime(this.getSportData()[sector]),
+      totalDistance : this.getSportDistance(this.getSportData()[sector])
+    });
   }
 
-  /*
+  /**
   * [Unused] This function return the number of activites done
-  */
+  **/
   getActivityDonePerc() {
 
     if( !this.props.activities || this.props.activities.length == 0 ) return 0;
@@ -53,9 +64,9 @@ class Dashboard extends Component {
     return Math.round(nbDone*100/this.props.activities.length);
   }
 
-  /*
+  /**
   * [Unused] This function return the number of activities done
-  */
+  **/
   getActivityDonePercByWeek() {
     // If activities is empty
     if( !this.props.activities || this.props.activities.length == 0 ) return 0;
@@ -189,13 +200,19 @@ class Dashboard extends Component {
   /**
   * This function return the total sport time of all activities
   */
-  getSportTime = () => {
+  getSportTime = (sport) => {
     if( !this.props.activities ) return 0;
 
     const deadline = moment().date(1).subtract(12-this.state.dateCursor,'months');
+
     return this.props.activities.reduce( (acc, activity) => {
       const activityDate = moment(activity.date, 'YYYY-MM-DD');
-      if( !activity.duration || activity.duration == null || activityDate.isBefore(deadline, 'day') ) return acc;
+      if( !activity.duration || activity.duration == null || activityDate.isBefore(deadline, 'day'))
+      {
+        return acc;
+      }
+      if (sport != null && sport.label != activity.sport) return acc;
+
       return acc + parseFloat(activity.duration);
     }, 0);
 
@@ -204,12 +221,15 @@ class Dashboard extends Component {
   /**
   * This function return the total distance covered by all activites
   */
-  getDistance = () => {
+  getSportDistance = (sport) => {
     if( !this.props.activities ) return 0;
 
+    const deadline = moment().date(1).subtract(12-this.state.dateCursor,'months');
     return this.props.activities.reduce( (acc, activity) => {
-      if( activity.distance != null ) return acc + +activity.distance;
-      else return 0;
+      const activityDate = moment(activity.date, 'YYYY-MM-DD');
+      if (activity.distance == null || activityDate.isBefore(deadline, 'day') ) return acc;
+      if (sport != null && activity.sport != sport.label) return acc;
+      return acc + +activity.distance;
     }, 0);
 
   }
@@ -271,7 +291,16 @@ class Dashboard extends Component {
   * This function change date taking into account to calculate totals
   */
   handleDateChange = (e) => {
-    this.setState({ dateCursor: e.target.value });
+    this.setState({
+      dateCursor: e.target.value
+    }, () => {
+      // Update of time & distance must be operated after date update
+      this.setState({
+        totalTime : this.getSportTime(),
+        totalDistance : this.getSportDistance()
+      });
+    }
+    );
   }
 
   /**
@@ -346,13 +375,13 @@ class Dashboard extends Component {
             <Grid.Column textAlign='center'>
               <Statistic size='small'>
                 <Statistic.Label>Temps total</Statistic.Label>
-                <Statistic.Value>{this.getSportTime()+'H'}</Statistic.Value>
+                <Statistic.Value>{this.state.totalTime+'H'}</Statistic.Value>
               </Statistic>
             </Grid.Column>
             <Grid.Column textAlign='center'>
               <Statistic size='small'>
                 <Statistic.Label>Distance total</Statistic.Label>
-                <Statistic.Value>{this.getDistance()+'km'}</Statistic.Value>
+                <Statistic.Value>{this.state.totalDistance+'km'}</Statistic.Value>
               </Statistic>
             </Grid.Column>
           </Grid.Row>

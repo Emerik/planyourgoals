@@ -310,7 +310,7 @@ const hourOptions = [ { key: '1', value: '0', text: '00:00' },
   { key: '23', value: '22', text: '22:00' },
   { key: '24', value: '23', text: '23:00' }];
 
-const durationOptions = [ { key: '0', value: '0', text: '00:30' },
+const durationOptions = [ { key: '0', value: '0.5', text: '00:30' },
   { key: '1', value: '1', text: '01:00' },
   { key: '2', value: '1.5', text: '01:30' },
   { key: '3', value: '2', text: '02:00' },

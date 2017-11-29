@@ -75,6 +75,8 @@ class ActivityNormal extends Component {
       return 'images/swimming.png';
     case 'triathlon':
       return 'images/triathlon.png';
+    case 'fitness':
+      return 'images/fitness.png';
     default:
       return '';
     }

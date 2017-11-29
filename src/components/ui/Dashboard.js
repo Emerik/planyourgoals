@@ -204,14 +204,15 @@ class Dashboard extends Component {
     if( !this.props.activities ) return 0;
 
     const deadline = moment().date(1).subtract(12-this.state.dateCursor,'months');
-
     return this.props.activities.reduce( (acc, activity) => {
       const activityDate = moment(activity.date, 'YYYY-MM-DD');
       if( !activity.duration || activity.duration == null || activityDate.isBefore(deadline, 'day'))
       {
         return acc;
       }
-      if (sport != null && sport.label != activity.sport) return acc;
+      if (sport != null && sport.label != activity.sport){
+        return acc;
+      }
 
       return acc + parseFloat(activity.duration);
     }, 0);
@@ -264,7 +265,7 @@ class Dashboard extends Component {
           if(sportActivity == activity.sport
             && (activityDate.isAfter(deadline, 'day') || activityDate.isSame(deadline, 'day'))
           ){
-            
+
             return acc+1;
           }
           else return acc;

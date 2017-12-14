@@ -4,10 +4,15 @@ import * as firebase from 'firebase';
 /*************************** AUTH FUNCTIONS ******************************/
 export const signIn = (email, password, callback) => {
   //Control of email and password
-  if (!email) return;
-  if (!password) return;
+  if (!email) return callback ? callback('Error :'+'no Email specified') : -1;
+  if (!password) return callback ? callback('Error :'+'no Password specified') : -1;
 
   firebase.auth().signInWithEmailAndPassword(email, password)
+    .then( (test) => {
+      console.log('[A] Success auth');
+      console.log(test);
+      return callback ?  callback(null, true) : 0;
+    })
     .catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
@@ -20,9 +25,6 @@ export const signIn = (email, password, callback) => {
       }
 
     });
-
-  if(callback) return callback(null, true);
-  else return true;
 };
 
 // TODO

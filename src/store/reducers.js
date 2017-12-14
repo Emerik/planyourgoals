@@ -141,6 +141,8 @@ export const fetching = (state=false, action) => {
   switch (action.type) {
   case constants.FETCH_ACTIVITY:
     return true;
+  case constants.GENERAL_FETCHING:
+    return true;
   case constants.CANCEL_FETCHING:
     return false;
   default:

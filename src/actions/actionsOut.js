@@ -11,12 +11,11 @@ import * as firebaseRequest from '../utils/firebaseUtils';
 export const signIn = (email, password, callback) => (dispatch) => {
 
   dispatch({
-    type: constants.FETCH_ACTIVITY
+    type: constants.GENERAL_FETCHING
   });
 
   firebaseRequest.signIn(email, password, (err) => {
-    if (err) return callback(err);
-
+    if (err) return callback ? callback(err) : -1;
     dispatch(setUser({
       email: email,
       pseudo:'test',
@@ -32,7 +31,7 @@ export const signIn = (email, password, callback) => (dispatch) => {
 export const signOut = (callback) => (dispatch) => {
 
   dispatch({
-    type: constants.FETCH_ACTIVITY
+    type: constants.GENERAL_FETCHING
   });
 
   firebaseRequest.signOut((err) => {

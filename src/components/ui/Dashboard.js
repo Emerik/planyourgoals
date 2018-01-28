@@ -3,6 +3,7 @@ import { Segment, Grid, Header, Divider, Tab, Label, Icon, Statistic } from 'sem
 import PropTypes from 'prop-types';
 import CircularProgressbar from 'react-circular-progressbar';
 import moment from 'moment';
+import * as utilFunc from '../../utils/activityFunc';
 import GoalModal from '../container/GoalModalContainer';
 import PieChart from 'react-svg-piechart';
 
@@ -35,34 +36,27 @@ class Dashboard extends Component {
     if(this.props.loadGoalsFromServer) this.props.loadGoalsFromServer();
     if(this.props.loadActivitiesFromServer) this.props.loadActivitiesFromServer();
 
-    this.setState({totalTime : this.getSportTime(), totalDistance: this.getSportDistance()});
+    this.setState({
+      totalTime : utilFunc.getSportTime(this.props.activities),
+      totalDistance: utilFunc.getSportDistance(this.props.activities)});
   }
 
   /**
   * This function change chart sector selected and update sport counters
   **/
   handleMouseEnterOnSector(sector) {
+    let startingdate = moment().date(1).subtract(12-this.state.dateCursor,'months');
+    let deadline = moment();
+    let activityFiltered = utilFunc.getActivityInterval(
+      this.props.activities, startingdate, deadline);
+
     this.setState({
       expandedSector: sector,
-      totalTime : this.getSportTime(this.getSportData()[sector]),
-      totalDistance : this.getSportDistance(this.getSportData()[sector])
+      totalTime : utilFunc.getSportTime(activityFiltered, this.getSportData()[sector]),
+      totalDistance : utilFunc.getSportDistance(activityFiltered, this.getSportData()[sector])
     });
   }
 
-  /**
-  * [Unused] This function return the number of activites done
-  **/
-  getActivityDonePerc() {
-
-    if( !this.props.activities || this.props.activities.length == 0 ) return 0;
-
-    let nbDone = this.props.activities.reduce( (nbDone, activity) => {
-      if(activity.status == true) return nbDone + 1;
-      return nbDone;
-    }, 0);
-
-    return Math.round(nbDone*100/this.props.activities.length);
-  }
 
   /**
   * [Unused] This function return the number of activities done
@@ -93,28 +87,6 @@ class Dashboard extends Component {
     return Math.round(nbDone*100/weekActivity.length);
   }
 
-  /**
-  * This function returns if an activity belongs to a goal depending on his date
-  */
-  isWithinGoal = (activity, goal) => {
-    if( !activity || !goal ) return 0;
-
-    const activityDate = moment(activity.date);
-    const goalStartDate = moment(goal.startingdate);
-    const goalDeadline = moment(goal.deadline);
-
-    if(
-      ( activityDate.isAfter(goalStartDate, 'day') && activityDate.isBefore(goalDeadline, 'day') )
-      ||
-      (activityDate.isSame(goalStartDate, 'day') )
-      ||
-      (activityDate.isSame(goalDeadline, 'day') )
-    ){
-      return true;
-    }
-
-    return false;
-  }
 
   /**
   * [Unused] This function return the color for goal depending on deadline
@@ -146,93 +118,6 @@ class Dashboard extends Component {
     else {
       return 'wrench';
     }
-  }
-
-  /**
-  * This function return the activities done which match the goal in parameters
-  */
-  getActivityDoneByGoal = (goal) => {
-    if(!this.props.activities) return null;
-
-    return this.props.activities.filter( (activity) => {
-      if(( activity.activityType == 'distance' && goal.goaltype == 1 && activity.sport == goal.sport)
-      ||
-      (activity.activityType == 'duration' && goal.goaltype == 0 && activity.sport == goal.sport)
-      ||
-      (goal.goaltype != 0 && goal.goaltype != 1 && activity.sport == goal.sport)
-      &&
-      (this.isWithinGoal(activity, goal))
-      ){
-        return true;
-      }
-    });
-  }
-
-  /**
-  * This function return the progress of goal depends of activities done
-  */
-  getProgressByGoalType = (goal) => {
-
-    if(!goal || goal === null) return 0;
-
-    const activitiesDone = this.getActivityDoneByGoal(goal);
-
-    if(!activitiesDone || activitiesDone === null) return 0;
-    switch(goal.goaltype){
-    case 0: // Duration
-      return Math.round(activitiesDone.reduce((acc, activity) => {
-        if(activity.duration === null) return 0;
-        return acc+(+activity.duration);
-      },0)
-      /goal.target*100);
-    case 1: // Distance
-      return Math.round( activitiesDone.reduce((acc, activity) => {
-        if(activity.distance === null) return 0;
-        return acc+(+activity.distance);
-      },0)
-      /goal.target*100);
-    default:
-      console.log('default');
-      return Math.round(activitiesDone.length/goal.target*100);
-    }
-  }
-
-  /**
-  * This function return the total sport time of all activities
-  */
-  getSportTime = (sport) => {
-    if( !this.props.activities ) return 0;
-
-    const deadline = moment().date(1).subtract(12-this.state.dateCursor,'months');
-    return this.props.activities.reduce( (acc, activity) => {
-      const activityDate = moment(activity.date, 'YYYY-MM-DD');
-      if( !activity.duration || activity.duration == null || activityDate.isBefore(deadline, 'day'))
-      {
-        return acc;
-      }
-      if (sport != null && sport.label != activity.sport){
-        return acc;
-      }
-
-      return acc + parseFloat(activity.duration);
-    }, 0);
-
-  }
-
-  /**
-  * This function return the total distance covered by all activites
-  */
-  getSportDistance = (sport) => {
-    if( !this.props.activities ) return 0;
-
-    const deadline = moment().date(1).subtract(12-this.state.dateCursor,'months');
-    return this.props.activities.reduce( (acc, activity) => {
-      const activityDate = moment(activity.date, 'YYYY-MM-DD');
-      if (activity.distance == null || activityDate.isBefore(deadline, 'day') ) return acc;
-      if (sport != null && activity.sport != sport.label) return acc;
-      return acc + +activity.distance;
-    }, 0);
-
   }
 
   /**
@@ -305,16 +190,20 @@ class Dashboard extends Component {
       dateCursor: e.target.value
     }, () => {
       // Update of time & distance must be operated after date update
+      let startingdate = moment().date(1).subtract(12-this.state.dateCursor,'months');
+      let deadline = moment();
+      let activityFiltered = utilFunc.getActivityInterval(
+        this.props.activities, startingdate, deadline);
       this.setState({
-        totalTime : this.getSportTime(),
-        totalDistance : this.getSportDistance()
+        totalTime : utilFunc.getSportTime(activityFiltered),
+        totalDistance : utilFunc.getSportDistance(activityFiltered)
       });
     }
     );
   }
 
   /**
-  * This function the date selected with the cursor
+  * This function return the date selected with the cursor
   */
   getDateLimit = () => {
     return moment().date(1).subtract(12-this.state.dateCursor,'months').format('MMM YYYY');
@@ -350,9 +239,10 @@ class Dashboard extends Component {
             </Grid.Row>
             <Grid.Row>
               <div className='CirProgBarSmall'>
-                <CircularProgressbar percentage={this.getProgressByGoalType(goal)}/>
-                You achieved {this.getProgressByGoalType(goal)}% of your Goal !
-
+                <CircularProgressbar percentage={utilFunc.getProgressByGoalType(this.props.activities, goal)}/>
+                You achieved {utilFunc.getProgressByGoalType(this.props.activities, goal)}%
+                ({utilFunc.getActivityDoneByGoal(this.props.activities, goal).length}/{goal.target})
+                 of your Goal !
               </div>
             </Grid.Row>
             <Grid.Row>

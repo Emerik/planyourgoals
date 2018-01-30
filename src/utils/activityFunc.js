@@ -134,7 +134,6 @@ export const getSportDistance = (activityList, sport) => {
 /**
 * This function return activities within the dates in parameter
 **/
-
 export const getActivityInterval = (activityList, startingdate, deadline) => {
   if (!activityList) return [];
 
@@ -147,5 +146,25 @@ export const getActivityInterval = (activityList, startingdate, deadline) => {
       (activityDate.isSame(startingdate, 'day') || activityDate.isSame(deadline, 'day'))
     );
 
+  });
+};
+
+/**
+* This function return activities related to a goal
+**/
+export const getGoalActivity = (activityList, goal) => {
+  if(!activityList || !goal) return null;
+
+  return activityList.filter( (activity) => {
+    if(( activity.activityType == 'distance' && goal.goaltype == 1 && activity.sport == goal.sport)
+    ||
+    (activity.activityType == 'duration' && goal.goaltype == 0 && activity.sport == goal.sport)
+    ||
+    (goal.goaltype != 0 && goal.goaltype != 1 && activity.sport == goal.sport)
+    &&
+    (isWithinGoal(activity, goal))
+    ){
+      return true;
+    }
   });
 };

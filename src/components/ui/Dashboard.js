@@ -209,48 +209,68 @@ class Dashboard extends Component {
     return moment().date(1).subtract(12-this.state.dateCursor,'months').format('MMM YYYY');
   }
 
-  /**
-  * This function return HTML for goals
-  **/
-  generateGoalsV2 = (goals) => {
-    if (!goals) return [];
 
-    const htmlGoals =  goals.map( (goal) => {
-      return { menuItem: goal.name, render: () =>
-        <Tab.Pane>
-          <Grid centered columns={4}>
-            <Grid.Row>
-              <Grid.Column textAlign='center'>
-                <Header as='h3'>Date</Header>
-                <p><b>{'['+goal.startingdate+'] -> ['+goal.deadline+']'}</b></p>
-              </Grid.Column>
-              <Grid.Column textAlign='center'>
-                <Header as='h3'>Objectif</Header>
-                <p><b>{goal.target}</b></p>
-              </Grid.Column>
-              <Grid.Column textAlign='center'>
-                <Header as='h3'>Sport</Header>
-                <p><b>{goal.sport}</b></p>
-              </Grid.Column>
-              <Grid.Column textAlign='center'>
-                <Header as='h3'>Type</Header>
-                <p><b>{this.getLabelGoaltype(+goal.goaltype)}</b></p>
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
+  /**
+  * This function generate HTML for goal
+  **/
+  generateGoalStats = (goal) => {
+    return { menuItem: goal.name, render: () =>
+      <Tab.Pane>
+        <Grid centered columns={4}>
+          <Grid.Row>
+            <Grid.Column textAlign='center'>
+              <Header as='h3'>Date</Header>
+              <p><b>{'['+goal.startingdate+'] -> ['+goal.deadline+']'}</b></p>
+            </Grid.Column>
+            <Grid.Column textAlign='center'>
+              <Header as='h3'>Objectif</Header>
+              <p><b>{goal.target}</b></p>
+            </Grid.Column>
+            <Grid.Column textAlign='center'>
+              <Header as='h3'>Sport</Header>
+              <p><b>{goal.sport}</b></p>
+            </Grid.Column>
+            <Grid.Column textAlign='center'>
+              <Header as='h3'>Type</Header>
+              <p><b>{this.getLabelGoaltype(+goal.goaltype)}</b></p>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column textAlign='center' width='10'>
               <div className='CirProgBarSmall'>
                 <CircularProgressbar percentage={utilFunc.getProgressByGoalType(this.props.activities, goal)}/>
                 You achieved {utilFunc.getProgressByGoalType(this.props.activities, goal)}%
                 ({utilFunc.getActivityDoneByGoal(this.props.activities, goal).length}/{goal.target})
                  of your Goal !
               </div>
-            </Grid.Row>
-            <Grid.Row>
-              <Icon name='delete' size='medium' color='red' link fitted onClick={() => this.handleDelete(goal)}/>
-            </Grid.Row>
-          </Grid>
-        </Tab.Pane> };
-    });
+            </Grid.Column>
+            <Grid.Column textAlign='center' width='6'>
+              <Header as='h3'>Actvités</Header>
+              <div style={ {height:'200px', overflowY:'auto'} }>
+                {
+                  utilFunc.getGoalActivity(this.props.activities, goal).map( (activity, index) => {
+                    console.log('[1] '+activity.status+' '+activity.id);
+                    return <Segment key={index}> {activity.name.substring(0,30)}</Segment>;
+                  } )
+                }
+              </div>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Icon name='delete' size='medium' color='red' link fitted onClick={() => this.handleDelete(goal)}/>
+          </Grid.Row>
+        </Grid>
+      </Tab.Pane> };
+  }
+
+
+  /**
+  * This function return HTML for goals
+  **/
+  generateGoalsV2 = (goals) => {
+    if (!goals) return [];
+
+    const htmlGoals =  goals.map( (goal) => this.generateGoalStats(goal) );
 
 
     const data = this.getSportData();

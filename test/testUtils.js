@@ -163,4 +163,16 @@ describe('[Utils Func TEST]', () => {
 
   });
 
+  /* Count activities related to a goal defined */
+  it('it should have return activities related to a goal', () => {
+    const activities = utilFunc.getGoalActivity(activityList, goal1);
+
+    const activitiesCorrect = [activity1];
+
+    expect(activities).to.deep.equal(activitiesCorrect);
+
+  });
+
+
+
 });

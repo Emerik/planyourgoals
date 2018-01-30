@@ -109,7 +109,7 @@ class ActivityNormal extends Component {
                 <div onClick={this.onActivityClick} style={{cursor:'pointer'}}>{this.props.activity.name}</div>
               </Grid.Column>
               <Grid.Column width={3}>
-                <Checkbox defaultChecked={this.props.activity.status} onClick={this.handleCheckChange}/>
+                <Checkbox checked={this.props.activity.status} onClick={this.handleCheckChange}/>
               </Grid.Column>
             </Grid.Row>
             <Grid.Row divided columns={2}>
